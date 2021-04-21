@@ -12,6 +12,7 @@
 use App\Models\Market;
 use Faker\Generator as Faker;
 
+
 $factory->define(Market::class, function (Faker $faker) {
     return [
     'name' => $faker->randomElement(['Shop','Grocery','Market','Pharmacy','Mall','Furniture'])." ".$faker->company,
