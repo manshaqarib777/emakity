@@ -678,6 +678,8 @@ return array(
     'Doctrine\\DBAL\\Exception\\TableNotFoundException' => $vendorDir . '/doctrine/dbal/lib/Doctrine/DBAL/Exception/TableNotFoundException.php',
     'Doctrine\\DBAL\\Exception\\UniqueConstraintViolationException' => $vendorDir . '/doctrine/dbal/lib/Doctrine/DBAL/Exception/UniqueConstraintViolationException.php',
     'Doctrine\\DBAL\\FetchMode' => $vendorDir . '/doctrine/dbal/lib/Doctrine/DBAL/FetchMode.php',
+    'Doctrine\\DBAL\\ForwardCompatibility\\DriverResultStatement' => $vendorDir . '/doctrine/dbal/lib/Doctrine/DBAL/ForwardCompatibility/DriverResultStatement.php',
+    'Doctrine\\DBAL\\ForwardCompatibility\\DriverStatement' => $vendorDir . '/doctrine/dbal/lib/Doctrine/DBAL/ForwardCompatibility/DriverStatement.php',
     'Doctrine\\DBAL\\ForwardCompatibility\\Result' => $vendorDir . '/doctrine/dbal/lib/Doctrine/DBAL/ForwardCompatibility/Result.php',
     'Doctrine\\DBAL\\Id\\TableGenerator' => $vendorDir . '/doctrine/dbal/lib/Doctrine/DBAL/Id/TableGenerator.php',
     'Doctrine\\DBAL\\Id\\TableGeneratorSchemaVisitor' => $vendorDir . '/doctrine/dbal/lib/Doctrine/DBAL/Id/TableGeneratorSchemaVisitor.php',

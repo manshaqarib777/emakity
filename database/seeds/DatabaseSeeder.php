@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CustomFieldValuesTableSeeder::class);
         $this->call(AppSettingsTableSeeder::class);
         $this->call(FieldsTableSeeder::class);
+        $this->call(CurrenciesTableSeeder::class);
         $this->call(MarketsTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
         $this->call(FaqCategoriesTableSeeder::class);
