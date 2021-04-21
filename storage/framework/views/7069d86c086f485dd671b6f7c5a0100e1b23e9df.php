@@ -1,10 +1,43 @@
 <?php $__env->startPush('css_lib'); ?>
+    <style>
+        /* Rating Star Widgets Style */
+        .rating-stars ul {
+            list-style-type: none;
+            padding: 0;
 
+            -moz-user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .rating-stars ul>li.star {
+            display: inline-block;
+
+        }
+
+        /* Idle State of the stars */
+        .rating-stars ul>li.star>i.fa {
+            font-size: 2.5em;
+            /* Change the size of the stars */
+            color: #ccc;
+            /* Color on idle state */
+        }
+
+        /* Hover state of the stars */
+        .rating-stars ul>li.star.hover>i.fa {
+            color: #FF912C;
+        }
+
+        /* Selected state of the stars */
+        .rating-stars ul>li.star.selected>i.fa {
+            color: #FFCC36;
+        }
+
+    </style>
 <?php $__env->stopPush(); ?>
 <?php $__env->startSection('content'); ?>
-<div class="container-fluid">
-    <?php echo $__env->make('flash::message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-</div>
+    <div class="container-fluid">
+        <?php echo $__env->make('flash::message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+    </div>
     <!-- :::::: Start Main Container Wrapper :::::: -->
     <main id="main-container" class="main-container">
 
@@ -198,7 +231,26 @@
                                                         <?php echo Form::label('rate', trans('lang.product_review_rate'), ['class' => 'col-3 control-label text-right']); ?>
 
                                                         <div class="col-9">
-                                                            <?php echo Form::number('rate', null, ['class' => 'form-control', 'placeholder' => trans('lang.product_review_rate_placeholder')]); ?>
+                                                            <div class='rating-stars text-center'>
+                                                                <ul id='stars'>
+                                                                    <li class='star' title='Poor' data-value='1'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star' title='Fair' data-value='2'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star' title='Good' data-value='3'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star' title='Excellent' data-value='4'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                    <li class='star' title='WOW!!!' data-value='5'>
+                                                                        <i class='fa fa-star fa-fw'></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <?php echo Form::hidden('rate', null, ['id' => 'rate_value', 'class' => 'form-control', 'placeholder' => trans('lang.product_review_rate_placeholder')]); ?>
 
                                                             <div class="form-text text-muted">
                                                                 <?php echo e(trans('lang.product_review_rate_help')); ?>
@@ -207,7 +259,11 @@
                                                         </div>
                                                     </div>
 
-                                                    <?php if(!in_array('admin',auth()->user()->getRoleNames()->toArray())): ?>
+                                                    <?php if(auth()->guard()->check()): ?> 
+                                                    <?php if(!in_array(
+            'admin',
+            auth()->user()->getRoleNames()->toArray(),
+        )): ?>
                                                         <!-- User Id Field -->
                                                         <div class="form-group row ">
                                                             <?php echo Form::label('user_id', trans('lang.product_review_user_id'), ['class' => 'col-3 control-label text-right']); ?>
@@ -219,9 +275,11 @@
                                                                     <?php echo e(trans('lang.product_review_user_id_help')); ?></div>
                                                             </div>
                                                         </div>
+                                                    <?php endif; ?>
                                                     <?php else: ?>
-                                                        <?php echo Form::hidden('user_id', Auth::user()->id, ['class' => 'form-control', 'placeholder' => trans('lang.cart_quantity_placeholder')]); ?>
+                                                        <?php echo Form::hidden('user_id', auth()->id(), ['class' => 'form-control', 'placeholder' => trans('lang.cart_quantity_placeholder')]); ?>
 
+                                                    
                                                     <?php endif; ?>
                                                     <?php echo Form::hidden('product_id', $product->id, ['class' => 'form-control', 'placeholder' => trans('lang.cart_quantity_placeholder')]); ?>
 
@@ -269,8 +327,7 @@
                                     <div class="product__box product__default--single text-center">
                                         <!-- Start Product Image -->
                                         <div class="product__img-box  pos-relative">
-                                            <a href="<?php echo e(route('product',$product->id)); ?>"
-                                                class="product__img--link">
+                                            <a href="<?php echo e(route('product', $product->id)); ?>" class="product__img--link">
                                                 <?php echo getMediaurl($product, 'image', 'product__img img-fluid'); ?>
 
                                             </a>
@@ -292,7 +349,7 @@
                                         <div class="product__content m-t-20">
                                             <?php echo $__env->make('frontend.layouts.components.product_review',['rate'=>($product->rate!=null)?((int)$product->rate):0], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
-                                            <a href="<?php echo e(route('product',$product->id)); ?>"
+                                            <a href="<?php echo e(route('product', $product->id)); ?>"
                                                 class="product__link"><?php echo e($product->name); ?></a>
                                             <div class="product__price m-t-5">
                                                 <span class="product__price"><?php echo e($product->market->currency->symbol); ?>
@@ -372,7 +429,53 @@
 
 
 <?php $__env->stopSection(); ?>
-<?php $__env->startPush('scripts_lib'); ?>
+<?php $__env->startPush('scripts'); ?>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            /* 1. Visualizing things on Hover - See next part for action on click */
+            $('#stars li').on('mouseover', function() {
+                var onStar = parseInt($(this).data('value'), 10); // The star currently mouse on
+
+                // Now highlight all the stars that's not after the current hovered star
+                $(this).parent().children('li.star').each(function(e) {
+                    if (e < onStar) {
+                        $(this).addClass('hover');
+                    } else {
+                        $(this).removeClass('hover');
+                    }
+                });
+
+            }).on('mouseout', function() {
+                $(this).parent().children('li.star').each(function(e) {
+                    $(this).removeClass('hover');
+                });
+            });
+
+
+            /* 2. Action to perform on click */
+            $('#stars li').on('click', function() {
+                var onStar = parseInt($(this).data('value'), 10); // The star currently selected
+                var stars = $(this).parent().children('li.star');
+
+                for (i = 0; i < stars.length; i++) {
+                    $(stars[i]).removeClass('selected');
+                }
+
+                for (i = 0; i < onStar; i++) {
+                    $(stars[i]).addClass('selected');
+                }
+
+                // JUST RESPONSE (Not needed)
+                var ratingValue = parseInt($('#stars li.selected').last().data('value'), 10);
+                $("#rate_value").val(ratingValue);
+
+            });
+
+
+        });
+
+    </script>
 <?php $__env->stopPush(); ?>
 
 <?php echo $__env->make('frontend.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/food/resources/views/frontend/product.blade.php ENDPATH**/ ?>
