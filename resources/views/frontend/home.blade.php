@@ -3,7 +3,9 @@
 
 @endpush
 @section('content')
+<div class="container-fluid">
     @include('flash::message')
+</div>
 
     <!-- :::::: Start Main Container Wrapper :::::: -->
     <main id="main-container" class="main-container">

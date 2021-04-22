@@ -22,6 +22,7 @@ Route::get('login/{service}', 'Auth\LoginController@redirectToProvider');
 Route::get('login/{service}/callback', 'Auth\LoginController@handleProviderCallback');
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/search', 'HomeController@search')->name('search');
 Route::get('/cart', 'HomeController@cart')->name('cart')->middleware('auth');
 Route::get('/cart/all', 'HomeController@cart_ajax')->name('cart_ajax')->middleware('auth');
 Route::post('/cart/update', 'HomeController@cart_ajax_update')->name('cart_ajax_update')->middleware('auth');
@@ -157,17 +158,11 @@ Route::middleware('auth')->group(function () {
         'show'
     ]);
 
-    Route::resource('drivers', 'DriverController')->except([
-        'show'
-    ]);
+    Route::resource('drivers', 'DriverController');
 
-    Route::resource('earnings', 'EarningController')->except([
-        'show','edit','update'
-    ]);
+    Route::resource('earnings', 'EarningController');
 
-    Route::resource('driversPayouts', 'DriversPayoutController')->except([
-        'show','edit','update'
-    ]);
+    Route::resource('driversPayouts', 'DriversPayoutController');
 
     Route::resource('marketsPayouts', 'MarketsPayoutController')->except([
         'show','edit','update'

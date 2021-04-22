@@ -31,7 +31,7 @@ class DriversPayoutDataTable extends DataTable
                 return getDateColumn($drivers_payout, 'updated_at');
             })
             ->editColumn('amount', function ($drivers_payout) {
-                return getPriceColumn($drivers_payout, 'amount');
+                return getPriceColumn($drivers_payout, @$drivers_payout['driver']['markets'][0],'amount');
             })
             ->rawColumns(array_merge($columns, ['action']));
 

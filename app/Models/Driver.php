@@ -91,5 +91,9 @@ class Driver extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id', 'id');
     }
+    public function markets()
+    {
+        return $this->belongsToMany(\App\Models\Market::class, 'driver_markets','market_id','user_id');
+    }
     
 }

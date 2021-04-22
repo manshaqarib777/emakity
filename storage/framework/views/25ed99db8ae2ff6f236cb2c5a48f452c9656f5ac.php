@@ -18,6 +18,39 @@
         </div>
     </div> <!-- End Modal Add cart -->
 
+
+    <div class="modal fade" id="filterSearch" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body medias-items">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col text-right">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true"> <i class="fal fa-times"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                        <form action="#" method="post">
+                            
+                            <div class="d-flex justify-content-between flex-wrap m-tb-20">
+                                <label for="account-remember">
+                                    <span>Remember me</span>
+                                    <input type="radio" name="account-remember" id="account-remember" checked>
+                                </label>
+                                <label for="account-remember">
+                                    <span>Remember me</span>
+                                    <input type="radio" name="account-remember" id="account-remember" checked>
+                                </label>
+                            </div>
+                            <button class="btn btn--box btn--medium btn--radius btn--black btn--black-hover-green btn--uppercase font--semi-bold" type="submit">LOGIN</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Modal Add cart -->
+
     <!-- Start Modal Quickview cart -->
     <div class="modal fade" id="modalQuickView" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog  modal-dialog-centered" role="document">

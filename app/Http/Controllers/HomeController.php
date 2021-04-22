@@ -16,6 +16,14 @@ use App\Repositories\CartRepository;
 use Flash,Auth;
 
 
+use App\Criteria\Products\NearCriteria;
+use App\Criteria\Products\ProductsOfCategoriesCriteria;
+use App\Criteria\Products\ProductsOfFieldsCriteria;
+use App\Criteria\Products\TrendingWeekCriteria;
+use App\Http\Controllers\Controller;
+use InfyOm\Generator\Criteria\LimitOffsetCriteria;
+use Prettus\Repository\Criteria\RequestCriteria;
+
 class HomeController extends Controller
 {
         private $orderRepository;
@@ -39,11 +47,70 @@ class HomeController extends Controller
 
         }
 
-    public function index()
+    public function index(Request $request)
     {
+
+        if($request->input('delivery')) {
+            if ($request->input('open')) {
+              $query['search'] = 'available_for_delivery:1;closed:0';
+              $query['searchFields'] = 'available_for_delivery:=;closed:=';
+            } else {
+              $query['search'] = 'available_for_delivery:1';
+              $query['searchFields'] = 'available_for_delivery:=';
+            }
+          } else if ($request->input('open')) {
+            $query['search'] = 'closed:${open ? 0 : 1}';
+            $query['searchFields'] = 'closed:=';
+          }
+          if ($request->input('fields')) {
+            $query['fields[]'] = $request->input('fields');
+          }
+
+        $this->productRepository->pushCriteria(new RequestCriteria($request));
+        $this->productRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $this->productRepository->pushCriteria(new ProductsOfFieldsCriteria($request));
+        if ($request->get('trending', null) == 'week') {
+            $this->productRepository->pushCriteria(new TrendingWeekCriteria($request));
+        } else {
+            $this->productRepository->pushCriteria(new NearCriteria($request));
+        }
+
+        $this->marketRepository->pushCriteria(new RequestCriteria($request));
+        $this->marketRepository->pushCriteria(new LimitOffsetCriteria($request));
+         
+        $markets = $this->marketRepository->all();
+
         $products = $this->productRepository->all();
         
-        return view('frontend.home',compact('products'));
+        return view('frontend.home',compact('products','markets'));
+    }
+
+    public function search(Request $request)
+    {
+        $query=$request->input('query');
+        $request['search']='name:'.$query.';description;'.$query;
+        $request['searchFields']='name:like;description:like';
+
+        //dd($request->all());
+
+
+        $this->productRepository->pushCriteria(new RequestCriteria($request));
+        $this->productRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $this->productRepository->pushCriteria(new ProductsOfFieldsCriteria($request));
+        if ($request->get('trending', null) == 'week') {
+            $this->productRepository->pushCriteria(new TrendingWeekCriteria($request));
+        } else {
+            $this->productRepository->pushCriteria(new NearCriteria($request));
+        }
+
+        $this->marketRepository->pushCriteria(new RequestCriteria($request));
+        $this->marketRepository->pushCriteria(new LimitOffsetCriteria($request));
+         
+        $markets = $this->marketRepository->all();
+
+        $products = $this->productRepository->all();
+        
+        return view('frontend.search',compact('products','markets'));
     }
 
     public function product($id)

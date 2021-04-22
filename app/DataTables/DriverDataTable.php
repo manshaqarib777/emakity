@@ -34,7 +34,7 @@ class DriverDataTable extends DataTable
                 return getDateColumn($driver, 'updated_at');
             })
             ->editColumn('earning', function ($driver) {
-                return getPriceColumn($driver, 'earning');
+                return getPriceColumn($driver,@$driver['markets'][0] ,'earning');
             })
             ->editColumn('delivery_fee', function ($driver) {
                 return $driver->delivery_fee . "%";

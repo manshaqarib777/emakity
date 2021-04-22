@@ -35,19 +35,19 @@ class EarningDataTable extends DataTable
                 return getDateColumn($earning, 'updated_at');
             })
             ->editColumn('total_earning', function ($earning) {
-                return getPriceColumn($earning,'total_earning');
+                return getPriceColumn($earning, $earning['market'],'total_earning');
             })
             ->editColumn('admin_earning', function ($earning) {
-                return getPriceColumn($earning,'admin_earning');
+                return getPriceColumn($earning,$earning['market'],'admin_earning');
             })
             ->editColumn('market_earning', function ($earning) {
-                return getPriceColumn($earning,'market_earning');
+                return getPriceColumn($earning,$earning['market'],'market_earning');
             })
             ->editColumn('delivery_fee', function ($earning) {
-                return getPriceColumn($earning,'delivery_fee');
+                return getPriceColumn($earning,$earning['market'],'delivery_fee');
             })
             ->editColumn('tax', function ($earning) {
-                return getPriceColumn($earning,'tax');
+                return getPriceColumn($earning,$earning['market'],'tax');
             })
             ->addColumn('action', 'earnings.datatables_actions')
             ->rawColumns(array_merge($columns, ['action']));

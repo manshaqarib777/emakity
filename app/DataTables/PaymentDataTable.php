@@ -38,7 +38,7 @@ class PaymentDataTable extends DataTable
                 return getDateColumn($payment, 'updated_at');
             })
             ->editColumn('price', function ($payment) {
-                return getPriceColumn($payment);
+                return getPriceColumn($payment,$payment['order']['products'][0]['market'],'price');
             })
             ->addColumn('action', 'payments.datatables_actions')
             ->rawColumns(array_merge($columns, ['action']));
@@ -56,9 +56,9 @@ class PaymentDataTable extends DataTable
     {
 
         if (auth()->user()->hasRole('admin')) {
-            return $model->newQuery()->with("user")->select('payments.*')->orderBy('id', 'desc');
+            return $model->newQuery()->with(["user","order"])->select('payments.*')->orderBy('id', 'desc');
         } else if(auth()->user()->hasRole('manager')){
-            return $model->newQuery()->with("user")
+            return $model->newQuery()->with(["user","order"])
                 ->join("orders", "payments.id", "=", "orders.payment_id")
                 ->join("product_orders", "orders.id", "=", "product_orders.order_id")
                 ->join("products", "products.id", "=", "product_orders.product_id")
@@ -68,7 +68,7 @@ class PaymentDataTable extends DataTable
                 ->orderBy('payments.id', 'desc')
                 ->select('payments.*');
         } else if (auth()->user()->hasRole('client')) {
-            return $model->newQuery()->with("user")
+            return $model->newQuery()->with(["user","order"])
                 ->where('payments.user_id', auth()->id())
                 ->select('payments.*')->orderBy('id', 'desc');
         }

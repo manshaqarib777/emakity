@@ -73,16 +73,24 @@ function getDateColumn($modelObject, $attributeName = 'updated_at')
     return $replace;
 }
 
-function getPriceColumn($modelObject, $attributeName = 'price')
+function getPriceColumn($modelObject,$modelObject1, $attributeName = 'price')
 {
     //dd($modelObject['market']['currency_right']);
     if ($modelObject[$attributeName] != null && strlen($modelObject[$attributeName]) > 0) {
         $modelObject[$attributeName] = number_format((float)$modelObject[$attributeName], 2, '.', '');
-        if ($modelObject['market']['currency_right'] != false) {
-            return $modelObject[$attributeName] . "<span>" . $modelObject['market']['currency']['symbol'] . "</span>";
-        } else {
-            return "<span>" . $modelObject['market']['currency']['symbol'] . "</span>" . $modelObject[$attributeName];
+        if($modelObject1==null)
+        {
+            return "<span>$</span>" . $modelObject[$attributeName];
         }
+        else
+        {
+            if ($modelObject1['currency_right'] != false) {
+                return $modelObject[$attributeName] . "<span>" . $modelObject1['currency']['symbol'] . "</span>";
+            } else {
+                return "<span>" . $modelObject1['currency']['symbol'] . "</span>" . $modelObject[$attributeName];
+            }
+        }
+
     }
     return '-';
 }

@@ -31,7 +31,7 @@ class MarketsPayoutDataTable extends DataTable
                 return getDateColumn($markets_payout, 'updated_at');
             })
             ->editColumn('amount', function ($markets_payout) {
-                return getPriceColumn($markets_payout, 'amount');
+                return getPriceColumn($markets_payout,$markets_payout['market'], 'amount');
             })
             //->addColumn('action', 'markets_payouts.datatables_actions')
             ->rawColumns(array_merge($columns));

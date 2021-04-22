@@ -38,7 +38,7 @@ class OptionDataTable extends DataTable
                 return getMediaColumn($option, 'image');
             })
             ->editColumn('price', function ($option) {
-                return getPriceColumn($option, 'price');
+                return getPriceColumn($option,$option['product']['market'] ,'price');
             })
             ->editColumn('product.name', function ($option) {
                 return getLinksColumnByRouteName([$option->product->toArray()], 'products.edit','id','name');

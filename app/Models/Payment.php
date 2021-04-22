@@ -91,5 +91,10 @@ class Payment extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id', 'id');
     }
+
+    public function order()
+    {
+        return $this->hasOne(\App\Models\Order::class,'payment_id','id');
+    }
     
 }

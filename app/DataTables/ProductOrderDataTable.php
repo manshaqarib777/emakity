@@ -38,7 +38,7 @@ class ProductOrderDataTable extends DataTable
                 foreach ($productOrder->options as $option) {
                     $productOrder->price += $option->price;
                 }
-                return getPriceColumn($productOrder);
+                return getPriceColumn($productOrder,$productOrder['order']['products'][0]['market'],'price');
             })
             ->rawColumns(array_merge($columns));
 

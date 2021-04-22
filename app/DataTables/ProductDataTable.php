@@ -38,10 +38,10 @@ class ProductDataTable extends DataTable
                 return getMediaColumn($product, 'image');
             })
             ->editColumn('price', function ($product) {
-                return getPriceColumn($product,'price');
+                return getPriceColumn($product,$product['market'],'price');
             })
             ->editColumn('discount_price', function ($product) {
-                return getPriceColumn($product,'discount_price');
+                return getPriceColumn($product,$product['market'],'discount_price');
             })
             ->editColumn('capacity', function ($product) {
                 return $product['capacity']." ".$product['unit'];

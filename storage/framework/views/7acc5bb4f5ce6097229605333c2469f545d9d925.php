@@ -3,7 +3,9 @@
 
 <?php $__env->stopPush(); ?>
 <?php $__env->startSection('content'); ?>
+<div class="container-fluid">
     <?php echo $__env->make('flash::message', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+</div>
 
     <!-- :::::: Start Main Container Wrapper :::::: -->
     <main id="main-container" class="main-container">

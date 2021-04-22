@@ -41,7 +41,7 @@ class OrderDataTable extends DataTable
                 return getDateColumn($order, 'updated_at');
             })
             ->editColumn('delivery_fee', function ($order) {
-                return getPriceColumn($order, 'delivery_fee');
+                return getPriceColumn($order,$order['products'][0]['market'], 'delivery_fee');
             })
             ->editColumn('tax', function ($order) {
                 return $order->tax . "%";
