@@ -63,23 +63,17 @@
                             <input type="checkbox" class="check-fields" checked>
                             <div class="checkmark"></div>
                         </label>
-                        @php
-                            $all = [];
-                        @endphp
                         @foreach ($app_fields as $field)
                             <label class="input-container">{{ $field->name }}
                                 <input type="checkbox" name="third_query[]" class='uncheck-fields'
                                     value="{{ $field->id }}" checked>
                                 <div class="checkmark"></div>
                             </label>
-                            @php
-                                $all[] = $field->id;
-                            @endphp
                         @endforeach
 
                         <input type="reset" value="Reset"
                             class="btn btn--box btn--medium btn--radius btn--black btn--black-hover-green btn--uppercase font--semi-bold" />
-                        <input type="submit" value="LOGIN"
+                        <input type="submit" value="Filter"
                             class="btn btn--box btn--medium btn--radius btn--black btn--black-hover-green btn--uppercase font--semi-bold" />
                     </form>
                 </div>
