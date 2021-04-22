@@ -50,21 +50,7 @@ class HomeController extends Controller
     public function index(Request $request)
     {
 
-        if($request->input('delivery')) {
-            if ($request->input('open')) {
-              $query['search'] = 'available_for_delivery:1;closed:0';
-              $query['searchFields'] = 'available_for_delivery:=;closed:=';
-            } else {
-              $query['search'] = 'available_for_delivery:1';
-              $query['searchFields'] = 'available_for_delivery:=';
-            }
-          } else if ($request->input('open')) {
-            $query['search'] = 'closed:${open ? 0 : 1}';
-            $query['searchFields'] = 'closed:=';
-          }
-          if ($request->input('fields')) {
-            $query['fields[]'] = $request->input('fields');
-          }
+        //dd($request->all());
 
         $this->productRepository->pushCriteria(new RequestCriteria($request));
         $this->productRepository->pushCriteria(new LimitOffsetCriteria($request));
@@ -74,13 +60,31 @@ class HomeController extends Controller
         } else {
             $this->productRepository->pushCriteria(new NearCriteria($request));
         }
+        $products = $this->productRepository->all();
+
+        if($request->input('first_query')=='delivery') {
+            if ($request->input('second_query')=='open') {
+              $request['search'] = 'available_for_delivery:1;closed:0';
+              $request['searchFields'] = 'available_for_delivery:=;closed:=';
+            } else {
+              $request['search'] = 'available_for_delivery:1';
+              $request['searchFields'] = 'available_for_delivery:=';
+            }
+          } else if ($request->input('second_query')=='open') {
+            $request['search'] = 'closed:${open ? 0 : 1}';
+            $request['searchFields'] = 'closed:=';
+          }
+          if ($request->input('third_query')) {
+            $request['fields[]'] = $request->input('third_query');
+          }
+
 
         $this->marketRepository->pushCriteria(new RequestCriteria($request));
         $this->marketRepository->pushCriteria(new LimitOffsetCriteria($request));
          
         $markets = $this->marketRepository->all();
 
-        $products = $this->productRepository->all();
+
         
         return view('frontend.home',compact('products','markets'));
     }

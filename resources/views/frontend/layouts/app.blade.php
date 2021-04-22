@@ -24,7 +24,72 @@
     <link rel="stylesheet" href="{{ asset('/') }}frontend/assets/css/plugin/jquery.lineProgressbar.css">
     <link rel="stylesheet" href="{{ asset('/') }}frontend/assets/css/main.css">
 
-
+    <style>
+        /* The container */
+        .input-container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 17px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    
+        /* Hide the browser's default radio button */
+        .input-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+    
+        /* Create a custom radio button */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+            border-radius: 50%;
+        }
+    
+        /* On mouse-over, add a grey background color */
+        .input-container:hover input~.checkmark {
+            background-color: #ccc;
+        }
+    
+        /* When the radio button is checked, add a blue background */
+        .input-container input:checked~.checkmark {
+            background-color: #2196F3;
+        }
+    
+        /* Create the indicator (the dot/circle - hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+    
+        /* Show the indicator (dot/circle) when checked */
+        .input-container input:checked~.checkmark:after {
+            display: block;
+        }
+    
+        /* Style the indicator (dot/circle) */
+        .input-container .checkmark:after {
+            top: 9px;
+            left: 9px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+        }
+    
+    </style>
     @stack('css_lib')
 
 </head>
@@ -142,9 +207,11 @@
                                                             </li>
                                                             <li class="mega-menu__list"><a href="wishlist.html"
                                                                     class="mega-menu__link">Wishlist</a></li>
-                                                            <li class="mega-menu__list"><a href="{{ route('login') }}"
+                                                            <li class="mega-menu__list"><a
+                                                                    href="{{ route('login') }}"
                                                                     class="mega-menu__link">My Account</a></li>
-                                                            <li class="mega-menu__list"><a href="{{ route('login') }}"
+                                                            <li class="mega-menu__list"><a
+                                                                    href="{{ route('login') }}"
                                                                     class="mega-menu__link">Login</a></li>
                                                         </ul>
                                                     </div>
@@ -391,24 +458,24 @@
                                             <span class="wishlist-item-count pos-absolute">{{ $app_carts }}</span>
                                         </a>
                                     </li> <!-- End Header Add Cart Box -->
-                                
+
                                 @endauth
 
                                 @guest
-                                <li>
-                                    <a href="wishlist.html">
-                                        <i class="icon-heart"></i>
-                                        <span class="item-count pos-absolute">0</span>
-                                    </a>
-                                </li> <!-- End Header Wishlist Box -->
-                                <!-- Start Header Add Cart Box -->
-                                <li>
-                                    <a href="{{ route('cart') }}" class="offcanvas-toggle">
-                                        <i class="icon-shopping-cart"></i>
-                                        <span class="wishlist-item-count pos-absolute">0</span>
-                                    </a>
-                                </li> <!-- End Header Add Cart Box -->
-                                    
+                                    <li>
+                                        <a href="wishlist.html">
+                                            <i class="icon-heart"></i>
+                                            <span class="item-count pos-absolute">0</span>
+                                        </a>
+                                    </li> <!-- End Header Wishlist Box -->
+                                    <!-- Start Header Add Cart Box -->
+                                    <li>
+                                        <a href="{{ route('cart') }}" class="offcanvas-toggle">
+                                            <i class="icon-shopping-cart"></i>
+                                            <span class="wishlist-item-count pos-absolute">0</span>
+                                        </a>
+                                    </li> <!-- End Header Add Cart Box -->
+
                                 @endguest
                             </ul>
                         </div>
@@ -422,21 +489,17 @@
                     <div class="row justify-content-between align-items-center">
                         <div class="col-xl-3 col-lg-3">
                             <div class="header-menu-vertical pos-relative">
-                                <h4 class="menu-title link--icon-left"><i class="far fa-align-left"></i><a href="#filterSearch1" data-toggle="modal" style="color:white;">Filter</a>
+                                <h4 class="menu-title link--icon-left"><i class="far fa-align-left"></i><a
+                                        href="#filterSearch" data-toggle="modal" style="color:white;">Filter</a>
                                 </h4>
 
-                                {{-- <ul class="menu-content pos-absolute">
-                                    @foreach ($app_categories->get() as $category)
-                                        <li class="menu-item"><a href="#">{{ $category->name }}</a></li>
-                                    @endforeach
 
-                                </ul> --}}
                             </div>
                         </div>
                         <div class="col-xl-7 col-lg-6">
-                            <form class="header-search" action="{{route('search')}}" method="get">
+                            <form class="header-search" action="{{ route('search') }}" method="get">
                                 <div class="header-search__content pos-relative">
-                                    <input type="text" name="query" placeholder="Search our store" >
+                                    <input type="text" name="query" placeholder="Search our store">
                                     <button class="pos-absolute" type="submit"><i class="icon-search"></i></button>
                                 </div>
                             </form>
@@ -468,12 +531,6 @@
                         <ul
                             class="header__mobile--rightside header__user-action-icon  d-flex align-items-center justify-content-end">
                             <!-- Start Header Add Cart Box -->
-                            <li>
-                                <a href="#offcanvas-add-cart__box" class="offcanvas-toggle">
-                                    <i class="icon-shopping-cart"></i>
-                                    <span class="wishlist-item-count pos-absolute">3</span>
-                                </a>
-                            </li> <!-- End Header Add Cart Box -->
                             <li><a href="#offcanvas-mobile-menu" class="offcanvas-toggle"><i
                                         class="far fa-bars"></i></a></li>
 
@@ -483,12 +540,10 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="header-menu-vertical pos-relative m-t-30">
-                            <h4 class="menu-title link--icon-left"><i class="far fa-align-left"></i>CATEGORIES</h4>
-                            <ul class="menu-content pos-absolute">
-                                @foreach ($app_categories->get() as $category)
-                                    <li class="menu-item"><a href="#">{{ $category->name }}</a></li>
-                                @endforeach
-                            </ul>
+                            <h4 class="menu-title link--icon-left"><i class="far fa-align-left"></i><a
+                                    href="#filterSearch" data-toggle="modal" style="color:white;">Filter</a>
+                            </h4>
+
                         </div>
                     </div>
                 </div>
@@ -515,9 +570,9 @@
                         </ul>
                     </li>
                 </ul> --}}
-                <form class="header-search m-tb-15" action="#" method="post">
+                <form class="header-search" action="{{ route('search') }}" method="get">
                     <div class="header-search__content pos-relative">
-                        <input type="search" name="header-search" placeholder="Search our store" required>
+                        <input type="text" name="query" placeholder="Search our store">
                         <button class="pos-absolute" type="submit"><i class="icon-search"></i></button>
                     </div>
                 </form>
@@ -530,19 +585,39 @@
                         </a>
                     </li> <!-- End Header Wishlist Box -->
                     <!-- Start Header Wishlist Box -->
-                    <li>
-                        <a href="wishlist.html">
-                            <i class="icon-heart"></i>
-                            <span class="item-count pos-absolute">0</span>
-                        </a>
-                    </li> <!-- End Header Wishlist Box -->
-                    <!-- Start Header Add Cart Box -->
-                    <li>
-                        <a href="cart.html">
-                            <i class="icon-shopping-cart"></i>
-                            <span class="wishlist-item-count pos-absolute">0</span>
-                        </a>
-                    </li> <!-- End Header Add Cart Box -->
+                    @auth
+                        <li>
+                            <a href="wishlist.html">
+                                <i class="icon-heart"></i>
+                                <span class="item-count pos-absolute">0</span>
+                            </a>
+                        </li> <!-- End Header Wishlist Box -->
+                        <!-- Start Header Add Cart Box -->
+                        <li>
+                            <a href="{{ route('cart') }}">
+                                <i class="icon-shopping-cart"></i>
+                                <span class="wishlist-item-count pos-absolute">{{ $app_carts }}</span>
+                            </a>
+                        </li> <!-- End Header Add Cart Box -->
+
+                    @endauth
+
+                    @guest
+                        <li>
+                            <a href="wishlist.html">
+                                <i class="icon-heart"></i>
+                                <span class="item-count pos-absolute">0</span>
+                            </a>
+                        </li> <!-- End Header Wishlist Box -->
+                        <!-- Start Header Add Cart Box -->
+                        <li>
+                            <a href="{{ route('cart') }}" class="offcanvas-toggle">
+                                <i class="icon-shopping-cart"></i>
+                                <span class="wishlist-item-count pos-absolute">0</span>
+                            </a>
+                        </li> <!-- End Header Add Cart Box -->
+
+                    @endguest
                 </ul> <!-- End Mobile User Action -->
                 <div class="offcanvas-menu">
                     <ul>

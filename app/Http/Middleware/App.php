@@ -3,6 +3,7 @@
 use App\Repositories\UploadRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\CartRepository;
+use App\Repositories\FieldRepository;
 use Carbon\Carbon;
 use Closure;
 
@@ -19,7 +20,7 @@ class App
     protected $uploadRepository;
     protected $categoryRepository;
     protected $cartRepository;
-
+    private $fieldRepository;
     /**
      * Handle an incoming request.
      *
@@ -41,14 +42,17 @@ class App
             $this->uploadRepository = new UploadRepository(app());
             $this->categoryRepository = new CategoryRepository(app());
             $this->cartRepository = new CartRepository(app());
+            $this->fieldRepository = new FieldRepository(app());
             $upload = $this->uploadRepository->findByField('uuid', setting('app_logo', ''))->first();
             $appLogo = asset('images/logo_default.png');
             if ($upload && $upload->hasMedia('app_logo')) {
                 $appLogo = $upload->getFirstMediaUrl('app_logo');
             }
             $categories = $this->categoryRepository->with(['markets','markets.products']);
+            $fields = $this->fieldRepository->get();
             view()->share('app_logo', $appLogo);
             view()->share('app_categories', $categories);
+            view()->share('app_fields', $fields);
             if(auth()->user())
             {
                 view()->share('app_carts',$this->cartRepository->where('user_id',auth()->id())->get()->count());

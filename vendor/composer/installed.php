@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '629bd6503c3bdccb19ada24dc24d26e51f1fd3f7',
+    'reference' => 'd749eecf264da875b002288ce20888a6eef071c7',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -90,12 +90,12 @@
     ),
     'doctrine/cache' => 
     array (
-      'pretty_version' => '1.10.2',
-      'version' => '1.10.2.0',
+      'pretty_version' => '1.11.0',
+      'version' => '1.11.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '13e3381b25847283a91948d04640543941309727',
+      'reference' => 'a9c1b59eba5a08ca2770a76eddb88922f504e8e0',
     ),
     'doctrine/dbal' => 
     array (
@@ -532,7 +532,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '629bd6503c3bdccb19ada24dc24d26e51f1fd3f7',
+      'reference' => 'd749eecf264da875b002288ce20888a6eef071c7',
     ),
     'laravel/socialite' => 
     array (
@@ -1274,12 +1274,12 @@
     ),
     'spatie/image-optimizer' => 
     array (
-      'pretty_version' => '1.3.2',
-      'version' => '1.3.2.0',
+      'pretty_version' => '1.4.0',
+      'version' => '1.4.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '6aa170eb292758553d332efee5e0c3977341080c',
+      'reference' => 'c22202fdd57856ed18a79cfab522653291a6e96a',
     ),
     'spatie/laravel-medialibrary' => 
     array (
@@ -1657,12 +1657,12 @@
     ),
     'yajra/laravel-datatables-buttons' => 
     array (
-      'pretty_version' => 'v4.12.2',
-      'version' => '4.12.2.0',
+      'pretty_version' => 'v4.13.0',
+      'version' => '4.13.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '6b9c42b0f372b640775a0016f5bb0363cd57fb6d',
+      'reference' => '3ac8d2bbfbb930852e75bdd3eb601ab629719247',
     ),
     'yajra/laravel-datatables-editor' => 
     array (

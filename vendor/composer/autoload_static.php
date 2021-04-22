@@ -326,11 +326,11 @@ class ComposerStaticInit6dc24fae20caa22311c7f26e01e00501
         ),
         'Yajra\\DataTables\\' => 
         array (
-            0 => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src',
-            1 => __DIR__ . '/..' . '/yajra/laravel-datatables-editor/src',
-            2 => __DIR__ . '/..' . '/yajra/laravel-datatables-fractal/src',
-            3 => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src',
-            4 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
+            0 => __DIR__ . '/..' . '/yajra/laravel-datatables-editor/src',
+            1 => __DIR__ . '/..' . '/yajra/laravel-datatables-fractal/src',
+            2 => __DIR__ . '/..' . '/yajra/laravel-datatables-html/src',
+            3 => __DIR__ . '/..' . '/yajra/laravel-datatables-oracle/src',
+            4 => __DIR__ . '/..' . '/yajra/laravel-datatables-buttons/src',
         ),
         'XdgBaseDir\\' => 
         array (
@@ -1376,6 +1376,10 @@ class ComposerStaticInit6dc24fae20caa22311c7f26e01e00501
         'Doctrine\\Common\\Cache\\MultiPutCache' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/MultiPutCache.php',
         'Doctrine\\Common\\Cache\\PhpFileCache' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/PhpFileCache.php',
         'Doctrine\\Common\\Cache\\PredisCache' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/PredisCache.php',
+        'Doctrine\\Common\\Cache\\Psr6\\CacheAdapter' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/CacheAdapter.php',
+        'Doctrine\\Common\\Cache\\Psr6\\CacheItem' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/CacheItem.php',
+        'Doctrine\\Common\\Cache\\Psr6\\DoctrineProvider' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/DoctrineProvider.php',
+        'Doctrine\\Common\\Cache\\Psr6\\InvalidArgument' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/Psr6/InvalidArgument.php',
         'Doctrine\\Common\\Cache\\RedisCache' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/RedisCache.php',
         'Doctrine\\Common\\Cache\\SQLite3Cache' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/SQLite3Cache.php',
         'Doctrine\\Common\\Cache\\Version' => __DIR__ . '/..' . '/doctrine/cache/lib/Doctrine/Common/Cache/Version.php',
