@@ -8,8 +8,8 @@
 /storage/logs/*
 /storage/framework/*
 storage/framework/cache/*
+/database/old-db-tables
 /.history/*
-database/old-db-tables
 /old_db/*
 *.sublime-project
 *.sublime-workspace
