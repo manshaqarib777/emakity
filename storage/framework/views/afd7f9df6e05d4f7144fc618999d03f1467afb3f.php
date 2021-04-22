@@ -49,29 +49,7 @@
                                 <div class="header__top-content--left">
                                     <span>Free Delivery: Take advantage of our time to save event</span>
                                 </div>
-                                <ul class="header__top-content--right user-set-role d-flex">
-                                    <li class="user-currency pos-relative">
-                                        <a class="user-set-role__button" href="#" data-toggle="dropdown"
-                                            aria-expanded="false">Select Language<i class="fal fa-chevron-down"></i></a>
-                                        <ul class="expand-dropdown-menu dropdown-menu">
-                                            <li><a href="#"><img
-                                                        src="<?php echo e(asset('/')); ?>frontend/assets/img/icon/flag/icon_usa.png"
-                                                        alt="">English</a></li>
-                                            <li><a href="#"><img
-                                                        src="<?php echo e(asset('/')); ?>frontend/assets/img/icon/flag/icon_france.png"
-                                                        alt="">French</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="user-info pos-relative">
-                                        <a class="user-set-role__button" href="#" data-toggle="dropdown"
-                                            aria-expanded="false">Select Currency <i
-                                                class="fal fa-chevron-down"></i></a>
-                                        <ul class="expand-dropdown-menu dropdown-menu">
-                                            <li><a href="#">USD</a></li>
-                                            <li><a href="#">POUND</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                
                             </div>
                         </div>
                     </div>
@@ -516,14 +494,6 @@
                                         alt="">English</a></li>
                             <li><a href="#"><img src="<?php echo e(asset('/')); ?>frontend/assets/img/icon/flag/icon_france.png"
                                         alt="">French</a></li>
-                        </ul>
-                    </li>
-                    <li class="user-info pos-relative">
-                        <a class="user-set-role__button" href="#" data-toggle="dropdown" aria-expanded="false">Select
-                            Currency <i class="fal fa-chevron-down"></i></a>
-                        <ul class="expand-dropdown-menu dropdown-menu">
-                            <li><a href="#">USD</a></li>
-                            <li><a href="#">POUND</a></li>
                         </ul>
                     </li>
                 </ul>

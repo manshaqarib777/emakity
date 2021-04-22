@@ -49,7 +49,7 @@
                                 <div class="header__top-content--left">
                                     <span>Free Delivery: Take advantage of our time to save event</span>
                                 </div>
-                                <ul class="header__top-content--right user-set-role d-flex">
+                                {{-- <ul class="header__top-content--right user-set-role d-flex">
                                     <li class="user-currency pos-relative">
                                         <a class="user-set-role__button" href="#" data-toggle="dropdown"
                                             aria-expanded="false">Select Language<i class="fal fa-chevron-down"></i></a>
@@ -62,16 +62,7 @@
                                                         alt="">French</a></li>
                                         </ul>
                                     </li>
-                                    <li class="user-info pos-relative">
-                                        <a class="user-set-role__button" href="#" data-toggle="dropdown"
-                                            aria-expanded="false">Select Currency <i
-                                                class="fal fa-chevron-down"></i></a>
-                                        <ul class="expand-dropdown-menu dropdown-menu">
-                                            <li><a href="#">USD</a></li>
-                                            <li><a href="#">POUND</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
+                                </ul> --}}
                             </div>
                         </div>
                     </div>
@@ -512,7 +503,7 @@
             </div>
 
             <div class="offcanvas-inner">
-                <ul class="user-set-role d-flex justify-content-between m-tb-15">
+                {{-- <ul class="user-set-role d-flex justify-content-between m-tb-15">
                     <li class="user-currency pos-relative">
                         <a class="user-set-role__button" href="#" data-toggle="dropdown" aria-expanded="false">Select
                             Language<i class="fal fa-chevron-down"></i></a>
@@ -523,15 +514,7 @@
                                         alt="">French</a></li>
                         </ul>
                     </li>
-                    <li class="user-info pos-relative">
-                        <a class="user-set-role__button" href="#" data-toggle="dropdown" aria-expanded="false">Select
-                            Currency <i class="fal fa-chevron-down"></i></a>
-                        <ul class="expand-dropdown-menu dropdown-menu">
-                            <li><a href="#">USD</a></li>
-                            <li><a href="#">POUND</a></li>
-                        </ul>
-                    </li>
-                </ul>
+                </ul> --}}
                 <form class="header-search m-tb-15" action="#" method="post">
                     <div class="header-search__content pos-relative">
                         <input type="search" name="header-search" placeholder="Search our store" required>
