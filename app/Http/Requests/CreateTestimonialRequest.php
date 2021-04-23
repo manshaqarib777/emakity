@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Field;
+use App\Models\Testimonial;
 
-class UpdateFieldRequest extends FormRequest
+class CreateTestimonialRequest extends FormRequest
 {
 
     /**
@@ -25,11 +25,6 @@ class UpdateFieldRequest extends FormRequest
      */
     public function rules()
     {
-        return Field::$rules;
+        return Testimonial::$rules;
     }
 }
-
-
-
-
-

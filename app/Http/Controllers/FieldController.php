@@ -88,6 +88,7 @@ private $marketRepository;
             $field->customFieldsValues()->createMany(getCustomFieldsValues($customFields,$request));
             if(isset($input['image']) && $input['image']){
     $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
+    //dd($cacheUpload->getMedia('image')->first());
     $mediaItem = $cacheUpload->getMedia('image')->first();
     $mediaItem->copy($field, 'image');
 }

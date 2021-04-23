@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'ebc103b94feae394614d15f87f6817357c086838',
+    'reference' => '2bd26d1055db55aeea2150449ffd987b25990508',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -532,7 +532,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'ebc103b94feae394614d15f87f6817357c086838',
+      'reference' => '2bd26d1055db55aeea2150449ffd987b25990508',
     ),
     'laravel/socialite' => 
     array (
@@ -1684,12 +1684,12 @@
     ),
     'yajra/laravel-datatables-html' => 
     array (
-      'pretty_version' => 'v4.36.2',
-      'version' => '4.36.2.0',
+      'pretty_version' => 'v4.36.3',
+      'version' => '4.36.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '1d4d465882749f924528cac49f09ac3fd1fb77cc',
+      'reference' => '9a964881da68f36d169eea0eb7a3dc5683c57b26',
     ),
     'yajra/laravel-datatables-oracle' => 
     array (

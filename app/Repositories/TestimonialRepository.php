@@ -2,19 +2,19 @@
 
 namespace App\Repositories;
 
-use App\Models\Field;
+use App\Models\Testimonial;
 use InfyOm\Generator\Common\BaseRepository;
 
 /**
- * Class FieldRepository
+ * Class TestimonialRepository
  * @package App\Repositories
  * @version April 11, 2020, 1:57 pm UTC
  *
- * @method Field findWithoutFail($id, $columns = ['*'])
- * @method Field find($id, $columns = ['*'])
- * @method Field first($columns = ['*'])
+ * @method Testimonial findWithoutFail($id, $columns = ['*'])
+ * @method Testimonial find($id, $columns = ['*'])
+ * @method Testimonial first($columns = ['*'])
 */
-class FieldRepository extends BaseRepository
+class TestimonialRepository extends BaseRepository
 {
     /**
      * @var array
@@ -29,11 +29,6 @@ class FieldRepository extends BaseRepository
      **/
     public function model()
     {
-        return Field::class;
+        return Testimonial::class;
     }
 }
-
-
-
-
-

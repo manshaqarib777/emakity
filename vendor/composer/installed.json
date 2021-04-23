@@ -10758,17 +10758,17 @@
         },
         {
             "name": "yajra/laravel-datatables-html",
-            "version": "v4.36.2",
-            "version_normalized": "4.36.2.0",
+            "version": "v4.36.3",
+            "version_normalized": "4.36.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-html.git",
-                "reference": "1d4d465882749f924528cac49f09ac3fd1fb77cc"
+                "reference": "9a964881da68f36d169eea0eb7a3dc5683c57b26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/1d4d465882749f924528cac49f09ac3fd1fb77cc",
-                "reference": "1d4d465882749f924528cac49f09ac3fd1fb77cc",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/9a964881da68f36d169eea0eb7a3dc5683c57b26",
+                "reference": "9a964881da68f36d169eea0eb7a3dc5683c57b26",
                 "shasum": ""
             },
             "require": {
@@ -10781,7 +10781,7 @@
                 "mockery/mockery": "^1.3.1",
                 "phpunit/phpunit": "^9.3"
             },
-            "time": "2021-03-19T07:46:16+00:00",
+            "time": "2021-04-23T11:14:28+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -10819,7 +10819,7 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables-html/issues",
-                "source": "https://github.com/yajra/laravel-datatables-html/tree/v4.36.2"
+                "source": "https://github.com/yajra/laravel-datatables-html/tree/v4.36.3"
             },
             "funding": [
                 {

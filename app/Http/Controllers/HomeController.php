@@ -13,13 +13,18 @@ use App\Repositories\UserRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\CartRepository;
+use App\Repositories\TestimonialRepository;
 use Flash,Auth;
 
 
 use App\Criteria\Products\NearCriteria;
 use App\Criteria\Products\ProductsOfCategoriesCriteria;
 use App\Criteria\Products\ProductsOfFieldsCriteria;
+use App\Criteria\Products\ProductCurrencyCriteria;
+use App\Criteria\Products\ProductCountryCriteria;
 use App\Criteria\Products\TrendingWeekCriteria;
+use App\Criteria\Markets\MarketCurrencyCriteria;
+use App\Criteria\Markets\MarketCountryCriteria;
 use App\Http\Controllers\Controller;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
@@ -34,7 +39,7 @@ class HomeController extends Controller
         private $productRepository;
         private $cartRepository;
     
-        public function __construct(OrderRepository $orderRepo, UserRepository $userRepo, PaymentRepository $paymentRepo, MarketRepository $marketRepo,CategoryRepository $categoryRepo,ProductRepository $productRepo, CartRepository $cartRepo)
+        public function __construct(OrderRepository $orderRepo, UserRepository $userRepo, PaymentRepository $paymentRepo, MarketRepository $marketRepo,CategoryRepository $categoryRepo,ProductRepository $productRepo, CartRepository $cartRepo, TestimonialRepository $testimonialRepo)
         {
             parent::__construct();
             $this->orderRepository = $orderRepo;
@@ -44,6 +49,7 @@ class HomeController extends Controller
             $this->productRepository = $productRepo;
             $this->paymentRepository = $paymentRepo;
             $this->cartRepository = $cartRepo;
+            $this->testimonialRepository = $testimonialRepo;
 
         }
 
@@ -55,7 +61,9 @@ class HomeController extends Controller
         $this->productRepository->pushCriteria(new RequestCriteria($request));
         $this->productRepository->pushCriteria(new LimitOffsetCriteria($request));
         $this->productRepository->pushCriteria(new ProductsOfFieldsCriteria($request));
-        if ($request->get('trending', null) == 'week') {
+        $this->productRepository->pushCriteria(new ProductCurrencyCriteria($request));
+        $this->productRepository->pushCriteria(new ProductCountryCriteria($request));
+       if ($request->get('trending', null) == 'week') {
             $this->productRepository->pushCriteria(new TrendingWeekCriteria($request));
         } else {
             $this->productRepository->pushCriteria(new NearCriteria($request));
@@ -81,12 +89,17 @@ class HomeController extends Controller
 
         $this->marketRepository->pushCriteria(new RequestCriteria($request));
         $this->marketRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $this->marketRepository->pushCriteria(new MarketCurrencyCriteria($request));
+        $this->marketRepository->pushCriteria(new MarketCountryCriteria($request));
          
         $markets = $this->marketRepository->all();
 
 
+        $testimonials = $this->testimonialRepository->all();
+
+
         
-        return view('frontend.home',compact('products','markets'));
+        return view('frontend.home',compact('products','markets','testimonials'));
     }
 
     public function search(Request $request)
@@ -101,6 +114,8 @@ class HomeController extends Controller
         $this->productRepository->pushCriteria(new RequestCriteria($request));
         $this->productRepository->pushCriteria(new LimitOffsetCriteria($request));
         $this->productRepository->pushCriteria(new ProductsOfFieldsCriteria($request));
+        $this->productRepository->pushCriteria(new ProductCurrencyCriteria($request));
+        $this->productRepository->pushCriteria(new ProductCountryCriteria($request));
         if ($request->get('trending', null) == 'week') {
             $this->productRepository->pushCriteria(new TrendingWeekCriteria($request));
         } else {
@@ -109,7 +124,8 @@ class HomeController extends Controller
 
         $this->marketRepository->pushCriteria(new RequestCriteria($request));
         $this->marketRepository->pushCriteria(new LimitOffsetCriteria($request));
-         
+        $this->marketRepository->pushCriteria(new MarketCurrencyCriteria($request));
+        $this->marketRepository->pushCriteria(new MarketCountryCriteria($request));         
         $markets = $this->marketRepository->all();
 
         $products = $this->productRepository->all();

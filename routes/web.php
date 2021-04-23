@@ -75,6 +75,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('permissions', 'PermissionController');
             Route::resource('roles', 'RoleController');
             Route::resource('customFields', 'CustomFieldController');
+            Route::resource('banners', 'BannerController');
             Route::resource('currencies', 'CurrencyController')->except([
                 'show'
             ]);
@@ -92,6 +93,10 @@ Route::middleware('auth')->group(function () {
 
     Route::post('fields/remove-media','FieldController@removeMedia');
     Route::resource('fields', 'FieldController')->except([
+        'show'
+    ]);
+    Route::post('testimonials/remove-media','TestimonialController@removeMedia');
+    Route::resource('testimonials', 'TestimonialController')->except([
         'show'
     ]);
 

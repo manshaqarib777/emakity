@@ -1148,4 +1148,46 @@ return [
     'app_setting_mobile_popular' => 'Popular markets grid',
     'app_setting_mobile_recent_reviews_heading' => 'Recent reviews heading',
     'app_setting_mobile_recent_reviews' => 'Recent reviews list',
+
+
+    
+    
+    'testimonial' => 'Testimonial',
+    'testimonial_plural' => 'Testimonials',
+    'testimonial_desc' => 'Testimonials Management',
+    'testimonial_edit' => 'Edit Testimonial',
+    'testimonial_table' => 'Testimonials List',
+    'testimonial_create' => 'Create Testimonial',
+    'testimonial_name' => 'Name',
+    'testimonial_name_help' => 'Insert Name',
+    'testimonial_name_placeholder' => 'Insert Name',
+    'testimonial_description' => 'Description',
+    'testimonial_description_help' => 'Insert Description',
+    'testimonial_description_placeholder' => 'Insert Description',
+    'testimonial_image' => 'Image',
+    'testimonial_image_help' => 'Insert Image',
+    'testimonial_image_placeholder' => 'Insert Image',
+    'testimonial_markets' => 'Markets',
+    'testimonial_markets_help' => 'Insert Markets',
+    'testimonial_markets_placeholder' => 'Insert Markets',
+    'testimonial_updated_at' => 'Updated At',
+
+    'app_setting_footer_address' => 'Footer Address',
+    'app_setting_footer_address_help' => 'The Footer Address appear in footer',
+    'app_setting_footer_address_placeholder' => 'Enter Footer Address',
+    
+
+    'app_setting_footer_phone' => 'Footer Phone',
+    'app_setting_footer_phone_help' => 'The Footer Phone appear in footer',
+    'app_setting_footer_phone_placeholder' => 'Enter Footer Phone',
+
+    'app_setting_footer_email' => 'Footer Email',
+    'app_setting_footer_email_help' => 'The Footer Email appear in footer',
+    'app_setting_footer_email_placeholder' => 'Enter Footer Email',
+
+    'upload_app_banner1' => 'Testimonial Banner',
+    'upload_app_banner1_help' => 'Upload your Testimonial Banner or select from media library',
+
+    'upload_app_banner2' => 'Newsletter Banner',
+    'upload_app_banner2_help' => 'Upload your Newsletter Banner or select from media library',
 ];

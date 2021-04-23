@@ -52,6 +52,19 @@ function getMediaurl($mediaModel, $mediaCollectionName = '', $optionClass = '', 
     }
 }
 
+
+
+function getCommonurl($mediaModel, $mediaCollectionName = '', $optionClass = '', $defaultUrl = '')
+{
+    $optionClass = $optionClass == '' ? ' rounded ' : $optionClass;
+
+    if ($mediaModel->hasMedia($mediaCollectionName)) {
+        return "<img class='" . $optionClass . "' src='" . $mediaModel->getFirstMediaUrl($mediaCollectionName, 'icon') . "' alt='" . $mediaModel->getFirstMedia($mediaCollectionName)->name . "'>";
+    }else{
+        return "<img class='" . $optionClass . "' src='" .  $defaultUrl . "' alt='image_default'>";
+    }
+}
+
 /**
  * @param $modelObject
  * @param string $attributeName

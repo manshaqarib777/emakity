@@ -21,6 +21,7 @@
     </li>
 @endcan
 
+
 @can('markets.index')
     <li class="nav-item has-treeview {{ (Request::is('markets*') || Request::is('requestedMarkets*') || Request::is('galleries*') || Request::is('marketReviews*')) && !Request::is('marketsPayouts*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link {{ (Request::is('markets*') || Request::is('requestedMarkets*') || Request::is('galleries*') || Request::is('marketReviews*')) && !Request::is('marketsPayouts*')? 'active' : '' }}"> @if($icons)
@@ -217,6 +218,11 @@
 @endcan
 
 @can('app-settings')
+@can('testimonials.index')
+    <li class="nav-item">
+        <a class="nav-link {{ Request::is('testimonials*') ? 'active' : '' }}" href="{!! route('testimonials.index') !!}">@if($icons)<i class="nav-icon fa fa-quote-left"></i>@endif<p>{{trans('lang.testimonial_plural')}}</p></a>
+    </li>
+@endcan
     <li class="nav-item has-treeview {{ Request::is('settings/mobile*') || Request::is('slides*') ? 'menu-open' : '' }}">
         <a href="#" class="nav-link {{ Request::is('settings/mobile*') || Request::is('slides*') ? 'active' : '' }}">
             @if($icons)<i class="nav-icon fa fa-mobile"></i>@endif

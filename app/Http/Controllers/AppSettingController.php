@@ -53,6 +53,17 @@ class AppSettingController extends Controller
                 if (empty($input['app_logo'])) {
                     unset($input['app_logo']);
                 }
+                if (empty($input['app_banner1'])) {
+                    unset($input['app_banner1']);
+                }
+
+                if (empty($input['app_banner2'])) {
+                    unset($input['app_banner2']);
+                }
+                if (empty($input['app_banner3'])) {
+                    unset($input['app_banner3']);
+                }
+
                 if (empty($input['custom_field_models'])) {
                     setting()->forget('custom_field_models');
                 }
@@ -213,12 +224,14 @@ class AppSettingController extends Controller
             }
         }
         $upload = $this->uploadRepository->findByField('uuid', setting('app_logo'))->first();
+        $banner_upload1 = $this->uploadRepository->findByField('uuid', setting('app_banner1', ''))->first();
+        $banner_upload2 = $this->uploadRepository->findByField('uuid', setting('app_banner2', ''))->first();
 
         $currencies = $this->currencyRepository->all()->pluck('name_symbol', 'id');
 
         $customFieldModels = getModelsClasses(app_path('Models'));
 
-        return view('settings.' . $type . '.' . $tab . '', compact(['languages', 'type', 'tab', 'langFiles', 'timezones', 'upload', 'customFieldModels', 'currencies', 'mobileLanguages', 'containsUpdate']));
+        return view('settings.' . $type . '.' . $tab . '', compact(['banner_upload1','banner_upload2','languages', 'type', 'tab', 'langFiles', 'timezones', 'upload', 'customFieldModels', 'currencies', 'mobileLanguages', 'containsUpdate']));
     }
 
     public function initFirebase()

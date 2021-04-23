@@ -128,6 +128,22 @@
                                         </ul>
                                     </li>
                                 </ul> --}}
+
+                                <form class="header__top-content--right user-set-role d-flex " action="{{ route('search') }}" method="get">
+                                    <select class="select2 form-control mr-2" name="country_id" id="country_id" onchange="this.form.submit()">
+                                        <option value="">Please Choose Country</option>
+                                        @foreach($app_countries as $key => $country)
+                                            <option value="{{ $key }}" {{ request()->get('country_id') == $key ? 'selected' : '' }}>{{ $country }}</option>
+                                        @endforeach
+                                    </select>
+                                    <select class="select2 form-control mr-2" name="currency_id" id="currency_id" onchange="this.form.submit()">
+                                        <option value="">Please Choose Currency</option>
+                                        @foreach($app_currencies as $key => $country)
+                                            <option value="{{ $key }}" {{ request()->get('currency_id') == $key ? 'selected' : '' }}>{{ $country }}</option>
+                                        @endforeach
+                                    </select>
+
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -502,6 +518,7 @@
                                     <input type="text" name="query" placeholder="Search our store">
                                     <button class="pos-absolute" type="submit"><i class="icon-search"></i></button>
                                 </div>
+                                
                             </form>
                         </div>
                         <div class="col-xl-2 col-lg-3">
@@ -825,10 +842,9 @@
                                 </a>
                             </div>
                             <ul class="footer__address">
-                                <li class="footer__address-item"><i class="fa fa-home"></i>No: 58 A, your Street,
-                                    Baltimore, USA 4508</li>
-                                <li class="footer__address-item"><i class="fa fa-phone-alt"></i>+01 23456789</li>
-                                <li class="footer__address-item"><i class="fa fa-envelope"></i>support@somemail.com</li>
+                                <li class="footer__address-item"><i class="fa fa-home"></i>{{setting('footer_address')}}</li>
+                                <li class="footer__address-item"><i class="fa fa-phone-alt"></i>{{setting('footer_phone')}}</li>
+                                <li class="footer__address-item"><i class="fa fa-envelope"></i>{{setting('footer_email')}}</li>
                             </ul>
                             <ul class="footer__social-nav">
                                 <li class="footer__social-list"><a href="#" class="footer__social-link"><i
@@ -910,8 +926,9 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-6 col-12">
                         <!-- Start Footer Copyright Text -->
+
                         <div class="footer__copyright-text">
-                            <p>Copyright &copy; <a href="{{ url('/') }}">Food Company</a>. All Rights Reserved</p>
+                            <strong>Copyright © {{date('Y')}} <a href="{{url('/')}}">{{setting('app_name')}}</a>.</strong> All rights reserved.
                         </div> <!-- End Footer Copyright Text -->
                     </div>
                     <div class="col-lg-4 col-md-6 col-12">
