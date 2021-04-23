@@ -48,7 +48,7 @@
         <div class="col-9">
             <div class="checkbox icheck">
                 <label class="w-100 ml-2 form-check-inline">
-                    {!! Form::hidden('currency_right', null) !!}
+                    {!! Form::hidden('currency_right', 0) !!}
                     {!! Form::checkbox('currency_right', 1, null) !!}
                     <span class="ml-2">{!! trans('lang.app_setting_currency_right_help') !!}</span>
                 </label>

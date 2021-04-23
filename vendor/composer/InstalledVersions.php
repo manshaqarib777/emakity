@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'd749eecf264da875b002288ce20888a6eef071c7',
+    'reference' => 'ebc103b94feae394614d15f87f6817357c086838',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -556,7 +556,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'd749eecf264da875b002288ce20888a6eef071c7',
+      'reference' => 'ebc103b94feae394614d15f87f6817357c086838',
     ),
     'laravel/socialite' => 
     array (
@@ -1947,7 +1947,6 @@ self::$canGetVendors = method_exists('Composer\Autoload\ClassLoader', 'getRegist
 $installed = array();
 
 if (self::$canGetVendors) {
-
 foreach (ClassLoader::getRegisteredLoaders() as $vendorDir => $loader) {
 if (isset(self::$installedByVendor[$vendorDir])) {
 $installed[] = self::$installedByVendor[$vendorDir];
