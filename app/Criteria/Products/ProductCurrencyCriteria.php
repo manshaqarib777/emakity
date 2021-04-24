@@ -38,7 +38,7 @@ class ProductCurrencyCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        if(!$this->request->has('currency_id')) {
+        if(!$this->request->has('currency_id') && $this->request->get('currency_id')=='') {
             return $model;
         } else {
             $currency_id=$this->request->get('currency_id');

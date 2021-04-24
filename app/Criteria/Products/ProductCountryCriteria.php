@@ -38,7 +38,7 @@ class ProductCountryCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        if(!$this->request->has('country_id')) {
+        if(!$this->request->has('country_id') && $this->request->get('country_id')=='') {
             return $model;
         } else {
             $country_id=$this->request->get('country_id');

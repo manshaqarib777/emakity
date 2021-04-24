@@ -38,7 +38,7 @@ class MarketCurrencyCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        if(!$this->request->has('currency_id')) {
+        if(!$this->request->has('currency_id') && $this->request->get('currency_id')=='') {
             return $model;
         } else {
             return $model->where('markets.currency_id',$this->request->get('currency_id'));
