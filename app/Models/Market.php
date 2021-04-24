@@ -88,6 +88,7 @@ class Market extends Model implements HasMedia
         'name' => 'string',
         'description' => 'string',
         'image' => 'string',
+        'app_image' => 'string',
         'address' => 'string',
         'latitude' => 'string',
         'longitude' => 'string',

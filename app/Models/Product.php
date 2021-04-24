@@ -79,6 +79,7 @@ class Product extends Model implements HasMedia
     protected $casts = [
         'name' => 'string',
         'image' => 'string',
+        'web_image' => 'string',
         'price' => 'double',
         'discount_price' => 'double',
         'description' => 'string',

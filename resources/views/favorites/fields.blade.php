@@ -24,14 +24,15 @@
 </div>
 <div style="flex: 50%;max-width: 50%;padding: 0 4px;" class="column">
 
-<!-- User Id Field -->
+{{-- <!-- User Id Field -->
 <div class="form-group row ">
   {!! Form::label('user_id', trans("lang.favorite_user_id"),['class' => 'col-3 control-label text-right']) !!}
   <div class="col-9">
     {!! Form::select('user_id', $user, null, ['class' => 'select2 form-control']) !!}
     <div class="form-text text-muted">{{ trans("lang.favorite_user_id_help") }}</div>
   </div>
-</div>
+</div> --}}
+{!! Form::hidden('user_id', Auth::user()->id, ['class' => 'form-control', 'placeholder' => trans('lang.cart_quantity_placeholder')]) !!}
 
 </div>
 @if($customFields)

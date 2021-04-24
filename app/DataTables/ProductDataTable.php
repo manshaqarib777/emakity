@@ -37,6 +37,9 @@ class ProductDataTable extends DataTable
             ->editColumn('image', function ($product) {
                 return getMediaColumn($product, 'image');
             })
+            ->editColumn('web_image', function ($product) {
+                return getMediaColumn($product, 'web_image');
+            })
             ->editColumn('price', function ($product) {
                 return getPriceColumn($product,$product['market'],'price');
             })
@@ -127,6 +130,11 @@ class ProductDataTable extends DataTable
             [
                 'data' => 'image',
                 'title' => trans('lang.product_image'),
+                'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+            ],
+            [
+                'data' => 'web_image',
+                'title' => trans('lang.product_web_image'),
                 'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
             ],
             [

@@ -149,6 +149,15 @@ function dzSendingMultiple(_this, file, formData, csrf) {
     formData.append('uuid', file.upload.uuid);
 }
 
+function dzSendingMultiple_web(_this, file, formData, csrf) {
+    $(_this.element).prepend('<input type="hidden" name="web_image[]">');
+    _this.element.children[0].value = file.upload.uuid;
+    _this.element.children[0].id = file.upload.uuid;
+    formData.append('_token', csrf);
+    formData.append('field', _this.element.dataset.field);
+    formData.append('uuid', file.upload.uuid);
+}
+
 function dzMaxfile(_this, file) {
     _this.removeAllFiles();
     _this.addFile(file);

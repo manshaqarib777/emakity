@@ -113,6 +113,13 @@ class ProductController extends Controller
                     $mediaItem->copy($product, 'image');
                 }
             }
+            if (isset($input['web_image']) && $input['web_image'] && is_array($input['web_image'])) {
+                foreach ($input['web_image'] as $fileUuid){
+                    $cacheUpload = $this->uploadRepository->getByUuid($fileUuid);
+                    $mediaItem = $cacheUpload->getMedia('web_image')->first();
+                    $mediaItem->copy($product, 'web_image');
+                }
+            }
         } catch (ValidatorException $e) {
             Flash::error($e->getMessage());
         }
@@ -198,12 +205,18 @@ class ProductController extends Controller
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->productRepository->model());
         try {
             $product = $this->productRepository->update($input, $id);
-
             if (isset($input['image']) && $input['image'] && is_array($input['image'])) {
                 foreach ($input['image'] as $fileUuid){
                     $cacheUpload = $this->uploadRepository->getByUuid($fileUuid);
                     $mediaItem = $cacheUpload->getMedia('image')->first();
                     $mediaItem->copy($product, 'image');
+                }
+            }
+            if (isset($input['web_image']) && $input['web_image'] && is_array($input['web_image'])) {
+                foreach ($input['web_image'] as $fileUuid){
+                    $cacheUpload = $this->uploadRepository->getByUuid($fileUuid);
+                    $mediaItem = $cacheUpload->getMedia('web_image')->first();
+                    $mediaItem->copy($product, 'web_image');
                 }
             }
             foreach (getCustomFieldsValues($customFields, $request) as $value) {

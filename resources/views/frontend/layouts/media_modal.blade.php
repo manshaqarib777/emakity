@@ -19,6 +19,28 @@
 </div> <!-- End Modal Add cart -->
 
 
+
+<!-- Start Modal Add cart -->
+<div class="modal fade" id="modalFavorite" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body medias-items">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col text-right">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"> <i class="fal fa-times"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id='show_data_favorites'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- End Modal Add cart -->
+
+
 <div class="modal fade" id="filterSearch" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog  modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
@@ -188,8 +210,43 @@
                     if (xhr.status == 500) {
 
                         $('#show_data').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    ${xhr.responseJSON.message}
-                                </div>`);
+                                        ${xhr.responseJSON.message}
+                                    </div>`);
+                    }
+                    if (xhr.status == 401) {
+
+                        window.location.href = '{{ route('login') }}';
+                    }
+                }
+            });
+
+        });
+
+
+        $('#modalFavorite').on('show.bs.modal', function(e) {
+
+            var product_id = $(e.relatedTarget).data('product_id');
+            var user_id = $(e.relatedTarget).data('user_id');
+            console.log(product_id);
+            $.ajax({
+                url: '{{ route('favorites.store') }}',
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    product_id: product_id,
+                    user_id: user_id
+                },
+                success: function(response) {
+                    console.log(response);
+                    $('#show_data_favorites').html('');
+                    $('#show_data_favorites').html(response.data);
+                },
+                error: function(xhr) {
+                    if (xhr.status == 500) {
+
+                        $('#show_data_favorites').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            ${xhr.responseJSON.message}
+                        </div>`);
                     }
                     if (xhr.status == 401) {
 
@@ -203,14 +260,12 @@
         $(document).ready(function() {
 
             $('.check-fields').click(function() {
-            if ($(this).is(':checked')) {
-                $('.uncheck-fields').attr('checked', 'checked');
-            }
-            else
-            {
-                $('.uncheck-fields').removeAttr('checked');
+                if ($(this).is(':checked')) {
+                    $('.uncheck-fields').attr('checked', 'checked');
+                } else {
+                    $('.uncheck-fields').removeAttr('checked');
 
-            }
+                }
             });
         })
 

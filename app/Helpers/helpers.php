@@ -65,6 +65,19 @@ function getCommonurl($mediaModel, $mediaCollectionName = '', $optionClass = '',
     }
 }
 
+
+function getDiscountPercent($mediaModel)
+{
+    if($mediaModel->price > 0)
+    {   
+        $disount=(int)(($mediaModel->discount_price/$mediaModel->price)*100);
+        $disount=100-$disount;
+        return $disount;
+
+    }
+    return 100;
+}
+
 /**
  * @param $modelObject
  * @param string $attributeName

@@ -6,12 +6,13 @@ use App\DataTables\FavoriteDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateFavoriteRequest;
 use App\Http\Requests\UpdateFavoriteRequest;
+use App\Models\Favorite;
 use App\Repositories\FavoriteRepository;
 use App\Repositories\CustomFieldRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\OptionRepository;
 use App\Repositories\UserRepository;
-use Flash;
+use Flash,Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
@@ -92,6 +93,24 @@ class FavoriteController extends Controller
     public function store(CreateFavoriteRequest $request)
     {
         $input = $request->all();
+
+
+        $old_fav = Favorite::with('product')->where('user_id',Auth::user()->id);
+        if (!empty($old_fav)) {
+
+            $old_product=$old_fav->where('product_id',$input['product_id'])->first();
+            if($old_product)
+            {
+                if($request->ajax()){
+                    $data = view('frontend.favorites.single',['product'=>$old_product])->render();
+                    return $this->sendResponse($data, __('lang.saved_successfully',['operator' => __('lang.cart')]));                   
+                }
+                Flash::success(__('lang.updated_successfully', ['operator' => __('lang.cart')]));
+                return redirect()->back();  
+            }
+        }
+
+
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->favoriteRepository->model());
         try {
             $favorite = $this->favoriteRepository->create($input);
@@ -101,9 +120,15 @@ class FavoriteController extends Controller
             Flash::error($e->getMessage());
         }
 
+        if($request->ajax()){
+            $data = view('frontend.favorites.single',['product'=>$favorite])->render();
+            return $this->sendResponse($data, __('lang.saved_successfully',['operator' => __('lang.cart')]));
+            
+        }
+
         Flash::success(__('lang.saved_successfully', ['operator' => __('lang.favorite')]));
 
-        return redirect(route('favorites.index'));
+        return redirect()->back();
     }
 
     /**

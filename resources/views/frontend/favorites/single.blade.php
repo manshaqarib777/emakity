@@ -9,7 +9,7 @@
             </div>
             <div class="col-md-8">
                 <div class="link--green link--icon-left"><i
-                        class="fal fa-check-square"></i>Added to cart successfully!</div>
+                        class="fal fa-check-square"></i>Added to favourite successfully!</div>
                 <div class="modal__product-cart-buttons m-tb-15">                    
                     <a href="{{route('favorites.index')}}"
                         class="btn btn--box  btn--tiny btn--green btn--green-hover-black btn--uppercase">View

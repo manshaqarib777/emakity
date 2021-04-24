@@ -75,6 +75,73 @@
         </script>
 @endprepend
 
+
+
+
+
+
+    <!-- Image Field -->
+    <div class="form-group row">
+        {!! Form::label('web_image', trans("lang.product_web_image"), ['class' => 'col-3 control-label text-right']) !!}
+        <div class="col-9">
+            <div style="width: 100%" class="dropzone web_image" id="web_image" data-field="web_image">
+            </div>
+            <a href="#loadMediaModal" data-dropzone="web_image" data-toggle="modal" data-target="#mediaModal" class="btn btn-outline-{{setting('theme_color','primary')}} btn-sm float-right mt-1">{{ trans('lang.media_select')}}</a>
+            <div class="form-text text-muted w-50">
+                {{ trans("lang.product_web_image_help") }}
+            </div>
+        </div>
+    </div>
+    @prepend('scripts')
+        <script type="text/javascript">
+            var var15671147171873255749ble1 = [];
+            @if(isset($product) && $product->hasMedia('web_image'))
+            @forEach($product->getMedia('web_image') as $media)
+            var15671147171873255749ble1.push({
+                name: "{!! $media->name !!}",
+                size: "{!! $media->size !!}",
+                type: "{!! $media->mime_type !!}",
+                uuid: "{!! $media->getCustomProperty('uuid'); !!}",
+                thumb: "{!! $media->getUrl('thumb'); !!}",
+                collection_name: "{!! $media->collection_name !!}"
+            });
+                    @endforeach
+                    @endif
+            var dz_var15671147171873255749ble1 = $(".dropzone.web_image").dropzone({
+                    url: "{!!url('uploads/store')!!}",
+                    addRemoveLinks: true,
+                    maxFiles: 5 - var15671147171873255749ble1.length,
+                    init: function () {
+                        @if(isset($product) && $product->hasMedia('web_image'))
+                        var15671147171873255749ble1.forEach(media => {
+                            dzInit(this, media, media.thumb);
+                        });
+                        @endif
+                    },
+                    accept: function (file, done) {
+                        dzAccept(file, done, this.element, "{!!config('medialibrary.icons_folder')!!}");
+                    },
+                    sending: function (file, xhr, formData) {
+                        dzSendingMultiple_web(this, file, formData, '{!! csrf_token() !!}');
+                    },
+                    complete: function (file) {
+                        dzCompleteMultiple(this, file);
+
+                        dz_var15671147171873255749ble1[0].mockFile = file;
+                    },
+                    removedfile: function (file) {
+                        //this.removeFile(file);
+                        dzRemoveFileMultiple(
+                            file, var15671147171873255749ble1, '{!! url("products/remove-media") !!}',
+                            'web_image', '{!! isset($product) ? $product->id : 0 !!}', '{!! url("uplaods/clear") !!}', '{!! csrf_token() !!}'
+                        );
+                    }
+                });
+            dz_var15671147171873255749ble1[0].mockFile = var15671147171873255749ble1;
+            dropzoneFields['web_image'] = dz_var15671147171873255749ble1;
+        </script>
+@endprepend
+
 <!-- Price Field -->
     <div class="form-group row ">
         {!! Form::label('price', trans("lang.product_price"), ['class' => 'col-3 control-label text-right']) !!}

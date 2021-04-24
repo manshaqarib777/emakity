@@ -462,9 +462,9 @@
                                 <!-- Start Header Wishlist Box -->
                                 @auth
                                     <li>
-                                        <a href="wishlist.html">
+                                        <a href="{{ route('favorites.index') }}">
                                             <i class="icon-heart"></i>
-                                            <span class="item-count pos-absolute">0</span>
+                                            <span class="item-count pos-absolute">{{ $app_favorites }}</span>
                                         </a>
                                     </li> <!-- End Header Wishlist Box -->
                                     <!-- Start Header Add Cart Box -->
@@ -604,9 +604,9 @@
                     <!-- Start Header Wishlist Box -->
                     @auth
                         <li>
-                            <a href="wishlist.html">
+                            <a href="{{ route('favorites.index') }}">
                                 <i class="icon-heart"></i>
-                                <span class="item-count pos-absolute">0</span>
+                                <span class="item-count pos-absolute">{{ $app_favorites }}</span>
                             </a>
                         </li> <!-- End Header Wishlist Box -->
                         <!-- Start Header Add Cart Box -->
@@ -621,7 +621,7 @@
 
                     @guest
                         <li>
-                            <a href="wishlist.html">
+                            <a href="{{ route('favorites.index') }}">
                                 <i class="icon-heart"></i>
                                 <span class="item-count pos-absolute">0</span>
                             </a>

@@ -142,6 +142,11 @@ class MarketController extends Controller
                 $mediaItem = $cacheUpload->getMedia('image')->first();
                 $mediaItem->copy($market, 'image');
             }
+            if (isset($input['web_image']) && $input['web_image']) {
+                $cacheUpload = $this->uploadRepository->getByUuid($input['web_image']);
+                $mediaItem = $cacheUpload->getMedia('web_image')->first();
+                $mediaItem->copy($market, 'web_image');
+            }
             event(new MarketChangedEvent($market, $market));
         } catch (ValidatorException $e) {
             Flash::error($e->getMessage());
@@ -244,6 +249,11 @@ class MarketController extends Controller
                 $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
                 $mediaItem = $cacheUpload->getMedia('image')->first();
                 $mediaItem->copy($market, 'image');
+            }
+            if (isset($input['web_image']) && $input['web_image']) {
+                $cacheUpload = $this->uploadRepository->getByUuid($input['web_image']);
+                $mediaItem = $cacheUpload->getMedia('web_image')->first();
+                $mediaItem->copy($market, 'web_image');
             }
             foreach (getCustomFieldsValues($customFields, $request) as $value) {
                 $market->customFieldsValues()

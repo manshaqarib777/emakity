@@ -71,5 +71,6 @@
 <script type="text/javascript">
     Dropzone.autoDiscover = false;
     var dropzoneFields = [];
+    var dropzoneFields_webimage = [];
 </script>
 @endpush

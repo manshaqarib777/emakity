@@ -3,6 +3,7 @@
 use App\Repositories\UploadRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\CartRepository;
+use App\Repositories\FavoriteRepository;
 use App\Repositories\FieldRepository;
 use App\Repositories\SlideRepository;
 use PragmaRX\Countries\Package\Countries as CountryRepository;
@@ -23,6 +24,7 @@ class App
     protected $uploadRepository;
     protected $categoryRepository;
     protected $cartRepository;
+    protected $favoriteRepository;
     protected $fieldRepository;
     protected $slideRepository;
     protected $currencyRepository;
@@ -48,6 +50,7 @@ class App
             $this->uploadRepository = new UploadRepository(app());
             $this->categoryRepository = new CategoryRepository(app());
             $this->cartRepository = new CartRepository(app());
+            $this->favoriteRepository = new FavoriteRepository(app());
             $this->fieldRepository = new FieldRepository(app());
             $this->currencyRepository = new CurrencyRepository(app());
             $this->slideRepository = new SlideRepository(app());
@@ -90,6 +93,7 @@ class App
             if(auth()->user())
             {
                 view()->share('app_carts',$this->cartRepository->where('user_id',auth()->id())->get()->count());
+                view()->share('app_favorites',$this->favoriteRepository->where('user_id',auth()->id())->get()->count());
             }
         } catch (\Exception $exception) { }
 

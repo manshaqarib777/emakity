@@ -37,6 +37,9 @@ class MarketDataTable extends DataTable
             ->editColumn('image', function ($market) {
                 return getMediaColumn($market, 'image');
             })
+            ->editColumn('web_image', function ($market) {
+                return getMediaColumn($market, 'web_image');
+            })
             ->editColumn('updated_at', function ($market) {
                 return getDateColumn($market, 'updated_at');
             })
@@ -124,6 +127,11 @@ class MarketDataTable extends DataTable
             [
                 'data' => 'image',
                 'title' => trans('lang.market_image'),
+                'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+            ],
+            [
+                'data' => 'web_image',
+                'title' => trans('lang.market_web_image'),
                 'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
             ],
             [

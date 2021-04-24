@@ -31,6 +31,8 @@ class FavoriteDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        if(!in_array('admin',auth()->user()->getRoleNames()->toArray()))
+            $query = $query->where('user_id', auth()->id());
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
