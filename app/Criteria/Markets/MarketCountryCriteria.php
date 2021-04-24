@@ -38,7 +38,7 @@ class MarketCountryCriteria implements CriteriaInterface
 
     public function apply($model, RepositoryInterface $repository)
     {
-        if(!$this->request->has('country_id') && $this->request->get('country_id')=='') {
+        if(!$this->request->has('country_id') || $this->request->get('country_id')=='') {
             return $model;
         } else {
             return $model->where('markets.country_id',$this->request->get('country_id'));
