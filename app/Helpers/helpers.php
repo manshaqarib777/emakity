@@ -52,6 +52,17 @@ function getMediaurl($mediaModel, $mediaCollectionName = '', $optionClass = '', 
     }
 }
 
+function getMediaurl_frontend($mediaModel, $mediaCollectionName = '', $optionClass = '', $mediaThumbnail = 'icon')
+{
+    $optionClass = $optionClass == '' ? ' rounded ' : $optionClass;
+
+    if ($mediaModel->hasMedia($mediaCollectionName)) {
+        return "<img class='" . $optionClass . "' src='" . $mediaModel->getFirstMediaUrl($mediaCollectionName) . "' alt='" . $mediaModel->getFirstMedia($mediaCollectionName)->name . "'>";
+    }else{
+        return "<img class='" . $optionClass . "' src='" . asset('images/image_default.png') . "' alt='image_default'>";
+    }
+}
+
 
 
 function getCommonurl($mediaModel, $mediaCollectionName = '', $optionClass = '', $defaultUrl = '')

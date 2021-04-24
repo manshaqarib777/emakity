@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="modal__product-img">
-                    {!! getMediaurl($product->product, 'web_image', 'product__img img-fluid') !!}                                                
+                    {!! getMediaurl_frontend($product->product, 'web_image', 'product__img img-fluid') !!}                                                
 
                 </div>
             </div>

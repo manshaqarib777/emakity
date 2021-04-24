@@ -115,7 +115,7 @@
                                     <!-- Start Product Image -->
                                     <div class="product__img-box product__img-box--catagory">
                                         <a href="{{ route('market', $category->id) }}" class="product__img--link">
-                                            {!! getMediaurl($category, 'image', 'product__img img-fluid') !!}
+                                            {!! getMediaurl_frontend($category, 'image', 'product__img img-fluid') !!}
                                         </a>
                                     </div> <!-- End Product Image -->
                                 </div> <!-- End Single Default Product -->
@@ -157,7 +157,7 @@
                                         <!-- Start Product Image -->
                                         <div class="product__img-box  pos-relative">
                                             <a href="{{ route('market', $market->id) }}" class="product__img--link">
-                                                {!! getMediaurl($market, 'web_image', 'product__img img-fluid') !!}
+                                                {!! getMediaurl_frontend($market, 'web_image', 'product__img img-fluid') !!}
                                             </a>
                                         </div> <!-- End Product Image -->
                                         <!-- Start Product Content -->
@@ -253,7 +253,7 @@
                                                     <div class="product__img-box  pos-relative">
                                                         <a href="{{ route('market', $market->id) }}"
                                                             class="product__img--link">
-                                                            {!! getMediaurl($market, 'web_image', 'product__img img-fluid') !!}
+                                                            {!! getMediaurl_frontend($market, 'web_image', 'product__img img-fluid') !!}
                                                         </a>
                                                     </div> <!-- End Product Image -->
                                                     <!-- Start Product Content -->

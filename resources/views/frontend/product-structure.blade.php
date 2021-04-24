@@ -3,7 +3,7 @@
     <!-- Start Product Image -->
     <div class="product__img-box  pos-relative">
         <a href="{{ route('product', $product->id) }}" class="product__img--link">
-            {!! getMediaurl($product, 'web_image', 'product__img img-fluid') !!}
+            {!! getMediaurl_frontend($product, 'web_image', 'product__img img-fluid') !!}
         </a>
         <span class="product__label product__label--sale-dis">{{getDiscountPercent($product)}}%</span>
 
