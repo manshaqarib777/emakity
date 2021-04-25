@@ -57,7 +57,7 @@ function getMediaurl_frontend($mediaModel, $mediaCollectionName = '', $optionCla
     $optionClass = $optionClass == '' ? ' rounded ' : $optionClass;
 
     if ($mediaModel->hasMedia($mediaCollectionName)) {
-        return "<img class='" . $optionClass . "' src='" . $mediaModel->getFirstMediaUrl($mediaCollectionName) . "' alt='" . $mediaModel->getFirstMedia($mediaCollectionName)->name . "' style='width:".$width."px;max-height:".$hight."px'>";
+        return "<img class='" . $optionClass . "' src='" . $mediaModel->getFirstMediaUrl($mediaCollectionName) . "' alt='" . $mediaModel->getFirstMedia($mediaCollectionName)->name . "' style='width:".$width."px;height:".$hight."px'>";
     }else{
         return "<img class='" . $optionClass . "' src='" . $default_url . "' alt='image_default'>";
     }

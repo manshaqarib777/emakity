@@ -314,7 +314,7 @@
         <!-- ::::::  Start Testimonial Section  ::::::  -->
         <div class="testimonial m-t-100 pos-relative">
             <div class="testimonial__bg">
-                <img src="{{ $app_banner1 }}" alt="">
+                <img src="{{ $app_banner1 }}" alt="" style="width:1920;height:600;">
             </div>
             <div class="testimonial__content pos-absolute absolute-center text-center">
                 <div class="container">
@@ -503,7 +503,7 @@
         <!-- ::::::  Start Newsletter Section  ::::::  -->
         <div class="newsletter m-t-100 pos-relative">
             <div class="newsletter__bg">
-                <img src="{{ $app_banner2 }}" alt="">
+                <img src="{{ $app_banner2 }}" alt="" style="width:1920;height:380;">
             </div>
             <div class="newsletter__content pos-absolute absolute-center text-center">
                 <div class="container">
