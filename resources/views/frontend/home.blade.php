@@ -15,7 +15,7 @@
             <!-- Start Single Hero Slide -->
             @foreach ($app_slides->limit(3)->get() as $slide)
                 <div class="hero-slider">
-                    {!! getMediaurl_frontend($slide, 'image', '', asset('frontend/assets/img/hero/hero-home-1-img-2.jpg')) !!}
+                    {!! getMediaurl_frontend($slide, 'image', '', asset('frontend/assets/img/hero/hero-home-1-img-1.jpg'),1920,845) !!}
                     <div class="hero__content">
                         <div class="container">
                             <div class="row">
@@ -62,7 +62,7 @@
                                 <!-- Start Single Banner Item -->
                                 <div class="banner__box--single banner__box--single-text-style-1 pos-relative">
                                     <a href="{{ $url }}" class="banner__link">
-                                        {!! getMediaurl_frontend($slide, 'image', '', asset('frontend/assets/img/banner/size-wide/banner-home-1-img-1-wide.jpg')) !!}
+                                        {!! getMediaurl_frontend($slide, 'image', '', asset('frontend/assets/img/banner/size-wide/banner-home-1-img-1-wide.jpg'),925,400) !!}
 
                                     </a>
                                     <div class="banner__content banner__content--center pos-absolute">
@@ -93,7 +93,7 @@
                         <!-- Start Section Title -->
                         <div class="section-content section-content--border m-b-35">
                             <h5 class="section-content__title">Top categories</h5>
-                            <a href="{{ asset('/') }}frontend/shop-sidebar-grid-left.html"
+                            <a href="{{ asset('/') }}"
                                 class="btn btn--icon-left btn--small btn--radius btn--transparent btn--border-green btn--border-green-hover-green font--regular text-capitalize">More
                                 categories <i class="fal fa-angle-right"></i></a>
                         </div> <!-- End Section Title -->
@@ -115,7 +115,7 @@
                                     <!-- Start Product Image -->
                                     <div class="product__img-box product__img-box--catagory">
                                         <a href="{{ route('market', $category->id) }}" class="product__img--link">
-                                            {!! getMediaurl_frontend($category, 'image', 'product__img img-fluid') !!}
+                                            {!! getMediaurl_frontend($category, 'image', 'product__img img-fluid',asset('frontend/assets/img/product/category/category-home-1-img-1.jpg'),140,120) !!}
                                         </a>
                                     </div> <!-- End Product Image -->
                                 </div> <!-- End Single Default Product -->
@@ -157,7 +157,7 @@
                                         <!-- Start Product Image -->
                                         <div class="product__img-box  pos-relative">
                                             <a href="{{ route('market', $market->id) }}" class="product__img--link">
-                                                {!! getMediaurl_frontend($market, 'web_image', 'product__img img-fluid') !!}
+                                                {!! getMediaurl_frontend($market, 'web_image', 'product__img img-fluid',asset('frontend/assets/img/product/size-normal/product-home-1-img-1.jpg'),480,480) !!}
                                             </a>
                                         </div> <!-- End Product Image -->
                                         <!-- Start Product Content -->
@@ -253,7 +253,7 @@
                                                     <div class="product__img-box  pos-relative">
                                                         <a href="{{ route('market', $market->id) }}"
                                                             class="product__img--link">
-                                                            {!! getMediaurl_frontend($market, 'web_image', 'product__img img-fluid') !!}
+                                                            {!! getMediaurl_frontend($market, 'web_image', 'product__img img-fluid',asset('frontend/assets/img/product/size-normal/product-home-1-img-1.jpg'),480,480) !!}
                                                         </a>
                                                     </div> <!-- End Product Image -->
                                                     <!-- Start Product Content -->
@@ -280,7 +280,7 @@
         as $slide)
             <div class="banner m-t-100 pos-relative">
                 <div class="banner__bg">
-                    {!! getMediaurl_frontend($slide, 'image', '', asset('frontend/assets/img/banner/size-extra-large-wide/banner-home-1-img-1-extra-large-wide.jpg')) !!}
+                    {!! getMediaurl_frontend($slide, 'image', '', asset('frontend/assets/img/banner/size-extra-large-wide/banner-home-1-img-1-extra-large-wide.jpg'),1920,500) !!}
 
                 </div>
                 <div class="banner__box banner__box--single-text-style-2">
@@ -329,7 +329,7 @@
                                         <div class="testimonial__single">
                                             <p class="testimonial__desc">{!! $testimonial->description !!}</p>
                                             <div class="testimonial__info">
-                                                {!! getMediaurl_frontend($testimonial, 'image', 'testimonial__info--user', asset('frontend/assets/img/testimonial/testimonial-home-1-img-1.png')) !!}
+                                                {!! getMediaurl_frontend($testimonial, 'image', 'testimonial__info--user', asset('frontend/assets/img/testimonial/testimonial-home-1-img-1.png'),100,100) !!}
                                                 <h5 class="testimonial__info--desig m-t-20">{!! $testimonial->name !!} </h5>
                                             </div>
                                         </div>

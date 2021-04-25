@@ -50,14 +50,14 @@
                         <div
                             class="product-gallery-box product-gallery-box--tab d-flex align-items-center flex-row-reverse m-b-60">
                             <div class="product-image--large product-image--large-vertical float-80-per m-l-20">
-                                {!! getMediaurl_frontend($product, 'image', 'product__img img-fluid') !!}
+                                {!! getMediaurl_frontend($product, 'image', 'product__img img-fluid',asset('frontend/assets/img/product/gallery/gallery-large/product-gallery-large-1.jpg'),700,700) !!}
                             </div>
                             <div id="gallery-zoom"
                                 class="product-image--thumb product-image--thumb-vertical pos-relative float-20-per">
                                 <a class="zoom-active"
                                     data-image="assets/img/product/gallery/gallery-large/product-gallery-large-1.jpg"
                                     data-zoom-image="assets/img/product/gallery/gallery-large/product-gallery-large-1.jpg">
-                                    {!! getMediaurl_frontend($product, 'image', 'product__img img-fluid') !!}
+                                    {!! getMediaurl_frontend($product, 'image', 'product__img img-fluid',asset('frontend/assets/img/product/gallery/gallery-large/product-gallery-large-1.jpg'),700,700) !!}
 
                                 </a>
                             </div>
@@ -168,7 +168,7 @@
                                                 <li class="comment__list">
                                                     <div class="comment__wrapper">
                                                         <div class="comment__img">
-                                                            {!! getMediaurl_frontend($review['user'], 'image', '') !!}
+                                                            {!! getMediaurl_frontend($review['user'], 'image', '',asset('frontend/assets/img/user/image-1.png'),78,78) !!}
 
                                                         </div>
                                                         <div class="comment__content">

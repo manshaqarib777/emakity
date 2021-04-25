@@ -52,14 +52,14 @@ function getMediaurl($mediaModel, $mediaCollectionName = '', $optionClass = '', 
     }
 }
 
-function getMediaurl_frontend($mediaModel, $mediaCollectionName = '', $optionClass = '', $mediaThumbnail = 'icon')
+function getMediaurl_frontend($mediaModel, $mediaCollectionName = '', $optionClass = '', $default_url = '',$width=100,$hight=100)
 {
     $optionClass = $optionClass == '' ? ' rounded ' : $optionClass;
 
     if ($mediaModel->hasMedia($mediaCollectionName)) {
-        return "<img class='" . $optionClass . "' src='" . $mediaModel->getFirstMediaUrl($mediaCollectionName) . "' alt='" . $mediaModel->getFirstMedia($mediaCollectionName)->name . "'>";
+        return "<img class='" . $optionClass . "' src='" . $mediaModel->getFirstMediaUrl($mediaCollectionName) . "' alt='" . $mediaModel->getFirstMedia($mediaCollectionName)->name . "' style='width:".$width."px;hight:".$hight."px'>";
     }else{
-        return "<img class='" . $optionClass . "' src='" . asset('images/image_default.png') . "' alt='image_default'>";
+        return "<img class='" . $optionClass . "' src='" . $default_url . "' alt='image_default'>";
     }
 }
 

@@ -38,7 +38,7 @@
                                         <div class="product__img-box  pos-relative">
                                             <a href="{{route('product',$market->id)}}"
                                                 class="product__img--link">
-                                                {!! getMediaurl_frontend($market, 'web_image', 'product__img img-fluid') !!}                                                
+                                                {!! getMediaurl_frontend($market, 'web_image', 'product__img img-fluid',asset('frontend/assets/img/product/size-normal/product-home-1-img-1.jpg'),480,480) !!}                                                
                                             </a>
                                         
                                         </div> <!-- End Product Image -->

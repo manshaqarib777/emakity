@@ -15,7 +15,7 @@
             <tr>
                 <td class="product-thumbnail">
                     <a href="#">
-                        {!! getMediaurl_frontend($product['product'], 'web_image', 'product__img img-fluid') !!}
+                        {!! getMediaurl_frontend($product['product'], 'web_image', 'product__img img-fluid',asset('frontend/assets/img/product/size-small/product-home-1-img-2.jpg'),140,120) !!}
                     </a>
                 </td>
                 <td class="product-name"><a href="#">{{$product['product']['name']}}</a></td>
