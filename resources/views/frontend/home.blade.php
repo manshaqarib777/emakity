@@ -15,7 +15,7 @@
             <!-- Start Single Hero Slide -->
             @foreach ($app_slides->limit(3)->get() as $slide)
                 <div class="hero-slider">
-                    {!! getCommonurl($slide, 'image', '', asset('frontend/assets/img/hero/hero-home-1-img-2.jpg')) !!}
+                    {!! getMediaurl_frontend($slide, 'image', '', asset('frontend/assets/img/hero/hero-home-1-img-2.jpg')) !!}
                     <div class="hero__content">
                         <div class="container">
                             <div class="row">
@@ -62,7 +62,7 @@
                                 <!-- Start Single Banner Item -->
                                 <div class="banner__box--single banner__box--single-text-style-1 pos-relative">
                                     <a href="{{ $url }}" class="banner__link">
-                                        {!! getCommonurl($slide, 'image', '', asset('frontend/assets/img/banner/size-wide/banner-home-1-img-1-wide.jpg')) !!}
+                                        {!! getMediaurl_frontend($slide, 'image', '', asset('frontend/assets/img/banner/size-wide/banner-home-1-img-1-wide.jpg')) !!}
 
                                     </a>
                                     <div class="banner__content banner__content--center pos-absolute">
@@ -280,7 +280,7 @@
         as $slide)
             <div class="banner m-t-100 pos-relative">
                 <div class="banner__bg">
-                    {!! getCommonurl($slide, 'image', '', asset('frontend/assets/img/banner/size-extra-large-wide/banner-home-1-img-1-extra-large-wide.jpg')) !!}
+                    {!! getMediaurl_frontend($slide, 'image', '', asset('frontend/assets/img/banner/size-extra-large-wide/banner-home-1-img-1-extra-large-wide.jpg')) !!}
 
                 </div>
                 <div class="banner__box banner__box--single-text-style-2">
@@ -329,7 +329,7 @@
                                         <div class="testimonial__single">
                                             <p class="testimonial__desc">{!! $testimonial->description !!}</p>
                                             <div class="testimonial__info">
-                                                {!! getCommonurl($testimonial, 'image', 'testimonial__info--user', asset('frontend/assets/img/testimonial/testimonial-home-1-img-1.png')) !!}
+                                                {!! getMediaurl_frontend($testimonial, 'image', 'testimonial__info--user', asset('frontend/assets/img/testimonial/testimonial-home-1-img-1.png')) !!}
                                                 <h5 class="testimonial__info--desig m-t-20">{!! $testimonial->name !!} </h5>
                                             </div>
                                         </div>
