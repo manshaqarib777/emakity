@@ -44,11 +44,18 @@ class ProductReviewDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        if(!in_array('admin',auth()->user()->getRoleNames()->toArray()))
-            $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('client'))
+        $query = $query->where('user_id', auth()->id());
+    if (auth()->user()->hasRole('branch'))
+        $query = $query->whereHas('product.market.country', function($q){
+            return $q->where('countries.id',get_role_country_id('branch'));
+        });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
+        ->editColumn('country', function ($cart) {
+            return $cart['product']['market']['country']['name'];
+        })
             ->editColumn('updated_at', function ($product_review) {
                 return getDateColumn($product_review, 'updated_at');
             })
@@ -105,6 +112,11 @@ class ProductReviewDataTable extends DataTable
             [
                 'data' => 'review',
                 'title' => trans('lang.product_review_review'),
+
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

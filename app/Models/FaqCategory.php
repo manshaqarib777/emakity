@@ -20,7 +20,8 @@ class FaqCategory extends Model
 
 
     public $fillable = [
-        'name'
+        'name',
+        'country_id'
     ];
 
     /**
@@ -77,5 +78,8 @@ class FaqCategory extends Model
     {
         return $this->hasMany(\App\Models\Faq::class, 'faq_category_id');
     }
-    
+    public function country()
+    {
+        return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
+    }
 }

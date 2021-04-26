@@ -30,8 +30,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Prettus\Validator\Exceptions\ValidatorException;
-use App\Repositories\CurrencyRepository;
-use PragmaRX\Countries\Package\Countries as CountryRepository;
+use App\Repositories\CountryRepository;
 
 
 class MarketController extends Controller
@@ -57,12 +56,11 @@ class MarketController extends Controller
      */
     private $fieldRepository;
 
-    private $currencyRepository;
 
 
     private $countryRepository;
 
-    public function __construct(MarketRepository $marketRepo, CustomFieldRepository $customFieldRepo, UploadRepository $uploadRepo, UserRepository $userRepo, FieldRepository $fieldRepository,CurrencyRepository $currencyRepository,CountryRepository $countryRepository)
+    public function __construct(MarketRepository $marketRepo, CustomFieldRepository $customFieldRepo, UploadRepository $uploadRepo, UserRepository $userRepo, FieldRepository $fieldRepository,CountryRepository $countryRepository)
     {
         parent::__construct();
         $this->marketRepository = $marketRepo;
@@ -70,7 +68,6 @@ class MarketController extends Controller
         $this->uploadRepository = $uploadRepo;
         $this->userRepository = $userRepo;
         $this->fieldRepository = $fieldRepository;
-        $this->currencyRepository = $currencyRepository;
         $this->countryRepository = $countryRepository;
     }
 
@@ -115,9 +112,8 @@ class MarketController extends Controller
             $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->marketRepository->model());
             $html = generateCustomField($customFields);
         }
-        $currencies = $this->currencyRepository->all()->pluck('name_symbol', 'id');
-        $countries = $this->countryRepository->all()->pluck('name.common','postal');
-        return view('markets.create')->with("customFields", isset($html) ? $html : false)->with("user", $user)->with("drivers", $drivers)->with("usersSelected", $usersSelected)->with("driversSelected", $driversSelected)->with('field', $field)->with('fieldsSelected', $fieldsSelected)->with('currencies',$currencies)->with('countries',$countries);
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        return view('markets.create')->with("customFields", isset($html) ? $html : false)->with("user", $user)->with("drivers", $drivers)->with("usersSelected", $usersSelected)->with("driversSelected", $driversSelected)->with('field', $field)->with('fieldsSelected', $fieldsSelected)->with('countries',$countries);
     }
 
     /**
@@ -217,9 +213,8 @@ class MarketController extends Controller
             $html = generateCustomField($customFields, $customFieldsValues);
         }
         
-        $currencies = $this->currencyRepository->all()->pluck('name_symbol', 'id');
-        $countries = $this->countryRepository->all()->pluck('name.common','postal');
-        return view('markets.edit')->with('market', $market)->with("customFields", isset($html) ? $html : false)->with("user", $user)->with("drivers", $drivers)->with("usersSelected", $usersSelected)->with("driversSelected", $driversSelected)->with('field', $field)->with('fieldsSelected', $fieldsSelected)->with('currencies',$currencies)->with('countries',$countries);
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        return view('markets.edit')->with('market', $market)->with("customFields", isset($html) ? $html : false)->with("user", $user)->with("drivers", $drivers)->with("usersSelected", $usersSelected)->with("driversSelected", $driversSelected)->with('field', $field)->with('fieldsSelected', $fieldsSelected)->with('countries',$countries);
     }
 
     /**

@@ -21,10 +21,7 @@ class CountryRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'name',
-        'symbol',
         'code',
-        'decimal_digits',
-        'rounding'
     ];
 
     /**

@@ -130,7 +130,7 @@
                                                 <span
                                                 class="your-order-middle-right font--semi-bold">{{ $productOrder['quantity'] }}</span>
                                                 <span
-                                                class="your-order-middle-right font--semi-bold">{{ $product->product->market->currency->symbol }}
+                                                class="your-order-middle-right font--semi-bold">{{ $product->product->market->country->currency->symbol }}
                                                 {{ getPriceValue($productOrder['product'], 'discount_price') * $productOrder['quantity'] }}</span>
                                         </li>
                                     @endforeach
@@ -153,7 +153,7 @@
                                 <div class="your-order-bottom d-flex justify-content-between">
                                     <h6 class="your-order-bottom-left font--bold">Shipping</h6>
                                     <span
-                                        class="your-order-bottom-right font--semi-bold">{{ $product->product->market->currency->symbol }}
+                                        class="your-order-bottom-right font--semi-bold">{{ $product->product->market->country->currency->symbol }}
                                         {{ $product->product->market->delivery_fee }}</span>
                                 </div>
                                 <div class="your-order-bottom d-flex justify-content-between">
@@ -165,7 +165,7 @@
                                 <div class="your-order-total d-flex justify-content-between">
                                     <h5 class="your-order-total-left font--bold">Total</h5>
                                     <h5 class="your-order-total-right font--bold">
-                                        {{ $product->product->market->currency->symbol }} {{ $amountWithTax }}</h5>
+                                        {{ $product->product->market->country->currency->symbol }} {{ $amountWithTax }}</h5>
                                 </div>
 
 

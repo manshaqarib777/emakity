@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Prettus\Validator\Exceptions\ValidatorException;
+use App\Repositories\CountryRepository;
 
 class CategoryController extends Controller
 {
@@ -24,18 +25,20 @@ class CategoryController extends Controller
      * @var CustomFieldRepository
      */
     private $customFieldRepository;
+    private $countryRepository;
 
     /**
   * @var UploadRepository
   */
 private $uploadRepository;
 
-    public function __construct(CategoryRepository $categoryRepo, CustomFieldRepository $customFieldRepo , UploadRepository $uploadRepo)
+    public function __construct(CategoryRepository $categoryRepo, CustomFieldRepository $customFieldRepo , UploadRepository $uploadRepo,CountryRepository $countryRepository)
     {
         parent::__construct();
         $this->categoryRepository = $categoryRepo;
         $this->customFieldRepository = $customFieldRepo;
         $this->uploadRepository = $uploadRepo;
+        $this->countryRepository = $countryRepository;
     }
 
     /**
@@ -63,7 +66,9 @@ private $uploadRepository;
                 $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->categoryRepository->model());
                 $html = generateCustomField($customFields);
             }
-        return view('categories.create')->with("customFields", isset($html) ? $html : false);
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        
+        return view('categories.create')->with("customFields", isset($html) ? $html : false)->with('countries',$countries);
     }
 
     /**
@@ -138,8 +143,9 @@ private $uploadRepository;
         if($hasCustomField) {
             $html = generateCustomField($customFields, $customFieldsValues);
         }
+        $countries = $this->countryRepository->all()->pluck('name','id');
 
-        return view('categories.edit')->with('category', $category)->with("customFields", isset($html) ? $html : false);
+        return view('categories.edit')->with('category', $category)->with("customFields", isset($html) ? $html : false)->with('countries',$countries);
     }
 
     /**

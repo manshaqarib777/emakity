@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Prettus\Validator\Exceptions\ValidatorException;
+use App\Repositories\CountryRepository;
 
 class TestimonialController extends Controller
 {
@@ -25,6 +26,7 @@ class TestimonialController extends Controller
      * @var CustomFieldRepository
      */
     private $customFieldRepository;
+    private $countryRepository;
 
     /**
   * @var UploadRepository
@@ -35,13 +37,15 @@ private $uploadRepository;/**
 private $marketRepository;
 
     public function __construct(TestimonialRepository $testimonialRepo, CustomFieldRepository $customFieldRepo , UploadRepository $uploadRepo
-                , MarketRepository $marketRepo)
+                , MarketRepository $marketRepo,CountryRepository $countryRepository)
     {
         parent::__construct();
         $this->testimonialRepository = $testimonialRepo;
         $this->customFieldRepository = $customFieldRepo;
         $this->uploadRepository = $uploadRepo;
-                $this->marketRepository = $marketRepo;
+        $this->marketRepository = $marketRepo;
+        $this->countryRepository = $countryRepository;
+
     }
 
     /**
@@ -69,7 +73,9 @@ private $marketRepository;
                 $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->testimonialRepository->model());
                 $html = generateCustomField($customFields);
             }
-        return view('testimonials.create')->with("customFields", isset($html) ? $html : false)->with("market",$market)->with("marketsSelected",$marketsSelected);
+        $countries = $this->countryRepository->all()->pluck('name','id');
+
+        return view('testimonials.create')->with("customFields", isset($html) ? $html : false)->with("market",$market)->with("marketsSelected",$marketsSelected)->with('countries',$countries);
     }
 
     /**
@@ -143,8 +149,9 @@ private $marketRepository;
         if($hasCustomField) {
             $html = generateCustomField($customFields, $customFieldsValues);
         }
+        $countries = $this->countryRepository->all()->pluck('name','id');
 
-        return view('testimonials.edit')->with('testimonial', $testimonial)->with("customFields", isset($html) ? $html : false);
+        return view('testimonials.edit')->with('testimonial', $testimonial)->with("customFields", isset($html) ? $html : false)->with('countries',$countries);
     }
 
     /**

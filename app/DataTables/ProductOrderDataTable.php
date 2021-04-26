@@ -25,9 +25,18 @@ class ProductOrderDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        if (auth()->user()->hasRole('client'))
+            $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('branch'))
+            $query = $query->whereHas('product.market.country', function($q){
+                return $q->where('countries.id',get_role_country_id('branch'));
+            });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
+        ->editColumn('country', function ($cart) {
+            return $cart['product']['market']['country']['name'];
+        })
             ->editColumn('updated_at', function ($product_order) {
                 return getDateColumn($product_order, 'updated_at');
             })
@@ -92,6 +101,11 @@ class ProductOrderDataTable extends DataTable
                 'title' => trans('lang.product_order_product_id'),
                 'orderable' => false,
                 'searchable' => false,
+
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

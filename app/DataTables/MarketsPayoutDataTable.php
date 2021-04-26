@@ -24,9 +24,18 @@ class MarketsPayoutDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        if (auth()->user()->hasRole('client'))
+        $query = $query->where('user_id', auth()->id());
+    if (auth()->user()->hasRole('branch'))
+        $query = $query->whereHas('market.country', function($q){
+            return $q->where('countries.id',get_role_country_id('branch'));
+        });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
+            ->editColumn('country', function ($product) {
+                return $product['market']['country']['name'];
+            })
             ->editColumn('updated_at', function ($markets_payout) {
                 return getDateColumn($markets_payout, 'updated_at');
             })
@@ -50,6 +59,11 @@ class MarketsPayoutDataTable extends DataTable
             [
                 'data' => 'market.name',
                 'title' => trans('lang.markets_payout_market_id'),
+
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

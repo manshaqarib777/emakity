@@ -31,6 +31,10 @@ class MarketDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        if (auth()->user()->hasRole('client'))
+        $query = $query->where('user_id', auth()->id());
+    if (auth()->user()->hasRole('branch'))
+        $query = $query->where('country_id', get_role_country_id('branch'));
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
@@ -43,17 +47,17 @@ class MarketDataTable extends DataTable
             ->editColumn('updated_at', function ($market) {
                 return getDateColumn($market, 'updated_at');
             })
-            ->editColumn('closed', function ($product) {
-                return getNotBooleanColumn($product, 'closed');
+            ->editColumn('closed', function ($market) {
+                return getNotBooleanColumn($market, 'closed');
             })
-            ->editColumn('available_for_delivery', function ($product) {
-                return getBooleanColumn($product, 'available_for_delivery');
+            ->editColumn('available_for_delivery', function ($market) {
+                return getBooleanColumn($market, 'available_for_delivery');
             })
             ->editColumn('active', function ($market) {
                 return getBooleanColumn($market, 'active');
             })
-            ->editColumn('currency', function ($product) {
-                return $product['currency']['name'];
+            ->editColumn('country', function ($market) {
+                return $market['country']['name'];
             })
             ->addColumn('action', 'markets.datatables_actions')
             ->rawColumns(array_merge($columns, ['action']));
@@ -135,8 +139,8 @@ class MarketDataTable extends DataTable
                 'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
             ],
             [
-                'data' => 'currency',
-                'title' => trans('lang.currency'),
+                'data' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

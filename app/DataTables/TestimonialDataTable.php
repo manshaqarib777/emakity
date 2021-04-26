@@ -31,9 +31,16 @@ class TestimonialDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        if (auth()->user()->hasRole('client'))
+            $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('branch'))
+            $query = $query->where('country_id', get_role_country_id('branch'));
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
+            ->editColumn('country', function ($testimonial) {
+                return $testimonial['country']['name'];
+            })
             ->editColumn('image', function ($testimonial) {
                 return getMediaColumn($testimonial, 'image');
             })
@@ -57,6 +64,11 @@ class TestimonialDataTable extends DataTable
             [
                 'data' => 'name',
                 'title' => trans('lang.testimonial_name'),
+
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

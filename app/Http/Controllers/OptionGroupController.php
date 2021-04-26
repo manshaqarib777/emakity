@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Prettus\Validator\Exceptions\ValidatorException;
+use App\Repositories\CountryRepository;
 
 class OptionGroupController extends Controller
 {
@@ -25,13 +26,15 @@ class OptionGroupController extends Controller
      */
     private $customFieldRepository;
 
+    private $countryRepository;
     
 
-    public function __construct(OptionGroupRepository $optionGroupRepo, CustomFieldRepository $customFieldRepo )
+    public function __construct(OptionGroupRepository $optionGroupRepo, CustomFieldRepository $customFieldRepo ,CountryRepository $countryRepository)
     {
         parent::__construct();
         $this->optionGroupRepository = $optionGroupRepo;
         $this->customFieldRepository = $customFieldRepo;
+        $this->countryRepository = $countryRepository;
         
     }
 
@@ -60,7 +63,8 @@ class OptionGroupController extends Controller
                 $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->optionGroupRepository->model());
                 $html = generateCustomField($customFields);
             }
-        return view('option_groups.create')->with("customFields", isset($html) ? $html : false);
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        return view('option_groups.create')->with("customFields", isset($html) ? $html : false)->with('countries',$countries);
     }
 
     /**
@@ -132,7 +136,8 @@ class OptionGroupController extends Controller
             $html = generateCustomField($customFields, $customFieldsValues);
         }
 
-        return view('option_groups.edit')->with('optionGroup', $optionGroup)->with("customFields", isset($html) ? $html : false);
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        return view('option_groups.edit')->with('optionGroup', $optionGroup)->with("customFields", isset($html) ? $html : false)->with('countries',$countries);
     }
 
     /**

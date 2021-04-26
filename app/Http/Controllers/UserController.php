@@ -17,6 +17,7 @@ use App\Repositories\CustomFieldRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\UploadRepository;
 use App\Repositories\UserRepository;
+use App\Repositories\CountryRepository;
 use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -32,6 +33,7 @@ class UserController extends Controller
      * @var RoleRepository
      */
     private $roleRepository;
+    private $countryRepository;
 
     private $uploadRepository;
 
@@ -41,10 +43,11 @@ class UserController extends Controller
     private $customFieldRepository;
 
     public function __construct(UserRepository $userRepo, RoleRepository $roleRepo, UploadRepository $uploadRepo,
-                                CustomFieldRepository $customFieldRepo)
+                                CustomFieldRepository $customFieldRepo,CountryRepository $countryRepo)
     {
         parent::__construct();
         $this->userRepository = $userRepo;
+        $this->countryRepository = $countryRepo;
         $this->roleRepository = $roleRepo;
         $this->uploadRepository = $uploadRepo;
         $this->customFieldRepository = $customFieldRepo;
@@ -81,7 +84,8 @@ class UserController extends Controller
             $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->userRepository->model());
             $customFields = generateCustomField($customFields, $customFieldsValues);
         }
-        return view('settings.users.profile', compact(['user', 'role', 'rolesSelected', 'customFields', 'customFieldsValues']));
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        return view('settings.users.profile', compact(['user', 'role', 'rolesSelected', 'customFields', 'customFieldsValues']))->with('countries',$countries);
     }
 
     /**
@@ -100,10 +104,12 @@ class UserController extends Controller
             $html = generateCustomField($customFields);
         }
 
+        $countries = $this->countryRepository->all()->pluck('name','id');
         return view('settings.users.create')
             ->with("role", $role)
             ->with("customFields", isset($html) ? $html : false)
-            ->with("rolesSelected", $rolesSelected);
+            ->with("rolesSelected", $rolesSelected)
+            ->with('countries',$countries);
     }
 
     /**
@@ -211,10 +217,12 @@ class UserController extends Controller
 
             return redirect(route('users.index'));
         }
+        $countries = $this->countryRepository->all()->pluck('name','id');
         return view('settings.users.edit')
             ->with('user', $user)->with("role", $role)
             ->with("rolesSelected", $rolesSelected)
-            ->with("customFields", $html);
+            ->with("customFields", $html)
+            ->with('countries',$countries);
     }
 
     /**

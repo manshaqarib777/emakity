@@ -10,15 +10,18 @@ use App\Repositories\RoleRepository;
 use Flash;
 use App\Http\Controllers\Controller;
 use Response;
+use App\Repositories\CountryRepository;
 
 class RoleController extends Controller
 {
     /** @var  RoleRepository */
     private $roleRepository;
+    private $countryRepository;
 
-    public function __construct(RoleRepository $roleRepo)
+    public function __construct(RoleRepository $roleRepo,CountryRepository $countryRepository)
     {
         parent::__construct();
+        $this->countryRepository = $countryRepository;
         $this->roleRepository = $roleRepo;
     }
 
@@ -40,7 +43,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('settings.roles.create');
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        return view('settings.roles.create')->with('countries',$countries);
     }
 
     /**
@@ -101,8 +105,8 @@ class RoleController extends Controller
 
             return redirect(route('roles.index'));
         }
-
-        return view('settings.roles.edit')->with('role', $role);
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        return view('settings.roles.edit')->with('role', $role)->with('countries',$countries);
     }
 
     /**

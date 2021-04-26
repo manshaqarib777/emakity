@@ -29,7 +29,6 @@ $factory->define(Market::class, function (Faker $faker) {
     'default_tax' => $faker->randomFloat(2,5,30), //added
     'closed' => $faker->boolean,
     'active' => 1,
-    'currency_id' => 1,
     'country_id' => 1,
     'currency_right' => 0,
     'available_for_delivery' => $faker->boolean,

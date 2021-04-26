@@ -73,12 +73,27 @@ class PaymentAPIController extends Controller
     {
         $payments = [];
         if (!empty($this->paymentRepository)) {
-            $payments = $this->paymentRepository->orderBy("created_at",'asc')->all()->map(function ($row) {
-                $row['month'] = $row['created_at']->format('M');
-                return $row;
-            })->groupBy('month')->map(function ($row) {
-                return $row->sum('price');
-            });
+            if (auth()->user()->hasRole('branch'))
+            {
+                $payments = $this->paymentRepository->whereHas('user.country', function($q){
+                    return $q->where('countries.id',get_role_country_id('branch'));
+                })->orderBy("created_at",'asc')->all()->map(function ($row) {
+                    $row['month'] = $row['created_at']->format('M');
+                    return $row;
+                })->groupBy('month')->map(function ($row) {
+                    return $row->sum('price');
+                });
+            }
+            else
+            {
+                $payments = $this->paymentRepository->orderBy("created_at",'asc')->all()->map(function ($row) {
+                    $row['month'] = $row['created_at']->format('M');
+                    return $row;
+                })->groupBy('month')->map(function ($row) {
+                    return $row->sum('price');
+                });
+
+            }
         }
         return $this->sendResponse([array_values($payments->toArray()),array_keys($payments->toArray())], 'Payment retrieved successfully');
     }

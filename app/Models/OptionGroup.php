@@ -19,7 +19,8 @@ class OptionGroup extends Model
 
 
     public $fillable = [
-        'name'
+        'name',
+        'country_id'
     ];
 
     /**
@@ -68,7 +69,10 @@ class OptionGroup extends Model
 
         return convertToAssoc($array,'name');
     }
-
+    public function country()
+    {
+        return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
+    }
     
     
 }

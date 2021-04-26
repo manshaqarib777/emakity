@@ -42,7 +42,10 @@ Route::get('payments/paypal/express-checkout-success', 'PayPalController@getExpr
 Route::get('payments/paypal', 'PayPalController@index')->name('paypal.index');
 
 Route::get('firebase/sw-js','AppSettingController@initFirebase');
-
+Route::get('locale/{locale}', function ($locale){
+    Session::put('locale', $locale);
+    return redirect()->back();
+});
 
 Route::get('storage/app/public/{id}/{conversion}/{filename?}', 'UploadController@storage');
 Route::middleware('auth')->group(function () {
@@ -77,6 +80,9 @@ Route::middleware('auth')->group(function () {
             Route::resource('customFields', 'CustomFieldController');
             Route::resource('banners', 'BannerController');
             Route::resource('currencies', 'CurrencyController')->except([
+                'show'
+            ]);
+            Route::resource('countries', 'CountryController')->except([
                 'show'
             ]);
             Route::get('users/login-as-user/{id}', 'UserController@loginAsUser')->name('users.login-as-user');

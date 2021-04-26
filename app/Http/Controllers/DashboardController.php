@@ -41,12 +41,30 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $ordersCount = $this->orderRepository->count();
-        $membersCount = $this->userRepository->count();
-        $marketsCount = $this->marketRepository->count();
-        $markets = $this->marketRepository->limit(4)->get();
-        $earning = $this->paymentRepository->all()->sum('price');
-        $ajaxEarningUrl = route('payments.byMonth',['api_token'=>auth()->user()->api_token]);
+        if (auth()->user()->hasRole('branch'))
+        {
+            $ordersCount = $this->orderRepository->whereHas('user.country', function($q){
+                return $q->where('countries.id',get_role_country_id('branch'));
+            })->count();
+            $membersCount = $this->userRepository->where('country_id',get_role_country_id('branch'))->count();
+            $marketsCount = $this->marketRepository->where('country_id',get_role_country_id('branch'))->count();
+            $markets = $this->marketRepository->where('country_id',get_role_country_id('branch'))->limit(4)->get();
+            $earning = $this->paymentRepository->whereHas('user.country', function($q){
+                return $q->where('countries.id',get_role_country_id('branch'));
+            })->all()->sum('price');
+            $ajaxEarningUrl = route('payments.byMonth',['api_token'=>auth()->user()->api_token]);
+        }
+        else
+        {
+            $ordersCount = $this->orderRepository->count();
+            $membersCount = $this->userRepository->count();
+            $marketsCount = $this->marketRepository->count();
+            $markets = $this->marketRepository->limit(4)->get();
+            $earning = $this->paymentRepository->all()->sum('price');
+            $ajaxEarningUrl = route('payments.byMonth',['api_token'=>auth()->user()->api_token]);
+
+        }
+
 //        dd($ajaxEarningUrl);
         return view('dashboard.index')
             ->with("ajaxEarningUrl", $ajaxEarningUrl)

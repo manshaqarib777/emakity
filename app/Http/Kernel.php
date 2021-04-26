@@ -41,6 +41,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\App::class,
             \App\Http\Middleware\Permissions::class,
             \App\Http\Middleware\RestrictIp::class,
+            \App\Http\Middleware\Localization::class,
         ],
 
         'api' => [

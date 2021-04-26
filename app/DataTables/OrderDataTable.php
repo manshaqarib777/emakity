@@ -31,11 +31,20 @@ class OrderDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        if (auth()->user()->hasRole('client'))
+        $query = $query->where('user_id', auth()->id());
+    if (auth()->user()->hasRole('branch'))
+        $query = $query->whereHas('user.country', function($q){
+            return $q->where('countries.id',get_role_country_id('branch'));
+        });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
             ->editColumn('id', function ($order) {
                 return "#".$order->id;
+            })
+            ->editColumn('country', function ($order) {
+                return $order['user']['country']['name'];
             })
             ->editColumn('updated_at', function ($order) {
                 return getDateColumn($order, 'updated_at');
@@ -75,6 +84,12 @@ class OrderDataTable extends DataTable
                 'data' => 'user.name',
                 'name' => 'user.name',
                 'title' => trans('lang.order_user_id'),
+
+            ],
+            [
+                'data' => 'country',
+                'name' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

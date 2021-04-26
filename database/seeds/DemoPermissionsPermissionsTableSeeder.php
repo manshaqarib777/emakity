@@ -1555,6 +1555,214 @@ class DemoPermissionsPermissionsTableSeeder extends Seeder
                 'updated_at' => '2020-08-13 14:58:02',
                 'deleted_at' => NULL,
             ),
+            170 =>
+            array (
+                'id' => 177,
+                'name' => 'testimonials.index',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            171 =>
+            array (
+                'id' => 179,
+                'name' => 'testimonials.store',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            172 =>
+            array (
+                'id' => 180,
+                'name' => 'testimonials.edit',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            173 =>
+            array (
+                'id' => 181,
+                'name' => 'testimonials.update',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            174 =>
+            array (
+                'id' => 182,
+                'name' => 'testimonials.destroy',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            175 =>
+            array (
+                'id' => 183,
+                'name' => 'countries.index',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            176 =>
+            array (
+                'id' => 184,
+                'name' => 'countries.create',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            177 =>
+            array (
+                'id' => 185,
+                'name' => 'countries.store',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            178 =>
+            array (
+                'id' => 186,
+                'name' => 'countries.edit',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            179 =>
+            array (
+                'id' => 187,
+                'name' => 'countries.update',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            180 =>
+            array (
+                'id' => 188,
+                'name' => 'countries.destroy',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            181 =>
+            array (
+                'id' => 189,
+                'name' => 'carts.create',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            182 =>
+            array (
+                'id' => 190,
+                'name' => 'carts.store',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            183 =>
+            array (
+                'id' => 178,
+                'name' => 'testimonials.create',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            184 =>
+            array (
+                'id' => 191,
+                'name' => 'checkout.index',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+
+            185 =>
+            array (
+                'id' => 192,
+                'name' => 'countries.index',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            186 =>
+            array (
+                'id' => 193,
+                'name' => 'countries.create',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            187 =>
+            array (
+                'id' => 194,
+                'name' => 'countries.store',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            188 =>
+            array (
+                'id' => 195,
+                'name' => 'countries.edit',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            189 =>
+            array (
+                'id' => 196,
+                'name' => 'countries.update',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            190 =>
+            array (
+                'id' => 197,
+                'name' => 'countries.destroy',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            191 =>
+            array (
+                'id' => 198,
+                'name' => 'carts.create',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
+            192 =>
+            array (
+                'id' => 199,
+                'name' => 'carts.store',
+                'guard_name' => 'web',
+                'created_at' => '2020-08-13 14:58:02',
+                'updated_at' => '2020-08-13 14:58:02',
+                'deleted_at' => NULL,
+            ),
         ));
         
         

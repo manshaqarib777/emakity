@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{setting('language','en')}}" dir="ltr">
+<html lang="{{ app()->getLocale() }}" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <title>{{setting('app_name')}} | {{setting('app_short_description')}}</title>

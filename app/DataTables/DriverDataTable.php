@@ -24,9 +24,18 @@ class DriverDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        if (auth()->user()->hasRole('client'))
+            $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('branch'))
+            $query = $query->whereHas('user.country', function($q){
+                return $q->where('countries.id',get_role_country_id('branch'));
+            });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
+            ->editColumn('country', function ($driver) {
+                return $driver['user']['country']['name'];
+            })
             ->editColumn('user.name', function ($driver) {
                 return getLinksColumnByRouteName([$driver->user], "users.edit", 'id', 'name');
             })
@@ -59,6 +68,11 @@ class DriverDataTable extends DataTable
             [
                 'data' => 'user.name',
                 'title' => trans('lang.driver_user_id'),
+
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

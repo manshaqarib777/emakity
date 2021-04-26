@@ -29,7 +29,8 @@ class Testimonial extends Model implements HasMedia
 
     public $fillable = [
         'name',
-        'description'
+        'description',
+        'country_id'
     ];
 
     /**
@@ -111,5 +112,9 @@ class Testimonial extends Model implements HasMedia
             ->get()->toArray();
 
         return convertToAssoc($array,'name');
+    }
+    public function country()
+    {
+        return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
     }
 }

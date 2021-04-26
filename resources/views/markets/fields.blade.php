@@ -33,15 +33,6 @@
     </div>
 
 
-    <div class="form-group row">
-        {!! Form::label('currency_id', trans('lang.app_setting_default_currency'), ['class' => 'col-3 control-label text-right']) !!}
-        <div class="col-9">
-            {!! Form::select('currency_id',
-            $currencies
-            ,null, ['class' => 'select2 form-control']) !!}
-            <div class="form-text text-muted">{{ trans("lang.app_setting_default_currency_help") }}</div>
-        </div>
-    </div>
 
     <div class="form-group row">
         {!! Form::label('currency_right', trans('lang.app_setting_currency_right'),['class' => 'col-3 control-label text-right']) !!}

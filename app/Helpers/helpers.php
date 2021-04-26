@@ -12,6 +12,7 @@ use InfyOm\Generator\Utils\GeneratorFieldsInputUtil;
 use InfyOm\Generator\Utils\HTMLFieldGenerator;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 use App\Models\DeliveryAddress;
+use Spatie\Permission\Models\Role;
 /**
  * @param $bytes
  * @param int $precision
@@ -39,6 +40,16 @@ function getMediaColumn($mediaModel, $mediaCollectionName = '', $optionClass = '
     }else{
         return "<img class='" . $optionClass . "' style='width:50px' src='" . asset('images/image_default.png') . "' alt='image_default'>";
     }
+}
+
+function get_role_country_id($role_name)
+{
+    $role=Role::where('name',$role_name)->first();
+    if(!$role)
+    {
+        $role=Role::create(['name'=>'branch','guard_name'=>'web','country_id'=>1,'default'=>0]);        
+    }
+    return $role->country_id;
 }
 
 function getMediaurl($mediaModel, $mediaCollectionName = '', $optionClass = '', $mediaThumbnail = 'icon')
@@ -122,9 +133,9 @@ function getPriceColumn($modelObject,$modelObject1, $attributeName = 'price')
         else
         {
             if ($modelObject1['currency_right'] != false) {
-                return $modelObject[$attributeName] . "<span>" . $modelObject1['currency']['symbol'] . "</span>";
+                return $modelObject[$attributeName] . "<span>" . $modelObject1['country']['currency']['symbol'] . "</span>";
             } else {
-                return "<span>" . $modelObject1['currency']['symbol'] . "</span>" . $modelObject[$attributeName];
+                return "<span>" . $modelObject1['country']['currency']['symbol'] . "</span>" . $modelObject[$attributeName];
             }
         }
 

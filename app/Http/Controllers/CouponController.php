@@ -17,6 +17,7 @@ use App\Repositories\DiscountableRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\MarketRepository;
 use App\Repositories\CategoryRepository;
+use App\Repositories\CountryRepository;
 use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -45,6 +46,7 @@ class CouponController extends Controller
      * @var CategoryRepository
      */
     private $categoryRepository;
+    private $countryRepository;
     /**
      * @var DiscountableRepository
      */
@@ -52,7 +54,7 @@ class CouponController extends Controller
 
     public function __construct(CouponRepository $couponRepo, CustomFieldRepository $customFieldRepo, ProductRepository $productRepo
         , MarketRepository $marketRepo
-        , CategoryRepository $categoryRepo , DiscountableRepository $discountableRepository)
+        , CategoryRepository $categoryRepo ,CountryRepository $countryRepo , DiscountableRepository $discountableRepository)
     {
         parent::__construct();
         $this->couponRepository = $couponRepo;
@@ -60,6 +62,7 @@ class CouponController extends Controller
         $this->productRepository = $productRepo;
         $this->marketRepository = $marketRepo;
         $this->categoryRepository = $categoryRepo;
+        $this->countryRepository = $countryRepo;
         $this->discountableRepository = $discountableRepository;
     }
 
@@ -100,7 +103,8 @@ class CouponController extends Controller
             $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->couponRepository->model());
             $html = generateCustomField($customFields);
         }
-        return view('coupons.create')->with("customFields", isset($html) ? $html : false)->with("product", $product)->with("market", $market)->with("category", $category)->with("productsSelected", $productsSelected)->with("marketsSelected", $marketsSelected)->with("categoriesSelected", $categoriesSelected);
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        return view('coupons.create')->with("customFields", isset($html) ? $html : false)->with("product", $product)->with("market", $market)->with("category", $category)->with("productsSelected", $productsSelected)->with("marketsSelected", $marketsSelected)->with("categoriesSelected", $categoriesSelected)->with('countries',$countries);
     }
 
     /**
@@ -202,8 +206,8 @@ class CouponController extends Controller
         if ($hasCustomField) {
             $html = generateCustomField($customFields, $customFieldsValues);
         }
-
-        return view('coupons.edit')->with('coupon', $coupon)->with("customFields", isset($html) ? $html : false)->with("product", $product)->with("market", $market)->with("category", $category)->with("productsSelected", $productsSelected)->with("marketsSelected", $marketsSelected)->with("categoriesSelected", $categoriesSelected);
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        return view('coupons.edit')->with('coupon', $coupon)->with("customFields", isset($html) ? $html : false)->with("product", $product)->with("market", $market)->with("category", $category)->with("productsSelected", $productsSelected)->with("marketsSelected", $marketsSelected)->with("categoriesSelected", $categoriesSelected)->with('countries',$countries);
     }
 
     /**

@@ -155,4 +155,9 @@ class Role extends Model implements RoleContract
 
         return $this->permissions->contains('id', $permission->id);
     }
+
+    public function country()
+    {
+        return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
+    }
 }

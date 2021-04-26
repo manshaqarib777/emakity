@@ -29,7 +29,8 @@ class Field extends Model implements HasMedia
 
     public $fillable = [
         'name',
-        'description'
+        'description',
+        'country_id'
     ];
 
     /**
@@ -128,5 +129,9 @@ class Field extends Model implements HasMedia
     public function getMarketsAttribute()
     {
         return $this->markets()->get(['markets.id', 'markets.name']);
+    }
+    public function country()
+    {
+        return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
     }
 }

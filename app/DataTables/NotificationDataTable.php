@@ -24,9 +24,18 @@ class NotificationDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        if (auth()->user()->hasRole('client'))
+            $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('branch'))
+            $query = $query->whereHas('user.country', function($q){
+                return $q->where('countries.id',get_role_country_id('branch'));
+            });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
+            ->editColumn('country', function ($delivery_address) {
+                return $delivery_address['user']['country']['name'];
+            })
             ->editColumn('type', function ($notification) {
                 return  ('lang.' . preg_replace(['/App\\\/', '/\\\/'], ['', '_'], $notification->type));
             })
@@ -56,6 +65,11 @@ class NotificationDataTable extends DataTable
             [
                 'data' => 'type',
                 'title' => trans('lang.notification_title'),
+
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

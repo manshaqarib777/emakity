@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ setting('language', 'en') }}" dir="ltr">
+<html lang="{{ app()->getLocale() }}" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
@@ -114,36 +114,28 @@
                                 <div class="header__top-content--left">
                                     <span>Free Delivery: Take advantage of our time to save event</span>
                                 </div>
-                                {{-- <ul class="header__top-content--right user-set-role d-flex">
+                                <ul class="header__top-content--right user-set-role d-flex">
                                     <li class="user-currency pos-relative">
                                         <a class="user-set-role__button" href="#" data-toggle="dropdown"
-                                            aria-expanded="false">Select Language<i class="fal fa-chevron-down"></i></a>
+                                            aria-expanded="false">{{app()->getLocale()?getAvailableLanguages()[app()->getLocale()]:"Select Language"}}<i class="fal fa-chevron-down"></i></a>
                                         <ul class="expand-dropdown-menu dropdown-menu">
-                                            <li><a href="#"><img
-                                                        src="{{ asset('/') }}frontend/assets/img/icon/flag/icon_usa.png"
-                                                        alt="">English</a></li>
-                                            <li><a href="#"><img
-                                                        src="{{ asset('/') }}frontend/assets/img/icon/flag/icon_france.png"
-                                                        alt="">French</a></li>
+                                            @foreach(getAvailableLanguages() as $key => $value)
+                                                <li><a href="{{ url('locale/'.$key) }}" class='selected_country'>{{$value}}</a></li>
+                                            @endforeach
                                         </ul>
                                     </li>
-                                </ul> --}}
-
-                                <form class="header__top-content--right user-set-role d-flex " action="{{ route('search') }}" method="get">
-                                    <select class="select2 form-control mr-2" name="country_id" id="country_id" onchange="this.form.submit()">
-                                        <option value="">Please Choose Country</option>
-                                        @foreach($app_countries as $key => $country)
-                                            <option value="{{ $key }}" {{ request()->get('country_id') == $key ? 'selected' : '' }}>{{ $country }}</option>
-                                        @endforeach
-                                    </select>
-                                    <select class="select2 form-control mr-2" name="currency_id" id="currency_id" onchange="this.form.submit()">
-                                        <option value="">Please Choose Currency</option>
-                                        @foreach($app_currencies as $key => $country)
-                                            <option value="{{ $key }}" {{ request()->get('currency_id') == $key ? 'selected' : '' }}>{{ $country }}</option>
-                                        @endforeach
-                                    </select>
-
-                                </form>
+                                    <li class="user-currency pos-relative">
+                                        <a class="user-set-role__button" href="#" data-toggle="dropdown"
+                                            aria-expanded="false">{{request()->get('country_name')?request()->get('country_name'):"Select Country"}}<i class="fal fa-chevron-down"></i></a>
+                                        <ul class="expand-dropdown-menu dropdown-menu">
+                                            @foreach($app_countries as $key => $value)
+                                                <li><a href="{{route('search').'?country_id='.$key.'&country_name='.$value}}" class='selected_country' data-id="{{$key}}"><img
+                                                    src="https://lipis.github.io/flag-icon-css/flags/1x1/{{strtolower($key)}}.svg"
+                                                    alt="" style="width: 23px;height:17px">{{$value}}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>

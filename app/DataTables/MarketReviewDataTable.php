@@ -56,9 +56,18 @@ class MarketReviewDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        if (auth()->user()->hasRole('client'))
+            $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('branch'))
+            $query = $query->whereHas('market.country', function($q){
+                return $q->where('countries.id',get_role_country_id('branch'));
+            });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
+        ->editColumn('country', function ($product) {
+            return $product['market']['country']['name'];
+        })
             ->editColumn('updated_at', function ($market_review) {
                 return getDateColumn($market_review, 'updated_at');
             })->addColumn('action', function ($market_review) {
@@ -119,6 +128,11 @@ class MarketReviewDataTable extends DataTable
             [
                 'data' => 'rate',
                 'title' => trans('lang.market_review_rate'),
+
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

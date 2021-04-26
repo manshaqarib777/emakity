@@ -23,13 +23,19 @@ class FaqCategoryDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        if (auth()->user()->hasRole('client'))
+            $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('branch'))
+            $query = $query->where('country_id', get_role_country_id('branch'));
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-            
-            ->editColumn('updated_at',function($faq_category){
-    return getDateColumn($faq_category,'updated_at');
-})
+        ->editColumn('country', function ($faq_category) {
+            return $faq_category['country']['name'];
+        })
+        ->editColumn('updated_at',function($faq_category){
+            return getDateColumn($faq_category,'updated_at');
+        })
             
             
             ->addColumn('action', 'faq_categories.datatables_actions')
@@ -78,10 +84,15 @@ class FaqCategoryDataTable extends DataTable
     {
         $columns = [
             [
-  'data' => 'name',
-  'title' => trans('lang.faq_category_name'),
-  
-],
+                'data' => 'name',
+                'title' => trans('lang.faq_category_name'),
+            
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country'),
+            
+            ],
             [
   'data' => 'updated_at',
   'title' => trans('lang.faq_category_updated_at'),

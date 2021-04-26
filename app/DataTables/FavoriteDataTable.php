@@ -31,11 +31,18 @@ class FavoriteDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        if(!in_array('admin',auth()->user()->getRoleNames()->toArray()))
+        if (auth()->user()->hasRole('client'))
             $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('branch'))
+            $query = $query->whereHas('product.market.country', function($q){
+                return $q->where('countries.id',get_role_country_id('branch'));
+            });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
+        ->editColumn('country', function ($favorite) {
+            return $favorite['product']['market']['country']['name'];
+        })
             ->editColumn('updated_at', function ($favorite) {
                 return getDateColumn($favorite, 'updated_at');
             })
@@ -99,6 +106,11 @@ class FavoriteDataTable extends DataTable
             [
                 'data' => 'product.name',
                 'title' => trans('lang.favorite_product_id'),
+
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

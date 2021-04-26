@@ -31,9 +31,18 @@ class ProductDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        $dataTable = new EloquentDataTable($query->with(['market','market.currency']));
+        if (auth()->user()->hasRole('client'))
+        $query = $query->where('user_id', auth()->id());
+    if (auth()->user()->hasRole('branch'))
+        $query = $query->whereHas('market.country', function($q){
+            return $q->where('countries.id',get_role_country_id('branch'));
+        });
+        $dataTable = new EloquentDataTable($query->with(['market','market.country','market.country.currency']));
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
+        ->editColumn('country', function ($product) {
+            return $product['market']['country']['name'];
+        })
             ->editColumn('image', function ($product) {
                 return getMediaColumn($product, 'image');
             })
@@ -125,6 +134,11 @@ class ProductDataTable extends DataTable
             [
                 'data' => 'name',
                 'title' => trans('lang.product_name'),
+
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

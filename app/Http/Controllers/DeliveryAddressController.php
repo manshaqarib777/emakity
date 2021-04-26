@@ -56,8 +56,7 @@ private $userRepository;
      */
     public function create()
     {
-        $user = $this->userRepository->pluck('name','id');
-        
+        $user = $this->userRepository->pluck('name','id');        
         $hasCustomField = in_array($this->deliveryAddressRepository->model(),setting('custom_field_models',[]));
             if($hasCustomField){
                 $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->deliveryAddressRepository->model());

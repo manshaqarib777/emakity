@@ -31,9 +31,17 @@ class CategoryDataTable extends DataTable
      */
     public function dataTable($query)
     {
+
+        if (auth()->user()->hasRole('client'))
+            $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('branch'))
+            $query = $query->where('country_id', get_role_country_id('branch'));
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
+            ->editColumn('country', function ($category) {
+                return $category['country']['name'];
+            })
             ->editColumn('image', function ($category) {
                 return getMediaColumn($category, 'image');
             })
@@ -57,6 +65,11 @@ class CategoryDataTable extends DataTable
             [
                 'data' => 'name',
                 'title' => trans('lang.category_name'),
+
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

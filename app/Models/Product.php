@@ -201,7 +201,7 @@ class Product extends Model implements HasMedia
      */
     public function getMarketAttribute()
     {
-        return $this->market()->with('currency')->first(['id', 'name', 'delivery_fee', 'address', 'phone','default_tax','currency_id','currency_right']);
+        return $this->market()->with('country','country.currency')->first();
     }
 
     /**

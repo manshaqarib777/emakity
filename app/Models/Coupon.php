@@ -35,7 +35,8 @@ class Coupon extends Model
         'discount_type',
         'description',
         'expires_at',
-        'enabled'
+        'enabled',
+        'country_id'
     ];
 
     /**
@@ -97,5 +98,8 @@ class Coupon extends Model
     {
         return $this->hasMany(\App\Models\Discountable::class, 'coupon_id');
     }
-    
+    public function country()
+    {
+        return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
+    }
 }

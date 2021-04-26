@@ -30,6 +30,7 @@ class UpdateMarketsTableAddCurrencyId extends Migration
         Schema::table('markets', function (Blueprint $table) {
             $table->dropColumn('currency_right');
             $table->dropForeign(['currency_id']);
+            $table->dropColumn('currency_id');
         });
     }
 }

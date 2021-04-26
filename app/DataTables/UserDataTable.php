@@ -23,9 +23,16 @@ class UserDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        if (auth()->user()->hasRole('client'))
+            $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('branch'))
+            $query = $query->where('country_id', get_role_country_id('branch'));
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         return $dataTable
+            ->editColumn('country', function ($product) {
+                return $product['country']['name'];
+            })
             ->editColumn('updated_at', function ($user) {
                 return getDateColumn($user, 'updated_at');
             })
@@ -91,6 +98,11 @@ class UserDataTable extends DataTable
             [
                 'data' => 'name',
                 'title' => trans('lang.user_name'),
+
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

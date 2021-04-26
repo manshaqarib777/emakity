@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Prettus\Validator\Exceptions\ValidatorException;
+use App\Repositories\CountryRepository;
+
 
 class FieldController extends Controller
 {
@@ -23,25 +25,28 @@ class FieldController extends Controller
 
     /**
      * @var CustomFieldRepository
-     */
+    */
     private $customFieldRepository;
 
     /**
-  * @var UploadRepository
-  */
-private $uploadRepository;/**
-  * @var MarketRepository
-  */
-private $marketRepository;
+     * @var UploadRepository
+    */
+    private $uploadRepository;
+    /**
+    * @var MarketRepository
+    */
+    private $marketRepository;
+    private $countryRepository;
 
     public function __construct(FieldRepository $fieldRepo, CustomFieldRepository $customFieldRepo , UploadRepository $uploadRepo
-                , MarketRepository $marketRepo)
+                , MarketRepository $marketRepo,CountryRepository $countryRepository)
     {
         parent::__construct();
         $this->fieldRepository = $fieldRepo;
         $this->customFieldRepository = $customFieldRepo;
         $this->uploadRepository = $uploadRepo;
-                $this->marketRepository = $marketRepo;
+        $this->marketRepository = $marketRepo;
+        $this->countryRepository = $countryRepository;
     }
 
     /**
@@ -69,7 +74,8 @@ private $marketRepository;
                 $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->fieldRepository->model());
                 $html = generateCustomField($customFields);
             }
-        return view('fields.create')->with("customFields", isset($html) ? $html : false)->with("market",$market)->with("marketsSelected",$marketsSelected);
+        $countries = $this->countryRepository->all()->pluck('name','id');        
+        return view('fields.create')->with("customFields", isset($html) ? $html : false)->with("market",$market)->with("marketsSelected",$marketsSelected)->with('countries',$countries);
     }
 
     /**
@@ -145,8 +151,8 @@ private $marketRepository;
         if($hasCustomField) {
             $html = generateCustomField($customFields, $customFieldsValues);
         }
-
-        return view('fields.edit')->with('field', $field)->with("customFields", isset($html) ? $html : false)->with("market",$market)->with("marketsSelected",$marketsSelected);
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        return view('fields.edit')->with('field', $field)->with("customFields", isset($html) ? $html : false)->with("market",$market)->with("marketsSelected",$marketsSelected)->with('countries',$countries);
     }
 
     /**

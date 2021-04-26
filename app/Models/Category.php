@@ -42,7 +42,8 @@ class Category extends Model implements HasMedia
 
     public $fillable = [
         'name',
-        'description'
+        'description',
+        'country_id'
     ];
 
     /**
@@ -161,6 +162,10 @@ class Category extends Model implements HasMedia
     public function markets()
     {
         return $this->belongsToMany(\App\Models\Market::class, 'products');
+    }
+    public function country()
+    {
+        return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
     }
 
     

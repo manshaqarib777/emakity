@@ -24,9 +24,9 @@
 
         <a href="{{ route('product', $product->id) }}" class="product__link">{{ $product->name }}</a>
         <div class="product__price m-t-5">
-            <span class="product__price">{{ $product->market->currency->symbol }}
+            <span class="product__price">{{ $product->market->country->currency->symbol }}
                 {{ $product->discount_price }} <del>
-                    {{ $product->market->currency->symbol }}
+                    {{ $product->market->country->currency->symbol }}
                     {{ $product->price }} </del></span>
         </div>
     </div> <!-- End Product Content -->

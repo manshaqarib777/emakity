@@ -24,9 +24,18 @@ class EarningDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        if (auth()->user()->hasRole('client'))
+            $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('branch'))
+            $query = $query->whereHas('market.country', function($q){
+                return $q->where('countries.id',get_role_country_id('branch'));
+            });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
+        ->editColumn('country', function ($driver) {
+            return $driver['market']['country']['name'];
+        })
             ->editColumn('market.name', function ($earning) {
                 return getLinksColumnByRouteName([$earning->market], "markets.edit",'id','name');
             })
@@ -66,6 +75,11 @@ class EarningDataTable extends DataTable
             [
                 'data' => 'market.name',
                 'title' => trans('lang.earning_market_id'),
+
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country'),
 
             ],
             [

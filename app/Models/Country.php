@@ -31,10 +31,9 @@ class Country extends Model
 
     public $fillable = [
         'name',
-        'symbol',
         'code',
-        'decimal_digits',
-        'rounding'
+        'active',
+        'currency_id',
     ];
 
     /**
@@ -44,8 +43,8 @@ class Country extends Model
      */
     protected $casts = [
         'name' => 'string',
-        'symbol' => 'string',
-        'code' => 'string'
+        'code' => 'string',
+        'active' =>'boolean'
     ];
 
     /**
@@ -55,7 +54,6 @@ class Country extends Model
      */
     public static $rules = [
         'name' => 'required',
-        'symbol' => 'required',
         'code' => 'required',
     ];
 
@@ -93,6 +91,8 @@ class Country extends Model
         return $this->name . ' - ' . $this->symbol;
     }
 
-    
-    
+    public function currency()
+    {
+        return $this->belongsTo(\App\Models\Currency::class, 'currency_id', 'id');
+    }    
 }

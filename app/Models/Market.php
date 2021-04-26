@@ -75,7 +75,7 @@ class Market extends Model implements HasMedia
         'closed',
         'information',
         'active',
-        'currency_id',
+        'country_id',
         'currency_right'
     ];
 
@@ -117,6 +117,7 @@ class Market extends Model implements HasMedia
         'longitude' => 'required|numeric',
         'latitude' => 'required|numeric',
         'admin_commission' => 'required|numeric|min:0',
+        'country_id' => 'required',
     ];
 
     /**
@@ -131,6 +132,7 @@ class Market extends Model implements HasMedia
         'address' => 'required',
         'longitude' => 'required|numeric',
         'latitude' => 'required|numeric',
+        'country_id' => 'required',
     ];
 
     /**
@@ -263,9 +265,9 @@ class Market extends Model implements HasMedia
     {
         return $this->belongsToMany(\App\Models\Field::class, 'market_fields');
     }
-    public function currency()
+    public function country()
     {
-        return $this->belongsTo(\App\Models\Currency::class, 'currency_id', 'id');
+        return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
     }
 
     

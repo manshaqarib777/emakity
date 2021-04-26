@@ -18,6 +18,9 @@ class RoleDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
         return $dataTable
+            ->editColumn('country', function ($role) {
+                return $role['country']['name'];
+            })
             ->editColumn('default', function ($role) {
                 return getBooleanColumn($role, 'default');
             })
@@ -67,6 +70,10 @@ class RoleDataTable extends DataTable
             [
                 'data' => 'name',
                 'title' => trans('lang.role_name')
+            ],
+            [
+                'data' => 'country',
+                'title' => trans('lang.country')
             ],
             [
                 'data' => 'guard_name',

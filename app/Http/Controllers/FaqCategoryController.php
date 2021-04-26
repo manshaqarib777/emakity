@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Prettus\Validator\Exceptions\ValidatorException;
+use App\Repositories\CountryRepository;
 
 class FaqCategoryController extends Controller
 {
@@ -25,13 +26,15 @@ class FaqCategoryController extends Controller
      */
     private $customFieldRepository;
 
+    private $countryRepository;
     
 
-    public function __construct(FaqCategoryRepository $faqCategoryRepo, CustomFieldRepository $customFieldRepo )
+    public function __construct(FaqCategoryRepository $faqCategoryRepo, CustomFieldRepository $customFieldRepo,CountryRepository $countryRepository )
     {
         parent::__construct();
         $this->faqCategoryRepository = $faqCategoryRepo;
         $this->customFieldRepository = $customFieldRepo;
+        $this->countryRepository = $countryRepository;
         
     }
 
@@ -60,7 +63,9 @@ class FaqCategoryController extends Controller
                 $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->faqCategoryRepository->model());
                 $html = generateCustomField($customFields);
             }
-        return view('faq_categories.create')->with("customFields", isset($html) ? $html : false);
+        $countries = $this->countryRepository->all()->pluck('name','id');
+
+        return view('faq_categories.create')->with("customFields", isset($html) ? $html : false)->with('countries',$countries);
     }
 
     /**
@@ -131,8 +136,9 @@ class FaqCategoryController extends Controller
         if($hasCustomField) {
             $html = generateCustomField($customFields, $customFieldsValues);
         }
+        $countries = $this->countryRepository->all()->pluck('name','id');
 
-        return view('faq_categories.edit')->with('faqCategory', $faqCategory)->with("customFields", isset($html) ? $html : false);
+        return view('faq_categories.edit')->with('faqCategory', $faqCategory)->with("customFields", isset($html) ? $html : false)->with('countries',$countries);
     }
 
     /**
