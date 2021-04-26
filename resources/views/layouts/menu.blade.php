@@ -340,6 +340,12 @@
             </li>
             @endcan
 
+            @can('countries.index')
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('settings/countries*') ? 'active' : '' }}" href="{!! route('currencies.index') !!}">@if($icons)<i class="nav-icon fa fa-dollar"></i>@endif<p>{{trans('lang.country_plural')}}</p></a>
+            </li>
+            @endcan
+
             <li class="nav-item">
                 <a href="{!! url('settings/payment/payment') !!}" class="nav-link {{  Request::is('settings/payment*') ? 'active' : '' }}">
                     @if($icons)<i class="nav-icon fa fa-credit-card"></i> @endif <p>{{trans('lang.app_setting_payment')}}</p>

@@ -6,7 +6,7 @@ use App\Repositories\CartRepository;
 use App\Repositories\FavoriteRepository;
 use App\Repositories\FieldRepository;
 use App\Repositories\SlideRepository;
-use PragmaRX\Countries\Package\Countries as CountryRepository;
+use App\Models\Country;
 use App\Repositories\CurrencyRepository;
 use Carbon\Carbon;
 use Closure;
@@ -28,7 +28,6 @@ class App
     protected $fieldRepository;
     protected $slideRepository;
     protected $currencyRepository;
-    protected $countryRepository;
     /**
      * Handle an incoming request.
      *
@@ -79,7 +78,7 @@ class App
             $slides = $this->slideRepository;
             $fields = $this->fieldRepository->get();
             $currencies = $this->currencyRepository->all()->pluck('name_symbol', 'id');
-            $countries = CountryRepository::all()->pluck('name.common','postal');
+            $countries = Country::where('active',1)->pluck('name','code');
             
             
             view()->share('app_logo', $appLogo);
