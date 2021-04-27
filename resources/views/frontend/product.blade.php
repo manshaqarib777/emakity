@@ -70,7 +70,7 @@
 
                             <div class="product__price m-t-5">
                                 <span
-                                    class="product__price product__price--large">{{ $product->market->currency->symbol }}
+                                    class="product__price product__price--large">{{ $product->market->country->currency->symbol }}
                                     {{ $product->price }} <del> {{ $product->market->country->currency->symbol }}
                                         {{ $product->discount_price }} </del></span>
                                 <span class="product__tag m-l-15 btn--tiny btn--green">-34%</span>

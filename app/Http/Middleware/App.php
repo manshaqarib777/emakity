@@ -78,7 +78,7 @@ class App
             $slides = $this->slideRepository;
             $fields = $this->fieldRepository->get();
             $currencies = $this->currencyRepository->all()->pluck('name_symbol', 'id');
-            $countries = Country::where('active',1)->pluck('name','code');
+            $countries = Country::where('active',1)->get();
             
             
             view()->share('app_logo', $appLogo);

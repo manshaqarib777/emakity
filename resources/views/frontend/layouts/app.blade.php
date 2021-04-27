@@ -132,11 +132,11 @@
                                                 class="fal fa-chevron-down"></i></a>
                                         <ul class="expand-dropdown-menu dropdown-menu">
                                             @foreach ($app_countries as $key => $value)
-                                                <li><a href="{{ route('search') . '?country_id=' . $key . '&country_name=' . $value }}"
-                                                        class='selected_country' data-id="{{ $key }}"><img
-                                                            src="https://lipis.github.io/flag-icon-css/flags/1x1/{{ strtolower($key) }}.svg"
+                                                <li><a href="{{ route('search') . '?country_id=' . $value['id'] . '&country_name=' . $value['name'] }}"
+                                                        class='selected_country' data-id="{{ $value['id'] }}"><img
+                                                            src="https://lipis.github.io/flag-icon-css/flags/1x1/{{ strtolower($value['code']) }}.svg"
                                                             alt=""
-                                                            style="width: 23px;height:17px">{{ $value }}</a>
+                                                            style="width: 23px;height:17px">{{ $value['name'] }}</a>
                                                 </li>
                                             @endforeach
                                         </ul>
