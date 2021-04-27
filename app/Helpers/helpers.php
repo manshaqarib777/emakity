@@ -44,12 +44,7 @@ function getMediaColumn($mediaModel, $mediaCollectionName = '', $optionClass = '
 
 function get_role_country_id($role_name)
 {
-    $role=Role::where('name',$role_name)->first();
-    if(!$role)
-    {
-        $role=Role::create(['name'=>'branch','guard_name'=>'web','country_id'=>1,'default'=>0]);        
-    }
-    return $role->country_id;
+    return auth()->user()->country_id;
 }
 
 function getMediaurl($mediaModel, $mediaCollectionName = '', $optionClass = '', $mediaThumbnail = 'icon')

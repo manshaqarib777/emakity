@@ -9,6 +9,7 @@
         </div>
     </div>
 </div>
+<input type="hidden" name="country_id" value="{{auth()->user()->country_id}}">
 
 <!-- Guard Name Field -->
 <div class="form-group row col-6">
@@ -22,13 +23,14 @@
     </div>
 </div>
 
-<div class="form-group row">
+{{-- <div class="form-group row">
     {!! Form::label('country_id', trans('lang.app_country'), ['class' => 'col-3 control-label text-right']) !!}
     <div class="col-9">
         {!! Form::select('country_id', $countries, null, ['class' => 'select2 form-control']) !!}
         <div class="form-text text-muted">{{ trans('lang.app_setting_default_country_help') }}</div>
     </div>
-</div>
+</div> --}}
+
 
 <!-- 'Boolean Default Field' -->
 <div class="form-group row col-6">
