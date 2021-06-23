@@ -342,7 +342,7 @@
 
             @can('countries.index')
             <li class="nav-item">
-                <a class="nav-link {{ Request::is('settings/countries*') ? 'active' : '' }}" href="{!! route('currencies.index') !!}">@if($icons)<i class="nav-icon fa fa-flag"></i>@endif<p>{{trans('lang.country_plural')}}</p></a>
+                <a class="nav-link {{ Request::is('settings/countries*') ? 'active' : '' }}" href="{!! route('countries.index') !!}">@if($icons)<i class="nav-icon fa fa-flag"></i>@endif<p>{{trans('lang.country_plural')}}</p></a>
             </li>
             @endcan
 
