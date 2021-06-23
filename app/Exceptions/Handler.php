@@ -67,6 +67,11 @@ class Handler extends ExceptionHandler
                 return response()->json(['error' => $exception->getMessage()], 401);
             }
         }
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            
+            return redirect()->back();
+ 
+        }
 
         return parent::render($request, $exception);
     }
