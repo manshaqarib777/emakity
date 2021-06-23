@@ -48,17 +48,7 @@
   </div>
 </div>
 
-<!-- Rounding Field -->
-<div class="form-group row ">
-  {!! Form::label('rounding', trans("lang.currency_rounding"), ['class' => 'col-3 control-label text-right']) !!}
-  <div class="col-9">
-    {!! Form::number('rounding', null,  ['class' => 'form-control','placeholder'=>  trans("lang.currency_rounding_placeholder")]) !!}
-    <div class="form-text text-muted">
-      {{ trans("lang.currency_rounding_help") }}
-    </div>
-  </div>
-</div>
-</div>
+
 @if($customFields)
 <div class="clearfix"></div>
 <div class="col-12 custom-field-container">

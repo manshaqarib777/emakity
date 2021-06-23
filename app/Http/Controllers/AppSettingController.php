@@ -79,7 +79,6 @@ class AppSettingController extends Controller
                         $input['default_currency'] = $currency->symbol;
                         $input['default_currency_code'] = $currency->code;
                         $input['default_currency_decimal_digits'] = $currency->decimal_digits;
-                        $input['default_currency_rounding'] = $currency->rounding;
                     }
                 }
 //                if(isset($input['enable_stripe']) && $input['enable_stripe'] == 1){

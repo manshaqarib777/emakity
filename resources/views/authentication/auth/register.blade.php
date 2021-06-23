@@ -1,6 +1,11 @@
 @extends('authentication.layouts.auth.default')
-@section('content')
+@push('styles')
 
+@endpush
+@section('content')
+    @php
+        $countries = \App\Models\Country::where('active', 1)->get();
+    @endphp
     <div class="col-xl-8 col-lg-8 content-right" id="start">
         <div id="wizard_container">
             <div id="top-wizard">
@@ -58,6 +63,34 @@
                                     {{ $errors->first('password_confirmation') }}
                                 </div>
                             @endif
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select id="change-country" name="country_id" class="form-control select-country">
+                                        <option value=""></option>
+                                        @foreach ($countries as $country)
+                                            <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select id="change-state" name="state_id" class="form-control select-state">
+                                        <option value=""></option>
+            
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select name="area_id" class="form-control select-area">
+                                        <option value=""></option>
+            
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row mb-2">
@@ -131,3 +164,57 @@
     </div>
 
 @endsection
+
+@push('scripts')
+  <!-- select2 -->
+<script>
+            $(document).ready(function() {
+            $('.select-country').select2({
+                placeholder: "Select country",
+            });
+
+            $('.select-state').select2({
+                placeholder: "Select state",
+            });
+
+            $('.select-area').select2({
+                placeholder: "Select Area",
+            });
+
+            $('.select-country').trigger('change');
+            $('.select-state').trigger('change');
+            $('#change-country').change(function() {
+                var id = $(this).val();
+                $.get("{{ route('get-states-ajax') }}?country_id=" + id, function(data) {
+                    $('select[name ="state_id"]').empty();
+                    $('select[name ="state_id"]').append(
+                        '<option value=""></option>');
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+
+                        $('select[name ="state_id"]').append('<option value="' +
+                            element['id'] + '">' + element['name'] + '</option>');
+                    }
+
+
+                });
+            });
+            $('#change-state').change(function() {
+                var id = $(this).val();
+
+                $.get("{{ route('get-areas-ajax') }}?state_id=" + id, function(data) {
+                    $('select[name ="area_id"]').empty();
+                    $('select[name ="area_id"]').append(
+                        '<option value=""></option>');
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        $('select[name ="area_id"]').append('<option value="' +
+                            element['id'] + '">' + element['name'] + '</option>');
+                    }
+
+
+                });
+            });
+        });
+</script>
+@endpush

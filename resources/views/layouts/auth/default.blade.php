@@ -16,11 +16,13 @@
     <link rel="stylesheet" href="{{asset('dist/css/adminlte.css')}}">
     <!-- iCheck -->
     <link rel="stylesheet" href="{{asset('plugins/iCheck/flat/blue.css')}}">
+    <link rel="stylesheet" href="{{asset('plugins/select2/select2.min.css')}}">
 {{--<!-- Bootstrap -->--}}
 {{--<link rel="stylesheet" href="{{asset('plugins/bootstrap/css/bootstrap.min.css')}}">--}}
 <!-- Google Font: Poppins -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,400i,700" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/custom.css')}}">
+    @stack('styles')
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -40,6 +42,8 @@
 <script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- iCheck -->
 <script src="{{asset('plugins/iCheck/icheck.min.js')}}"></script>
+<script src="{{asset('plugins/select2/select2.min.js')}}"></script>
+@stack('scipts')
 <script>
     $(function () {
         $('.icheck input').iCheck({

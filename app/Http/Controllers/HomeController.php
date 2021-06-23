@@ -28,6 +28,8 @@ use App\Criteria\Markets\MarketCountryCriteria;
 use App\Http\Controllers\Controller;
 use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
+use App\Models\State;
+use App\Models\Area;
 
 class HomeController extends Controller
 {
@@ -195,5 +197,17 @@ class HomeController extends Controller
         $products=$this->cartRepository->with('product','options')->where('user_id',auth()->id())->get();
         $data = view('frontend.carts.all',['products'=>$products])->render();
         return $this->sendResponse($data, __('lang.deleted_successfully',['operator' => __('lang.cart')]));
+    }
+    public function ajaxGetStates()
+    {
+        $country_id = $_GET['country_id'];
+        $states = State::where('country_id', $country_id)->where('covered',1)->get();
+        return response()->json($states);
+    }
+    public function ajaxGetAreas()
+    {
+        $state_id = $_GET['state_id'];
+        $areas = Area::where('state_id', $state_id)->get();
+        return response()->json($areas);
     }
 }

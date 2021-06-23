@@ -73,11 +73,6 @@ class CurrencyDataTable extends DataTable
 
             ],
             [
-                'data' => 'rounding',
-                'title' => trans('lang.currency_rounding'),
-
-            ],
-            [
                 'data' => 'updated_at',
                 'title' => trans('lang.currency_updated_at'),
                 'searchable' => false,

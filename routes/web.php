@@ -29,7 +29,8 @@ Route::post('/cart/update', 'HomeController@cart_ajax_update')->name('cart_ajax_
 Route::post('/cart/delete', 'HomeController@cart_ajax_delete')->name('cart_ajax_delete')->middleware('auth');
 Route::get('/product/{id}', 'HomeController@product')->name('product');
 Route::get('/market/{id}', 'HomeController@market')->name('market');
-
+Route::get('ajaxed-get-states','HomeController@ajaxGetStates')->name('get-states-ajax');
+Route::get('ajaxed-get-areas','HomeController@ajaxGetAreas')->name('get-areas-ajax');
 
 
 Route::get('payments/failed', 'PayPalController@index')->name('payments.failed');

@@ -23,8 +23,7 @@ class CurrencyRepository extends BaseRepository
         'name',
         'symbol',
         'code',
-        'decimal_digits',
-        'rounding'
+        'decimal_digits'
     ];
 
     /**

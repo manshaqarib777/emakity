@@ -80,7 +80,7 @@ class App
             $currencies = $this->currencyRepository->all()->pluck('name_symbol', 'id');
             $countries = Country::where('active',1)->get();
             
-            
+           
             view()->share('app_logo', $appLogo);
             view()->share('app_banner1', $banner1);
             view()->share('app_banner2', $banner2);
@@ -94,7 +94,9 @@ class App
                 view()->share('app_carts',$this->cartRepository->where('user_id',auth()->id())->get()->count());
                 view()->share('app_favorites',$this->favoriteRepository->where('user_id',auth()->id())->get()->count());
             }
-        } catch (\Exception $exception) { }
+        } catch (\Exception $exception) { 
+            //dd($exception->getMessage());
+        }
 
         return $next($request);
     }

@@ -83,6 +83,9 @@ class RegisterController extends Controller
         $user = new User;
         $user->name =  $data['name'];
         $user->email =  $data['email'];
+        $user->country_id =  $data['country_id'];
+        $user->state_id =  $data['state_id'];
+        $user->area_id =  $data['area_id'];
         $user->password = Hash::make($data['password']);
         $user->api_token = str_random(60);
         $user->save();

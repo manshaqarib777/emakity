@@ -67,7 +67,6 @@
                         <div class="product-details-box m-b-60">
                             <h4 class="font--regular m-b-20">{{ $product->name }}</h4>
                             @include('frontend.layouts.components.product_review',['rate'=>($product->rate!=null)?((int)$product->rate):0])
-
                             <div class="product__price m-t-5">
                                 <span
                                     class="product__price product__price--large">{{ $product->market->country->currency->symbol }}

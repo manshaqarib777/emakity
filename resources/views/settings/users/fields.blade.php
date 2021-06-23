@@ -18,8 +18,28 @@
         <div class="col-9">
             {!! Form::select('country_id',
             $countries
-            ,null, ['class' => 'select2 form-control']) !!}
+            ,null, ['class' => 'select-country form-control','id'=>'change-country']) !!}
             <div class="form-text text-muted">{{ trans("lang.app_setting_default_country_help") }}</div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {!! Form::label('state_id', trans('lang.app_state'), ['class' => 'col-3 control-label text-right']) !!}
+        <div class="col-9">
+            {!! Form::select('state_id',
+            [$user->state_id=>$user->state->name]
+            ,null, ['class' => 'select-state form-control','id'=>'change-state']) !!}
+            <div class="form-text text-muted">{{ trans("lang.app_setting_default_state_help") }}</div>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        {!! Form::label('area_id', trans('lang.app_area'), ['class' => 'col-3 control-label text-right']) !!}
+        <div class="col-9">
+            {!! Form::select('area_id',
+            [$user->area_id=>$user->area->name]
+            ,null, ['class' => 'select-area form-control','id'=>'change-area']) !!}
+            <div class="form-text text-muted">{{ trans("lang.app_setting_default_area_help") }}</div>
         </div>
     </div>
 

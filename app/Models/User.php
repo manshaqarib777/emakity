@@ -53,7 +53,9 @@ class User extends Authenticatable implements HasMedia
         'password',
         'api_token',
         'device_token',
-        'country_id'
+        'country_id',
+        'state_id',
+        'area_id',
     ];
     /**
      * The attributes that should be casted to native types.
@@ -187,4 +189,12 @@ class User extends Authenticatable implements HasMedia
         return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
     }
 
+    public function state()
+    {
+        return $this->belongsTo(\App\Models\State::class, 'state_id', 'id');
+    }
+    public function area()
+    {
+        return $this->belongsTo(\App\Models\Area::class, 'area_id', 'id');
+    }
 }

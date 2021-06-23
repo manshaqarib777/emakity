@@ -30,10 +30,10 @@
 
     <!-- YOUR CUSTOM CSS -->
     <link href="{{ asset('/') }}authentication/css/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset('plugins/select2/select2.min.css')}}">
 
     <!-- MODERNIZR MENU -->
-    <script src="{{ asset('/') }}authentication/js/modernizr.js"></script>
-
+    @stack('styles')
 
 </head>
 
@@ -126,7 +126,9 @@
     <!-- /.modal -->
 
     <!-- COMMON SCRIPTS -->
+
     <script src="{{ asset('/') }}authentication/js/jquery-3.5.1.min.js"></script>
+    <script src="{{ asset('/') }}authentication/js/modernizr.js"></script>
     <script src="{{ asset('/') }}authentication/js/common_scripts.min.js"></script>
     <script src="{{ asset('/') }}authentication/js/velocity.min.js"></script>
     <script src="{{ asset('/') }}authentication/js/common_functions.js"></script>
@@ -134,6 +136,8 @@
 
     <!-- Wizard script-->
     <script src="{{ asset('/') }}authentication/js/func_1.js"></script>
+    <script src="{{asset('plugins/select2/select2.min.js')}}"></script>
+    @stack('scripts')
 
 </body>
 

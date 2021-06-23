@@ -120,4 +120,52 @@
         Dropzone.autoDiscover = false;
         var dropzoneFields = [];
     </script>
+    <script>
+        $(document).ready(function() {
+        $('.select-country').select2({
+            placeholder: "Select country",
+        });
+
+        $('.select-state').select2({
+            placeholder: "Select state",
+        });
+
+        $('.select-area').select2({
+            placeholder: "Select Area",
+        });
+        $('#change-country').change(function() {
+            var id = $(this).val();
+            $.get("{{ route('get-states-ajax') }}?country_id=" + id, function(data) {
+                $('select[name ="state_id"]').empty();
+                $('select[name ="state_id"]').append(
+                    '<option value=""></option>');
+                for (let index = 0; index < data.length; index++) {
+                    const element = data[index];
+
+                    $('select[name ="state_id"]').append('<option value="' +
+                        element['id'] + '">' + element['name'] + '</option>');
+                }
+
+
+            });
+        });
+        $('#change-state').change(function() {
+            var id = $(this).val();
+
+            $.get("{{ route('get-areas-ajax') }}?state_id=" + id, function(data) {
+                $('select[name ="area_id"]').empty();
+                $('select[name ="area_id"]').append(
+                    '<option value=""></option>');
+                for (let index = 0; index < data.length; index++) {
+                    const element = data[index];
+                    $('select[name ="area_id"]').append('<option value="' +
+                        element['id'] + '">' + element['name'] + '</option>');
+                }
+
+
+            });
+        });
+    });
+</script>
 @endpush
+
