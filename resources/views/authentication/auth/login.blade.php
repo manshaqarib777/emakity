@@ -12,7 +12,7 @@
             <!-- /top-wizard -->
             <div class="header__logo text-center">
                 <a href="{{ url('/') }}" class="header__logo-link img-responsive">
-                    <img class="header__logo-img img-fluid" src="{{ $app_logo }}" alt="" style="width:200px;height:200px;">
+                    <img class="header__logo-img img-fluid" src="{{ $app_logo }}" alt="" style="width:120px;height:120px;">
                 </a>
             </div>
             <div class="card-body login-card-body">
