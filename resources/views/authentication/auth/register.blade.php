@@ -23,7 +23,7 @@
                         <div class="input-group mb-3">
                             <input value="{{ old('name') }}" type="name"
                                 class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" name="name"
-                                placeholder="{{ __('auth.name') }}" aria-label="{{ __('auth.name') }}">
+                                placeholder="{{ __('auth.name') }}" aria-label="{{ __('auth.name') }}" autocomplete="new-password">
                             @if ($errors->has('name'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('name') }}
@@ -34,7 +34,7 @@
                         <div class="input-group mb-3">
                             <input value="{{ old('email') }}" type="email"
                                 class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
-                                placeholder="{{ __('auth.email') }}" aria-label="{{ __('auth.email') }}">
+                                placeholder="{{ __('auth.email') }}" aria-label="{{ __('auth.email') }}" autocomplete="new-password">
                             @if ($errors->has('email'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('email') }}
@@ -45,7 +45,7 @@
                         <div class="input-group mb-3">
                             <input value="{{ old('password') }}" type="password"
                                 class="form-control  {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"
-                                placeholder="{{ __('auth.password') }}" aria-label="{{ __('auth.password') }}">
+                                placeholder="{{ __('auth.password') }}" aria-label="{{ __('auth.password') }}" autocomplete="new-password">
                             @if ($errors->has('password'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('password') }}
@@ -57,7 +57,7 @@
                             <input value="{{ old('password_confirmation') }}" type="password"
                                 class="form-control  {{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}"
                                 name="password_confirmation" placeholder="{{ __('auth.password_confirmation') }}"
-                                aria-label="{{ __('auth.password_confirmation') }}">
+                                aria-label="{{ __('auth.password_confirmation') }}" autocomplete="new-password">
                             @if ($errors->has('password_confirmation'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('password_confirmation') }}
@@ -65,9 +65,9 @@
                             @endif
                         </div>
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-12">
                                 <div class="form-group">
-                                    <select id="change-country" name="country_id" class="form-control select-country">
+                                    <select id="change-country" name="country_id" class="form-control select-country" autocomplete="new-password">
                                         <option value=""></option>
                                         @foreach ($countries as $country)
                                             <option value="{{ $country->id }}">{{ $country->name }}</option>
@@ -75,17 +75,17 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-12">
                                 <div class="form-group">
-                                    <select id="change-state" name="state_id" class="form-control select-state">
+                                    <select id="change-state" name="state_id" class="form-control select-state" autocomplete="new-password">
                                         <option value=""></option>
             
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-12">
                                 <div class="form-group">
-                                    <select name="area_id" class="form-control select-area">
+                                    <select name="area_id" class="form-control select-area" autocomplete="new-password">
                                         <option value=""></option>
             
                                     </select>

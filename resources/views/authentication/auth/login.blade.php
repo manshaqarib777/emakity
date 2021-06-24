@@ -10,6 +10,11 @@
                 <div id="progressbar"></div>
             </div>
             <!-- /top-wizard -->
+            <div class="header__logo text-center">
+                <a href="{{ url('/') }}" class="header__logo-link img-responsive">
+                    <img class="header__logo-img img-fluid" src="{{ $app_logo }}" alt="" style="width:200px;height:200px;">
+                </a>
+            </div>
             <div class="card-body login-card-body">
                 <div class="card-body login-card-body">
                     <p class="login-box-msg">{{ __('auth.login_title') }}</p>
@@ -20,7 +25,7 @@
                         <div class="input-group mb-3">
                             <input value="{{ old('email') }}" type="email"
                                 class="form-control {{ $errors->has('email') ? ' is-invalid' : '' }}" name="email"
-                                placeholder="{{ __('auth.email') }}" aria-label="{{ __('auth.email') }}">
+                                placeholder="{{ __('auth.email') }}" aria-label="{{ __('auth.email') }}" autocomplete="new-password">
                             @if ($errors->has('email'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('email') }}
@@ -31,7 +36,7 @@
                         <div class="input-group mb-3">
                             <input value="{{ old('password') }}" type="password"
                                 class="form-control  {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password"
-                                placeholder="{{ __('auth.password') }}" aria-label="{{ __('auth.password') }}">
+                                placeholder="{{ __('auth.password') }}" aria-label="{{ __('auth.password') }}" autocomplete="new-password">
                             @if ($errors->has('password'))
                                 <div class="invalid-feedback">
                                     {{ $errors->first('password') }}
@@ -40,14 +45,14 @@
                         </div>
 
                         <div class="row mb-2">
-                            <div class="col-8">
+                            <div class="col-10">
                                 <div class="checkbox icheck">
                                     <label> <input type="checkbox" name="remember"> {{ __('auth.remember_me') }}
                                     </label>
                                 </div>
                             </div>
                             <!-- /.col -->
-                            <div class="col-4">
+                            <div class="col-2">
                                 <button type="submit" class="submit">{{ __('auth.login') }}</button>
                             </div>
                             <!-- /.col -->
