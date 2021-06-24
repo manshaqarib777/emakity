@@ -75,7 +75,7 @@ class MarketAPIController extends Controller
                 $this->marketRepository->pushCriteria(new NearCriteria($request));
             }
             $this->marketRepository->pushCriteria(new ActiveCriteria());
-            $markets = $this->marketRepository->all();
+            $markets = $this->marketRepository->with('country.currency')->all();
 
         } catch (RepositoryException $e) {
             return $this->sendError($e->getMessage());

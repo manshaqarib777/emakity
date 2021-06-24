@@ -73,7 +73,7 @@ class ProductAPIController extends Controller
 
 //            $this->productRepository->orderBy('closed');
 //            $this->productRepository->orderBy('area');
-            $products = $this->productRepository->all();
+            $products = $this->productRepository->with('market.country.currency')->all();
 
         } catch (RepositoryException $e) {
             return $this->sendError($e->getMessage());
