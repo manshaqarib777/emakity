@@ -27,7 +27,7 @@
         {!! Form::label('state_id', trans('lang.app_state'), ['class' => 'col-3 control-label text-right']) !!}
         <div class="col-9">
             {!! Form::select('state_id',
-            [$user->state_id=>$user->state->name]
+           isset($user->state)?[$user->state_id=>$user->state->name]:[]
             ,null, ['class' => 'select-state form-control','id'=>'change-state']) !!}
             <div class="form-text text-muted">{{ trans("lang.app_setting_default_state_help") }}</div>
         </div>
@@ -37,7 +37,7 @@
         {!! Form::label('area_id', trans('lang.app_area'), ['class' => 'col-3 control-label text-right']) !!}
         <div class="col-9">
             {!! Form::select('area_id',
-            [$user->area_id=>$user->area->name]
+            isset($user->area)?[$user->area_id=>$user->area->name]:[]
             ,null, ['class' => 'select-area form-control','id'=>'change-area']) !!}
             <div class="form-text text-muted">{{ trans("lang.app_setting_default_area_help") }}</div>
         </div>
@@ -149,3 +149,55 @@
     <button type="submit" class="btn btn-{{setting('theme_color')}}"><i class="fa fa-save"></i> {{trans('lang.save')}} {{trans('lang.user')}}</button>
     <a href="{!! route('users.index') !!}" class="btn btn-default"><i class="fa fa-undo"></i> {{trans('lang.cancel')}}</a>
 </div>
+
+@push('scripts_lib')
+    <script>
+        $(document).ready(function() {
+            $('.select-country').select2({
+                placeholder: "Select country",
+            });
+
+            $('.select-state').select2({
+                placeholder: "Select state",
+            });
+
+            $('.select-area').select2({
+                placeholder: "Select Area",
+            });
+            $('#change-country').change(function() {
+                var id = $(this).val();
+                $.get("{{ route('get-states-ajax') }}?country_id=" + id, function(data) {
+                    $('select[name ="state_id"]').empty();
+                    $('select[name ="state_id"]').append(
+                        '<option value=""></option>');
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+
+                        $('select[name ="state_id"]').append('<option value="' +
+                            element['id'] + '">' + element['name'] + '</option>');
+                    }
+
+
+                });
+            });
+            $('#change-state').change(function() {
+                var id = $(this).val();
+
+                $.get("{{ route('get-areas-ajax') }}?state_id=" + id, function(data) {
+                    $('select[name ="area_id"]').empty();
+                    $('select[name ="area_id"]').append(
+                        '<option value=""></option>');
+                    for (let index = 0; index < data.length; index++) {
+                        const element = data[index];
+                        $('select[name ="area_id"]').append('<option value="' +
+                            element['id'] + '">' + element['name'] + '</option>');
+                    }
+
+
+                });
+            });
+                $('.select-country').trigger('change');
+                $('.select-state').trigger('change');
+        });
+    </script>
+@endpush

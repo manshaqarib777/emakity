@@ -1,13 +1,13 @@
 @extends('layouts.app')
 @push('css_lib')
     <!-- iCheck -->
-    <link rel="stylesheet" href="{{asset('plugins/iCheck/flat/blue.css')}}">
+    <link rel="stylesheet" href="{{ asset('plugins/iCheck/flat/blue.css') }}">
     <!-- select2 -->
-    <link rel="stylesheet" href="{{asset('plugins/select2/select2.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
     <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="{{asset('plugins/summernote/summernote-bs4.css')}}">
-    {{--dropzone--}}
-    <link rel="stylesheet" href="{{asset('plugins/dropzone/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.css') }}">
+    {{-- dropzone --}}
+    <link rel="stylesheet" href="{{ asset('plugins/dropzone/bootstrap.min.css') }}">
 @endpush
 @section('content')
     <!-- Content Header (Page header) -->
@@ -15,12 +15,13 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">{!! trans('lang.user_profile') !!} <small>{{trans('lang.media_desc')}}</small></h1>
+                    <h1 class="m-0 text-dark">{!! trans('lang.user_profile') !!} <small>{{ trans('lang.media_desc') }}</small></h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{url('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('lang.dashboard')}}</a></li>
-                        <li class="breadcrumb-item active">{{trans('lang.user_profile')}}</li>
+                        <li class="breadcrumb-item"><a href="{{ url('/dashboard') }}"><i class="fa fa-dashboard"></i>
+                                {{ trans('lang.dashboard') }}</a></li>
+                        <li class="breadcrumb-item active">{{ trans('lang.user_profile') }}</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -35,41 +36,46 @@
                     <!-- Profile Image -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fa fa-user mr-2"></i> {{trans('lang.user_about_me')}}</h3>
+                            <h3 class="card-title"><i class="fa fa-user mr-2"></i> {{ trans('lang.user_about_me') }}</h3>
                         </div>
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img src="{{auth()->user()->getFirstMediaUrl('avatar','icon')}}" class="profile-user-img img-fluid img-circle" alt="{{auth()->user()->name}}">
+                                <img src="{{ auth()->user()->getFirstMediaUrl('avatar', 'icon') }}"
+                                    class="profile-user-img img-fluid img-circle" alt="{{ auth()->user()->name }}">
                             </div>
-                            <h3 class="profile-username text-center">{{auth()->user()->name}}</h3>
-                            <p class="text-muted text-center">{{implode(', ',$rolesSelected)}}</p>
-                            <a class="btn btn-outline-{{setting('theme_color')}} btn-block" href="mailto:{{auth()->user()->email}}"><i class="fa fa-envelope mr-2"></i>{{auth()->user()->email}}
+                            <h3 class="profile-username text-center">{{ auth()->user()->name }}</h3>
+                            <p class="text-muted text-center">{{ implode(', ', $rolesSelected) }}</p>
+                            <a class="btn btn-outline-{{ setting('theme_color') }} btn-block"
+                                href="mailto:{{ auth()->user()->email }}"><i
+                                    class="fa fa-envelope mr-2"></i>{{ auth()->user()->email }}
                             </a>
                         </div>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
 
-                @if($customFields)
-                    <!-- About Me Box -->
+                    @if ($customFields)
+                        <!-- About Me Box -->
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title"><i class="fa fa-list mr-2"></i>{{trans('lang.custom_field_plural')}}</h3>
+                                <h3 class="card-title"><i
+                                        class="fa fa-list mr-2"></i>{{ trans('lang.custom_field_plural') }}</h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                @foreach($customFieldsValues as $value)
-                                    <strong>{{trans('lang.user_'.$value->customField->name)}}</strong>
+                                @foreach ($customFieldsValues as $value)
+                                    <strong>{{ trans('lang.user_' . $value->customField->name) }}</strong>
                                     <p class="text-muted">
                                         {!! $value->view !!}
                                     </p>
-                                    @if(!$loop->last)
-                                        <hr> @endif
+                                    @if (!$loop->last)
+                                        <hr>
+                                    @endif
                                 @endforeach
                             </div>
                             <!-- /.card-body -->
                         </div>
-                    <!-- /.card -->
+                        <!-- /.card -->
                     @endif
                 </div>
                 <!-- /.col -->
@@ -81,12 +87,15 @@
                         <div class="card-header">
                             <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="{!! url()->current() !!}"><i class="fa fa-cog mr-2"></i>{{trans('lang.app_setting')}}</a>
+                                    <a class="nav-link active" href="{!! url()->current() !!}"><i
+                                            class="fa fa-cog mr-2"></i>{{ trans('lang.app_setting') }}</a>
                                 </li>
                                 @hasrole('client')
                                 <div class="ml-auto d-inline-flex">
                                     <li class="nav-item">
-                                        <a class="nav-link pt-1" href="{!! route('markets.create') !!}"><i class="fa fa-check-o"></i> {{trans('lang.app_setting_become_store_owner')}}</a>
+                                        <a class="nav-link pt-1" href="{!! route('markets.create') !!}"><i
+                                                class="fa fa-check-o"></i>
+                                            {{ trans('lang.app_setting_become_store_owner') }}</a>
                                     </li>
                                 </div>
                                 @endhasrole
@@ -109,63 +118,15 @@
 @endsection
 @push('scripts_lib')
     <!-- iCheck -->
-    <script src="{{asset('plugins/iCheck/icheck.min.js')}}"></script>
+    <script src="{{ asset('plugins/iCheck/icheck.min.js') }}"></script>
     <!-- select2 -->
-    <script src="{{asset('plugins/select2/select2.min.js')}}"></script>
+    <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script>
-    {{--dropzone--}}
-    <script src="{{asset('plugins/dropzone/dropzone.js')}}"></script>
+    <script src="{{ asset('plugins/summernote/summernote-bs4.min.js') }}"></script>
+    {{-- dropzone --}}
+    <script src="{{ asset('plugins/dropzone/dropzone.js') }}"></script>
     <script type="text/javascript">
         Dropzone.autoDiscover = false;
         var dropzoneFields = [];
     </script>
-    <script>
-        $(document).ready(function() {
-        $('.select-country').select2({
-            placeholder: "Select country",
-        });
-
-        $('.select-state').select2({
-            placeholder: "Select state",
-        });
-
-        $('.select-area').select2({
-            placeholder: "Select Area",
-        });
-        $('#change-country').change(function() {
-            var id = $(this).val();
-            $.get("{{ route('get-states-ajax') }}?country_id=" + id, function(data) {
-                $('select[name ="state_id"]').empty();
-                $('select[name ="state_id"]').append(
-                    '<option value=""></option>');
-                for (let index = 0; index < data.length; index++) {
-                    const element = data[index];
-
-                    $('select[name ="state_id"]').append('<option value="' +
-                        element['id'] + '">' + element['name'] + '</option>');
-                }
-
-
-            });
-        });
-        $('#change-state').change(function() {
-            var id = $(this).val();
-
-            $.get("{{ route('get-areas-ajax') }}?state_id=" + id, function(data) {
-                $('select[name ="area_id"]').empty();
-                $('select[name ="area_id"]').append(
-                    '<option value=""></option>');
-                for (let index = 0; index < data.length; index++) {
-                    const element = data[index];
-                    $('select[name ="area_id"]').append('<option value="' +
-                        element['id'] + '">' + element['name'] + '</option>');
-                }
-
-
-            });
-        });
-    });
-</script>
 @endpush
-
