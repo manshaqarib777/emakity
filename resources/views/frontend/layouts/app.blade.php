@@ -160,7 +160,7 @@
             </div> <!-- Start Header Top area -->
 
             <!-- Start Header Center area -->
-            <div class="header__center sticky-header p-tb-10">
+            <div class="header__center p-tb-10">
                 <div class="container">
                     <div class="row">
                         <div class="col-12 d-flex justify-content-between align-items-center">

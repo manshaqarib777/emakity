@@ -74,21 +74,19 @@ class App
             }
 
             
-            $categories = $this->categoryRepository->with(['markets','markets.products']);
+            
             $slides = $this->slideRepository;
             $fields = $this->fieldRepository->get();
             $currencies = $this->currencyRepository->all()->pluck('name_symbol', 'id');
             $countries = Country::where('active',1)->get();
             
-           
             view()->share('app_logo', $appLogo);
             view()->share('app_banner1', $banner1);
             view()->share('app_banner2', $banner2);
-            view()->share('app_categories', $categories);
             view()->share('app_slides', $slides);
             view()->share('app_currencies', $currencies);
             view()->share('app_countries', $countries);
-            view()->share('app_fields', $fields);
+            view()->share('app_fields', $fields);           
             if(auth()->user())
             {
                 view()->share('app_carts',$this->cartRepository->where('user_id',auth()->id())->get()->count());

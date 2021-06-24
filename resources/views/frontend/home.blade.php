@@ -6,6 +6,21 @@
     <div class="container-fluid">
         @include('flash::message')
     </div>
+    @php
+        $categories = \App\Models\Category::with(['markets','markets.products']);
+           
+        if (request()->session()->has('country')) {
+            
+            $country = request()->session()->get('country');
+            $country = \App\Models\Country::where('code', $country)->get()->first();
+            $country_id = $country->id;
+            
+            $categories=$categories->whereHas('markets',function($query) use ($country_id){
+                $query->where('markets.country_id',$country_id);
+            });
+        }
+    @endphp
+
 
     <!-- :::::: Start Main Container Wrapper :::::: -->
     <main id="main-container" class="main-container">
@@ -103,7 +118,7 @@
                     <div class="col-12">
                         <div class="product__catagory">
 
-                            @foreach ($app_categories->limit(8)->get() as $category)
+                            @foreach ($categories->limit(8)->get() as $category)
 
                                 <div class="product__catagory--single">
                                     <!-- Start Product Content -->
@@ -218,7 +233,6 @@
         </div> <!-- ::::::  End  Product Style - Default Section  ::::::  -->
 
 
-
         <!-- ::::::  Start  Product Style - Default Section  ::::::  -->
         <div class="product m-t-100">
             <div class="container">
@@ -228,7 +242,7 @@
                         <div class="section-content section-content--border m-b-35">
                             <h5 class="section-content__title">Top {{ __('lang.market_plural') }}</h5>
                             <ul class="tablist tablist--style-blue tablist--style-gap-20 nav">
-                                @foreach ($app_categories->limit(4)->get() as $category)
+                                @foreach ($categories->limit(4)->get() as $category)
                                     <li><a class="nav-link {{ $loop->first ? 'active' : '' }}" data-toggle="tab"
                                             href="#{{ $category->name }}">{{ $category->name }}</a></li>
                                 @endforeach
@@ -241,7 +255,7 @@
                         <div class="tab-content tab-animate-zoom">
                             <!-- Start Single Tab Item -->
 
-                            @foreach ($app_categories->limit(4)->get() as $category)
+                            @foreach ($categories->limit(4)->get() as $category)
                                 <div class="tab-pane {{ $loop->first ? 'show active' : '' }}"
                                     id="{{ $category->name }}">
                                     <div class="default-slider default-slider--hover-bg-red product-default-slider">
