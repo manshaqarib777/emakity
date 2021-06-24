@@ -94,4 +94,19 @@ class LoginController extends Controller
         auth()->login($user,true);
         return redirect(route('users.profile'));
     }
+    public function authenticated()
+    {
+        if(auth()->user()->country_id){
+            $country=\App\Models\Country::find(auth()->user()->country_id);
+            request()->session()->put('country', $country->code);
+
+            $currency = \App\Models\Currency::where('code', $country->currency)->first();
+            if($currency)
+            {
+                request()->session()->put('currency_code', $currency->code);   
+            }
+        }
+       
+        return redirect()->route('dashboard');
+    }
 }

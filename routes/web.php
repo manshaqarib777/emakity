@@ -31,7 +31,7 @@ Route::get('/product/{id}', 'HomeController@product')->name('product');
 Route::get('/market/{id}', 'HomeController@market')->name('market');
 Route::get('ajaxed-get-states','HomeController@ajaxGetStates')->name('get-states-ajax');
 Route::get('ajaxed-get-areas','HomeController@ajaxGetAreas')->name('get-areas-ajax');
-
+Route::post('/country/change', 'HomeController@changeCountry')->name('country.change');
 
 Route::get('payments/failed', 'PayPalController@index')->name('payments.failed');
 Route::get('payments/razorpay/checkout', 'RazorPayController@checkout');

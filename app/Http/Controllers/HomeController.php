@@ -14,7 +14,7 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
 use App\Repositories\CartRepository;
 use App\Repositories\TestimonialRepository;
-use Flash,Auth;
+use Flash, Auth;
 
 
 use App\Criteria\Products\NearCriteria;
@@ -30,85 +30,92 @@ use InfyOm\Generator\Criteria\LimitOffsetCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Models\State;
 use App\Models\Area;
+use App\Models\Country;
+use App\Models\Currency;
+use Session;
 
 class HomeController extends Controller
 {
-        private $orderRepository;
-        private $userRepository;
-        private $marketRepository;
-        private $paymentRepository;
-        private $categoryRepository;
-        private $productRepository;
-        private $cartRepository;
-    
-        public function __construct(OrderRepository $orderRepo, UserRepository $userRepo, PaymentRepository $paymentRepo, MarketRepository $marketRepo,CategoryRepository $categoryRepo,ProductRepository $productRepo, CartRepository $cartRepo, TestimonialRepository $testimonialRepo)
-        {
-            parent::__construct();
-            $this->orderRepository = $orderRepo;
-            $this->userRepository = $userRepo;
-            $this->marketRepository = $marketRepo;
-            $this->categoryRepository = $categoryRepo;
-            $this->productRepository = $productRepo;
-            $this->paymentRepository = $paymentRepo;
-            $this->cartRepository = $cartRepo;
-            $this->testimonialRepository = $testimonialRepo;
+    private $orderRepository;
+    private $userRepository;
+    private $marketRepository;
+    private $paymentRepository;
+    private $categoryRepository;
+    private $productRepository;
+    private $cartRepository;
 
-        }
+    public function __construct(OrderRepository $orderRepo, UserRepository $userRepo, PaymentRepository $paymentRepo, MarketRepository $marketRepo, CategoryRepository $categoryRepo, ProductRepository $productRepo, CartRepository $cartRepo, TestimonialRepository $testimonialRepo)
+    {
+        parent::__construct();
+        $this->orderRepository = $orderRepo;
+        $this->userRepository = $userRepo;
+        $this->marketRepository = $marketRepo;
+        $this->categoryRepository = $categoryRepo;
+        $this->productRepository = $productRepo;
+        $this->paymentRepository = $paymentRepo;
+        $this->cartRepository = $cartRepo;
+        $this->testimonialRepository = $testimonialRepo;
+    }
 
     public function index(Request $request)
     {
 
-        //dd($request->all());
 
-        $this->productRepository->pushCriteria(new RequestCriteria($request));
-        $this->productRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $this->productRepository->pushCriteria(new ProductsOfFieldsCriteria($request));
-        $this->productRepository->pushCriteria(new ProductCurrencyCriteria($request));
-        $this->productRepository->pushCriteria(new ProductCountryCriteria($request));
-       if ($request->get('trending', null) == 'week') {
+
+        if ($request->session()->has('country')) {
+            $country = $request->session()->get('country');
+            $country = Country::where('code', $country)->get()->first();
+            $request['country_id'] = $country->id;
+        }
+        if ($request->get('trending', null) == 'week') {
             $this->productRepository->pushCriteria(new TrendingWeekCriteria($request));
         } else {
             $this->productRepository->pushCriteria(new NearCriteria($request));
         }
+        
+
+        
+        $this->productRepository->pushCriteria(new RequestCriteria($request));
+        $this->productRepository->pushCriteria(new LimitOffsetCriteria($request));
+        $this->productRepository->pushCriteria(new ProductsOfFieldsCriteria($request));
+        $this->productRepository->pushCriteria(new ProductCountryCriteria($request));
+        
         $products = $this->productRepository->all();
 
-        if($request->input('first_query')=='delivery') {
-            if ($request->input('second_query')=='open') {
-              $request['search'] = 'available_for_delivery:1;closed:0';
-              $request['searchFields'] = 'available_for_delivery:=;closed:=';
+        if ($request->input('first_query') == 'delivery') {
+            if ($request->input('second_query') == 'open') {
+                $request['search'] = 'available_for_delivery:1;closed:0';
+                $request['searchFields'] = 'available_for_delivery:=;closed:=';
             } else {
-              $request['search'] = 'available_for_delivery:1';
-              $request['searchFields'] = 'available_for_delivery:=';
+                $request['search'] = 'available_for_delivery:1';
+                $request['searchFields'] = 'available_for_delivery:=';
             }
-          } else if ($request->input('second_query')=='open') {
-            $request['search'] = 'closed:${open ? 0 : 1}';
+        } else if ($request->input('second_query') == 'open') {
+            $request['search'] = 'closed:0';
             $request['searchFields'] = 'closed:=';
-          }
-          if ($request->input('third_query')) {
+        }
+        if ($request->input('third_query')) {
             $request['fields[]'] = $request->input('third_query');
-          }
-
-
+        }
         $this->marketRepository->pushCriteria(new RequestCriteria($request));
         $this->marketRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $this->marketRepository->pushCriteria(new MarketCurrencyCriteria($request));
         $this->marketRepository->pushCriteria(new MarketCountryCriteria($request));
-         
+
         $markets = $this->marketRepository->all();
 
 
         $testimonials = $this->testimonialRepository->all();
 
 
-        
-        return view('frontend.home',compact('products','markets','testimonials'));
+
+        return view('frontend.home', compact('products', 'markets', 'testimonials'));
     }
 
     public function search(Request $request)
     {
-        $query=$request->input('query');
-        $request['search']='name:'.$query.';description;'.$query;
-        $request['searchFields']='name:like;description:like';
+        $query = $request->input('query');
+        $request['search'] = 'name:' . $query . ';description;' . $query;
+        $request['searchFields'] = 'name:like;description:like';
 
         //dd($request->all());
 
@@ -127,81 +134,75 @@ class HomeController extends Controller
         $this->marketRepository->pushCriteria(new RequestCriteria($request));
         $this->marketRepository->pushCriteria(new LimitOffsetCriteria($request));
         $this->marketRepository->pushCriteria(new MarketCurrencyCriteria($request));
-        $this->marketRepository->pushCriteria(new MarketCountryCriteria($request));         
+        $this->marketRepository->pushCriteria(new MarketCountryCriteria($request));
         $markets = $this->marketRepository->all();
 
         $products = $this->productRepository->all();
-        
-        return view('frontend.search',compact('products','markets'));
+
+        return view('frontend.search', compact('products', 'markets'));
     }
 
     public function product($id)
     {
         $products = $this->productRepository->all();
         $product = $this->productRepository->find($id);
-        $user = $this->userRepository->pluck('name','id');
-        $customFields=false;
-        return view('frontend.product',compact('user','product','products','customFields'));
+        $user = $this->userRepository->pluck('name', 'id');
+        $customFields = false;
+        return view('frontend.product', compact('user', 'product', 'products', 'customFields'));
     }
 
     public function market($id)
     {
         $market = $this->marketRepository->find($id);
-        $user = $this->userRepository->pluck('name','id');
-        $customFields=false;
-        return view('frontend.market',compact('user','market','customFields'));
+        $user = $this->userRepository->pluck('name', 'id');
+        $customFields = false;
+        return view('frontend.market', compact('user', 'market', 'customFields'));
     }
     public function cart()
     {
-        $products=$this->cartRepository->with('product','options')->where('user_id',auth()->id())->get();
-        $product = $this->cartRepository->with('product','product.market','product.market.currency')->where('user_id',Auth::user()->id)->first();
-        if(empty($product))
-        {
+        $products = $this->cartRepository->with('product', 'options')->where('user_id', auth()->id())->get();
+        $product = $this->cartRepository->with('product', 'product.market', 'product.market.currency')->where('user_id', Auth::user()->id)->first();
+        if (empty($product)) {
             Flash::error('Please Select Products in Cart First');
             return redirect(route('home'));
         }
-        $deliveryAddress=getDeliveryAddressID();
+        $deliveryAddress = getDeliveryAddressID();
         return view('frontend.carts.index')->with("customFields", isset($html) ? $html : false)->with("deliveryAddress", $deliveryAddress)->with("product", $product)->with("products", $products);
     }
     public function cart_ajax()
     {
-        $products=$this->cartRepository->with('product','options')->where('user_id',auth()->id())->get();
-        $data = view('frontend.carts.all',['products'=>$products])->render();
-        return $this->sendResponse($data, __('lang.saved_successfully',['operator' => __('lang.cart')]));
+        $products = $this->cartRepository->with('product', 'options')->where('user_id', auth()->id())->get();
+        $data = view('frontend.carts.all', ['products' => $products])->render();
+        return $this->sendResponse($data, __('lang.saved_successfully', ['operator' => __('lang.cart')]));
     }
     public function cart_ajax_update(Request $request)
     {
-        $cart=$this->cartRepository->find($request->input('cart_id'));
-        if($cart)
-        {
-            if($request->type=='update_cart')
-            {
-                $cart->quantity=$cart->quantity+1;
+        $cart = $this->cartRepository->find($request->input('cart_id'));
+        if ($cart) {
+            if ($request->type == 'update_cart') {
+                $cart->quantity = $cart->quantity + 1;
                 $cart->update();
-            }
-            else
-            {
-                $cart->quantity=$cart->quantity-1;
+            } else {
+                $cart->quantity = $cart->quantity - 1;
                 $cart->update();
-
             }
         }
 
-        return $this->sendResponse($cart, __('lang.saved_successfully',['operator' => __('lang.cart')]));
+        return $this->sendResponse($cart, __('lang.saved_successfully', ['operator' => __('lang.cart')]));
     }
 
     public function cart_ajax_delete(Request $request)
     {
-        $cart=$this->cartRepository->find($request->input('cart_id'));
+        $cart = $this->cartRepository->find($request->input('cart_id'));
         $cart->delete();
-        $products=$this->cartRepository->with('product','options')->where('user_id',auth()->id())->get();
-        $data = view('frontend.carts.all',['products'=>$products])->render();
-        return $this->sendResponse($data, __('lang.deleted_successfully',['operator' => __('lang.cart')]));
+        $products = $this->cartRepository->with('product', 'options')->where('user_id', auth()->id())->get();
+        $data = view('frontend.carts.all', ['products' => $products])->render();
+        return $this->sendResponse($data, __('lang.deleted_successfully', ['operator' => __('lang.cart')]));
     }
     public function ajaxGetStates()
     {
         $country_id = $_GET['country_id'];
-        $states = State::where('country_id', $country_id)->where('covered',1)->get();
+        $states = State::where('country_id', $country_id)->where('covered', 1)->get();
         return response()->json($states);
     }
     public function ajaxGetAreas()
@@ -209,5 +210,25 @@ class HomeController extends Controller
         $state_id = $_GET['state_id'];
         $areas = Area::where('state_id', $state_id)->get();
         return response()->json($areas);
+    }
+    public function changeCountry(Request $request)
+    {
+
+        //dd($request->all());
+        $request->session()->put('country', $request->country);
+
+        $country = Country::where('code', $request->country)->get()->first();
+        //dd($request->country);
+
+        $currency = Currency::where('code', $country->currency->code)->first();
+        if (!$currency) {
+            $currency = Currency::get()->first();
+            $request->session()->put('currency_code', $currency->code);
+            flash(translate('Currency changed to ') . $currency->name)->success();
+            return $this->sendResponse($currency, __('lang.saved_successfully', ['operator' => __('lang.country')]));
+        } else {
+            $request->session()->put('currency_code', $currency->code);
+            return $this->sendResponse($currency, __('lang.saved_successfully', ['operator' => __('lang.country')]));
+        }
     }
 }

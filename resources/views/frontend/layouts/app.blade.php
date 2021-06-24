@@ -122,18 +122,29 @@
                                         <ul class="expand-dropdown-menu dropdown-menu">
                                             @foreach (getAvailableLanguages() as $key => $value)
                                                 <li><a href="{{ url('locale/' . $key) }}"
-                                                        class='selected_country'>{{ $value }}</a></li>
+                                                        class='selected_language'>{{ $value }}</a></li>
                                             @endforeach
                                         </ul>
                                     </li>
                                     <li class="user-currency pos-relative">
+
+                                        @php
+                                        if(Session::has('country')){
+                                            $country = Session::get('country', null);
+                                            $country= \App\Models\Country::where('code',$country)->get()->first();
+                                            $country=$country->name;
+                                        }
+                                        else{
+                                            $country = null;
+                                        }
+                                    @endphp
                                         <a class="user-set-role__button" href="#" data-toggle="dropdown"
-                                            aria-expanded="false">{{ request()->get('country_name') ? request()->get('country_name') : 'Select Country' }}<i
+                                            aria-expanded="false">{{ $country ? $country : 'Select Country' }}<i
                                                 class="fal fa-chevron-down"></i></a>
-                                        <ul class="expand-dropdown-menu dropdown-menu">
+                                        <ul class="expand-dropdown-menu dropdown-menu" id="country-change">
                                             @foreach ($app_countries as $key => $value)
-                                                <li><a href="{{ route('search') . '?country_id=' . $value['id'] . '&country_name=' . $value['name'] }}"
-                                                        class='selected_country' data-id="{{ $value['id'] }}"><img
+                                                <li class="navi navi-item"><a href="javascript:void(0)"
+                                                        class='selected_country' data-flag="{{ $value['code'] }}" data-id="{{ $value['id'] }}"><img
                                                             src="https://lipis.github.io/flag-icon-css/flags/1x1/{{ strtolower($value['code']) }}.svg"
                                                             alt=""
                                                             style="width: 23px;height:17px">{{ $value['name'] }}</a>
@@ -776,6 +787,20 @@
 
     <!-- Main js file that contents all jQuery plugins activation. -->
     <script src="{{ asset('/') }}frontend/assets/js/main.js"></script>
+    <script type="text/javascript">
+        if ($('#country-change').length > 0) {
+            $('#country-change .navi-item a').each(function() {
+                $(this).on('click', function(e){
+                    e.preventDefault();
+                    var $this = $(this);
+                    var country = $this.data('flag');
+                    $.post('{{ route('country.change') }}',{_token:'{{ csrf_token() }}', country:country}, function(data){
+                        location.reload();
+                    });
+                });
+            });
+        }
+    </script>
     @stack('scripts')
 </body>
 
