@@ -32,6 +32,8 @@ use App\Models\State;
 use App\Models\Area;
 use App\Models\Country;
 use App\Models\Currency;
+use App\Models\Product;
+use App\Models\Market;
 use Session;
 
 class HomeController extends Controller
@@ -61,47 +63,53 @@ class HomeController extends Controller
     {
 
 
-
+        $products=new Product();
+        $markets=new Market();
         if ($request->session()->has('country')) {
+            
             $country = $request->session()->get('country');
             $country = Country::where('code', $country)->get()->first();
-            $request['country_id'] = $country->id;
-        }
-        if ($request->get('trending', null) == 'week') {
-            $this->productRepository->pushCriteria(new TrendingWeekCriteria($request));
-        } else {
-            $this->productRepository->pushCriteria(new NearCriteria($request));
-        }
-        
+            $country_id = $country->id;
+            
+            $products=$products->whereHas('market',function($query) use ($country_id){
+                $query->where('markets.country_id',$country_id);
+            });
 
-        
-        $this->productRepository->pushCriteria(new RequestCriteria($request));
-        $this->productRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $this->productRepository->pushCriteria(new ProductsOfFieldsCriteria($request));
-        $this->productRepository->pushCriteria(new ProductCountryCriteria($request));
-        
-        $products = $this->productRepository->all();
+            $markets=$markets->where('country_id',$country_id);
+        }
+
+        if ($request->has('fields')) 
+        {
+            $fields = $request->get('fields');
+            if (in_array('0', $fields)) 
+            { 
+                $products=$products;
+            }
+            else
+            {
+                $products =  $products->join('market_fields', 'market_fields.market_id', '=', 'products.market_id')
+                ->whereIn('market_fields.field_id', $request->get('fields', []))->groupBy('products.id');
+            }
+
+        }
+        $products=$products->get();
 
         if ($request->input('first_query') == 'delivery') {
-            if ($request->input('second_query') == 'open') {
-                $request['search'] = 'available_for_delivery:1;closed:0';
-                $request['searchFields'] = 'available_for_delivery:=;closed:=';
-            } else {
-                $request['search'] = 'available_for_delivery:1';
-                $request['searchFields'] = 'available_for_delivery:=';
+            if ($request->input('second_query') == 'open') 
+            {
+                $markets=$markets->where('available_for_delivery',1)->where('closed',0);
+            } 
+            else 
+            {
+                $markets=$markets->where('available_for_delivery',1);
             }
-        } else if ($request->input('second_query') == 'open') {
-            $request['search'] = 'closed:0';
-            $request['searchFields'] = 'closed:=';
+        } 
+        else if($request->input('second_query') == 'open') 
+        {
+            $markets=$markets->where('closed',0);
         }
-        if ($request->input('third_query')) {
-            $request['fields[]'] = $request->input('third_query');
-        }
-        $this->marketRepository->pushCriteria(new RequestCriteria($request));
-        $this->marketRepository->pushCriteria(new LimitOffsetCriteria($request));
-        $this->marketRepository->pushCriteria(new MarketCountryCriteria($request));
-
-        $markets = $this->marketRepository->all();
+        
+        $markets=$markets->get();
 
 
         $testimonials = $this->testimonialRepository->all();
