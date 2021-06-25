@@ -150,6 +150,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('faqs', 'FaqController')->except([
         'show'
     ]);
+    Route::resource('states', 'StateController')->except([
+        'show'
+    ]);
     Route::resource('marketReviews', 'MarketReviewController')->except([
         'show'
     ]);
