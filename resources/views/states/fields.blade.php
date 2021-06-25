@@ -3,7 +3,7 @@
     <div class="form-group row ">
         {!! Form::label('name', trans('lang.state_name'), ['class' => 'col-3 control-label text-right']) !!}
         <div class="col-9">
-            {!! Form::textarea('name', null, ['class' => 'form-control', 'placeholder' => trans('lang.state_name_placeholder')]) !!}
+            {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => trans('lang.state_name_placeholder')]) !!}
             <div class="form-text text-muted">{{ trans('lang.state_name_help') }}</div>
         </div>
     </div>
@@ -33,23 +33,6 @@
                 placeholder: "Select country",
             });
 
-
-            $('#change-country').change(function() {
-                var id = $(this).val();
-                $.get("{{ route('get-states-ajax') }}?country_id=" + id, function(data) {
-                    $('select[name ="state_id"]').empty();
-                    $('select[name ="state_id"]').append(
-                        '<option value=""></option>');
-                    for (let index = 0; index < data.length; index++) {
-                        const element = data[index];
-
-                        $('select[name ="state_id"]').append('<option value="' +
-                            element['id'] + '">' + element['name'] + '</option>');
-                    }
-
-
-                });
-            });
         });
     </script>
 @endpush

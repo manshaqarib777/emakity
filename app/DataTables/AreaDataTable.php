@@ -2,13 +2,13 @@
 
 namespace App\DataTables;
 
-use App\Models\State;
+use App\Models\Area;
 use App\Models\CustomField;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Barryvdh\DomPDF\Facade as PDF;
 
-class StateDataTable extends DataTable
+class AreaDataTable extends DataTable
 {
     /**
      * custom fields columns
@@ -27,13 +27,16 @@ class StateDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($state) {
-            return $state['country']['name'];
+        ->editColumn('state', function ($area) {
+            return $area['state']['name'];
+        })
+        ->editColumn('country', function ($area) {
+            return $area['country']['name'];
         })    
-        ->editColumn('updated_at', function ($state) {
-                return getDateColumn($state, 'updated_at');
+        ->editColumn('updated_at', function ($area) {
+                return getDateColumn($area, 'updated_at');
             })
-            ->addColumn('action', 'states.datatables_actions')
+            ->addColumn('action', 'areas.datatables_actions')
             ->rawColumns(array_merge($columns, ['action']));
 
         return $dataTable;
@@ -45,7 +48,7 @@ class StateDataTable extends DataTable
      * @param \App\Models\Post $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(State $model)
+    public function query(Area $model)
     {
         return $model->newQuery();
     }
@@ -80,8 +83,13 @@ class StateDataTable extends DataTable
         $columns = [
             [
                 'data' => 'name',
-                'title' => trans('lang.state_name'),
+                'title' => trans('lang.area_name'),
                 'searchable' => true,
+            ],
+            [
+                'data' => 'state',
+                'title' => trans('lang.state'),
+                'searchable' => false,
             ],
             [
                 'data' => 'country',
@@ -90,7 +98,7 @@ class StateDataTable extends DataTable
             ],
             [
                 'data' => 'updated_at',
-                'title' => trans('lang.state_updated_at'),
+                'title' => trans('lang.area_updated_at'),
                 'searchable' => false,
             ]
         ];
@@ -104,7 +112,7 @@ class StateDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'statesdatatable_' . time();
+        return 'areasdatatable_' . time();
     }
 
     /**

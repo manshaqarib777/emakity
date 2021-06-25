@@ -153,6 +153,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('states', 'StateController')->except([
         'show'
     ]);
+    Route::resource('areas', 'AreaController')->except([
+        'show'
+    ]);
     Route::resource('marketReviews', 'MarketReviewController')->except([
         'show'
     ]);
