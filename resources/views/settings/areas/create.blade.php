@@ -9,28 +9,8 @@
 {{--dropzone--}}
 <link rel="stylesheet" href="{{asset('plugins/dropzone/bootstrap.min.css')}}">
 @endpush
-@section('content')
-<!-- Content Header (Page header) -->
-<div class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1 class="m-0 text-dark">{{trans('lang.area_plural')}}<small class="ml-3 mr-3">|</small><small>{{trans('lang.area_desc')}}</small></h1>
-      </div><!-- /.col -->
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="{{url('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('lang.dashboard')}}</a></li>
-          <li class="breadcrumb-item"><a href="{!! route('areas.index') !!}">{{trans('lang.area_plural')}}</a>
-          </li>
-          <li class="breadcrumb-item active">{{trans('lang.area_create')}}</li>
-        </ol>
-      </div><!-- /.col -->
-    </div><!-- /.row -->
-  </div><!-- /.container-fluid -->
-</div>
-<!-- /.content-header -->
-<div class="content">
-  <div class="clearfix"></div>
+@section('settings_title',trans('lang.area'))
+@section('settings_content')
   @include('flash::message')
   @include('adminlte-templates::common.errors')
   <div class="clearfix"></div>
@@ -50,14 +30,13 @@
     <div class="card-body">
       {!! Form::open(['route' => 'areas.store']) !!}
       <div class="row">
-        @include('areas.fields')
+        @include('settings.areas.fields')
       </div>
       {!! Form::close() !!}
       <div class="clearfix"></div>
     </div>
   </div>
-</div>
-@include('layouts.media_modal')
+  @include('layouts.media_modal',['collection'=>null])
 @endsection
 @push('scripts_lib')
 <!-- iCheck -->

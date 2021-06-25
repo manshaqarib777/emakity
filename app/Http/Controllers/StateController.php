@@ -40,7 +40,7 @@ class StateController extends Controller
      */
     public function index(StateDataTable $stateDataTable)
     {
-        return $stateDataTable->render('states.index');
+        return $stateDataTable->render('settings.states.index');
     }
 
     /**
@@ -54,7 +54,7 @@ class StateController extends Controller
         
         $countries = $this->countryRepository->all()->pluck('name','id');
 
-        return view('states.create')->with("state",$state)->with('countries',$countries);
+        return view('settings.states.create')->with("state",$state)->with('countries',$countries);
     }
 
     /**
@@ -96,7 +96,7 @@ class StateController extends Controller
             return redirect(route('states.index'));
         }
 
-        return view('states.show')->with('state', $state);
+        return view('settings.states.show')->with('state', $state);
     }
 
     /**
@@ -119,7 +119,7 @@ class StateController extends Controller
         $countries = $this->countryRepository->all()->pluck('name','id');
 
 
-        return view('states.edit')->with("state",$state)->with("countries",$countries);
+        return view('settings.states.edit')->with("state",$state)->with("countries",$countries);
     }
 
     /**

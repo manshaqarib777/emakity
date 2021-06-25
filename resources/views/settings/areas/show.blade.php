@@ -1,4 +1,4 @@
-@extends('layouts.settings.default')
+@extends('layouts.app')
 
 @section('content')
 <!-- Content Header (Page header) -->
@@ -10,39 +10,38 @@
       </div><!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="{{url('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('lang.dashboard')}}</a></li>
-          <li class="breadcrumb-item"><a href="{!! route('areas.index') !!}">{{trans('lang.area_plural')}}</a>
+          <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="fa fa-dashboard"></i> {{trans('lang.dashboard')}}</a></li>
+          <li class="breadcrumb-itema ctive"><a href="{!! route('areas.index') !!}">{{trans('lang.area_plural')}}</a>
           </li>
-          <li class="breadcrumb-item active">{{trans('lang.area_table')}}</li>
         </ol>
       </div><!-- /.col -->
     </div><!-- /.row -->
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content-header -->
-
 <div class="content">
-  <div class="clearfix"></div>
-  @include('flash::message')
   <div class="card">
     <div class="card-header">
       <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
         <li class="nav-item">
-          <a class="nav-link active" href="{!! url()->current() !!}"><i class="fa fa-list mr-2"></i>{{trans('lang.area_table')}}</a>
+          <a class="nav-link" href="{!! route('areas.index') !!}"><i class="fa fa-list mr-2"></i>{{trans('lang.area_table')}}</a>
         </li>
-        @can('areas.create')
         <li class="nav-item">
-          <a class="nav-link" href="{!! route('areas.create') !!}"><i class="fa fa-plus mr-2"></i>{{trans('lang.area_create')}}</a>
+          <a class="nav-link active" href="{!! route('areas.create') !!}"><i class="fa fa-plus mr-2"></i>{{trans('lang.area_create')}}</a>
         </li>
-        @endcan
-        @include('layouts.right_toolbar', compact('dataTable'))
       </ul>
     </div>
     <div class="card-body">
-      @include('areas.table')
+      <div class="row">
+        @include('settings.areas.show_fields')
+
+        <!-- Back Field -->
+        <div class="form-group col-12 text-right">
+          <a href="{!! route('areas.index') !!}" class="btn btn-default"><i class="fa fa-undo"></i> {{trans('lang.back')}}</a>
+        </div>
+      </div>
       <div class="clearfix"></div>
     </div>
   </div>
 </div>
 @endsection
-

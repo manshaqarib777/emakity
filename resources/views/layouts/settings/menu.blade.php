@@ -37,6 +37,8 @@
              Request::is('settings/payment*') ||
              Request::is('settings/currencies*') ||
              Request::is('settings/countries*') ||
+             Request::is('settings/states*') ||
+             Request::is('settings/areas*') ||
              Request::is('settings/customFields*')
  ? '' : 'collapsed-card' }}">
     <div class="card-header">
@@ -50,6 +52,8 @@
              Request::is('settings/payment*') ||
              Request::is('settings/currencies*') ||
              Request::is('settings/countries*') ||
+             Request::is('settings/states*') ||
+             Request::is('settings/areas*') ||
              Request::is('settings/customFields*')
              ? 'fa-minus' : 'fa-plus' }}"></i>
             </button>
@@ -91,7 +95,19 @@
             <li class="nav-item">
                 <a href="{!! route('countries.index') !!}" class="nav-link {{ Request::is('settings/countries*') ? 'selected' : '' }}" ><i class="nav-icon fa fa-flag ml-1"></i> {{trans('lang.country_plural')}}</a>
             </li>
-        @endcan
+            @endcan
+
+            @can('states.index')
+            <li class="nav-item">
+                <a href="{!! route('states.index') !!}" class="nav-link {{ Request::is('settings/states*') ? 'selected' : '' }}" ><i class="nav-icon fa fa-flag ml-1"></i> {{trans('lang.state_plural')}}</a>
+            </li>
+            @endcan
+
+            @can('areas.index')
+            <li class="nav-item">
+                <a href="{!! route('areas.index') !!}" class="nav-link {{ Request::is('settings/areas*') ? 'selected' : '' }}" ><i class="nav-icon fa fa-flag ml-1"></i> {{trans('lang.area_plural')}}</a>
+            </li>
+            @endcan
 
             <li class="nav-item">
                 <a href="{!! url('settings/app/notifications') !!}" class="nav-link {{  Request::is('settings/app/notifications*') || Request::is('notificationTypes*') ? 'selected' : '' }}">

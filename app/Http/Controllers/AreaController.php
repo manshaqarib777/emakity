@@ -43,7 +43,7 @@ class AreaController extends Controller
      */
     public function index(AreaDataTable $areaDataTable)
     {
-        return $areaDataTable->render('areas.index');
+        return $areaDataTable->render('settings.areas.index');
     }
 
     /**
@@ -58,7 +58,7 @@ class AreaController extends Controller
         $countries = $this->countryRepository->all()->pluck('name','id');
         $states = $this->stateRepository->all()->pluck('name','id');
 
-        return view('areas.create')->with("area",$area)->with('countries',$countries)->with('states',$states);
+        return view('settings.areas.create')->with("area",$area)->with('countries',$countries)->with('states',$states);
     }
 
     /**
@@ -100,7 +100,7 @@ class AreaController extends Controller
             return redirect(route('areas.index'));
         }
 
-        return view('areas.show')->with('area', $area);
+        return view('settings.areas.show')->with('area', $area);
     }
 
     /**
@@ -123,7 +123,7 @@ class AreaController extends Controller
         $countries = $this->countryRepository->all()->pluck('name','id');
         $states = $this->stateRepository->all()->pluck('name','id');
 
-        return view('areas.edit')->with("area",$area)->with("countries",$countries)->with("states",$states);
+        return view('settings.areas.edit')->with("area",$area)->with("countries",$countries)->with("states",$states);
     }
 
     /**
