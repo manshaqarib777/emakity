@@ -36,7 +36,7 @@ class AreaDataTable extends DataTable
         ->editColumn('updated_at', function ($area) {
                 return getDateColumn($area, 'updated_at');
             })
-            ->addColumn('action', 'areas.datatables_actions')
+            ->addColumn('action', 'settings.areas.datatables_actions')
             ->rawColumns(array_merge($columns, ['action']));
 
         return $dataTable;

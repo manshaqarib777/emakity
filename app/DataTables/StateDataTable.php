@@ -33,7 +33,7 @@ class StateDataTable extends DataTable
         ->editColumn('updated_at', function ($state) {
                 return getDateColumn($state, 'updated_at');
             })
-            ->addColumn('action', 'states.datatables_actions')
+            ->addColumn('action', 'settings.states.datatables_actions')
             ->rawColumns(array_merge($columns, ['action']));
 
         return $dataTable;
