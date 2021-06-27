@@ -11,6 +11,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Country;
+use App\Models\Currency;
 use App\Repositories\CustomFieldRepository;
 use App\Repositories\RoleRepository;
 use App\Repositories\UploadRepository;
@@ -131,6 +133,17 @@ class UserAPIController extends Controller
         }
 
         return $this->sendResponse($user, 'User retrieved successfully');
+    }
+
+    function countries(Request $request)
+    {
+        $countries = Country::with('currency')->where('active',1)->get();
+
+        if (!$countries) {
+            return $this->sendError('User not found', 401);
+        }
+
+        return $this->sendResponse($countries, 'Countries retrieved successfully');
     }
 
     function settings(Request $request)

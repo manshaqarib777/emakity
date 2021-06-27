@@ -36,7 +36,7 @@ Route::prefix('manager')->group(function () {
     Route::get('settings', 'API\Manager\UserAPIController@settings');
 });
 
-
+Route::get('countries', 'API\UserAPIController@countries');
 Route::post('login', 'API\UserAPIController@login');
 Route::post('register', 'API\UserAPIController@register');
 Route::post('send_reset_link_email', 'API\UserAPIController@sendResetLinkEmail');
