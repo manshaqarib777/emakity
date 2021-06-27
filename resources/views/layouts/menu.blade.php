@@ -346,6 +346,18 @@
             </li>
             @endcan
 
+            @can('states.index')
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('settings/states*') ? 'active' : '' }}" href="{!! route('states.index') !!}">@if($icons)<i class="nav-icon fa fa-flag"></i>@endif<p>{{trans('lang.state_plural')}}</p></a>
+            </li>
+            @endcan
+
+            @can('areas.index')
+            <li class="nav-item">
+                <a class="nav-link {{ Request::is('settings/areas*') ? 'active' : '' }}" href="{!! route('areas.index') !!}">@if($icons)<i class="nav-icon fa fa-flag"></i>@endif<p>{{trans('lang.area_plural')}}</p></a>
+            </li>
+            @endcan
+
             <li class="nav-item">
                 <a href="{!! url('settings/payment/payment') !!}" class="nav-link {{  Request::is('settings/payment*') ? 'active' : '' }}">
                     @if($icons)<i class="nav-icon fa fa-credit-card"></i> @endif <p>{{trans('lang.app_setting_payment')}}</p>

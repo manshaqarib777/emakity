@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.settings.default')
 @push('css_lib')
 <!-- iCheck -->
 <link rel="stylesheet" href="{{asset('plugins/iCheck/flat/blue.css')}}">
@@ -9,55 +9,34 @@
 {{--dropzone--}}
 <link rel="stylesheet" href="{{asset('plugins/dropzone/bootstrap.min.css')}}">
 @endpush
-@section('content')
-<!-- Content Header (Page header) -->
-<div class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6">
-        <h1 class="m-0 text-dark">{{trans('lang.state_plural')}}<small class="ml-3 mr-3">|</small><small>{{trans('lang.state_desc')}}</small></h1>
-      </div><!-- /.col -->
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="{{url('/dashboard')}}"><i class="fa fa-dashboard"></i> {{trans('lang.dashboard')}}</a></li>
-          <li class="breadcrumb-item"><a href="{!! route('states.index') !!}">{{trans('lang.state_plural')}}</a>
-          </li>
-          <li class="breadcrumb-item active">{{trans('lang.state_create')}}</li>
-        </ol>
-      </div><!-- /.col -->
-    </div><!-- /.row -->
-  </div><!-- /.container-fluid -->
-</div>
-<!-- /.content-header -->
-<div class="content">
-  <div class="clearfix"></div>
+@section('settings_title',trans('lang.area'))
+@section('settings_content')
   @include('flash::message')
   @include('adminlte-templates::common.errors')
   <div class="clearfix"></div>
   <div class="card">
     <div class="card-header">
       <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
-        @can('states.index')
+        @can('areas.index')
         <li class="nav-item">
-          <a class="nav-link" href="{!! route('states.index') !!}"><i class="fa fa-list mr-2"></i>{{trans('lang.state_table')}}</a>
+          <a class="nav-link" href="{!! route('areas.index') !!}"><i class="fa fa-list mr-2"></i>{{trans('lang.area_table')}}</a>
         </li>
         @endcan
         <li class="nav-item">
-          <a class="nav-link active" href="{!! url()->current() !!}"><i class="fa fa-plus mr-2"></i>{{trans('lang.state_create')}}</a>
+          <a class="nav-link active" href="{!! url()->current() !!}"><i class="fa fa-plus mr-2"></i>{{trans('lang.area_create')}}</a>
         </li>
       </ul>
     </div>
     <div class="card-body">
-      {!! Form::open(['route' => 'states.store']) !!}
+      {!! Form::open(['route' => 'areas.store']) !!}
       <div class="row">
-        @include('states.fields')
+        @include('settings.areas.fields')
       </div>
       {!! Form::close() !!}
       <div class="clearfix"></div>
     </div>
   </div>
-</div>
-@include('layouts.media_modal')
+  @include('layouts.media_modal',['collection'=>null])
 @endsection
 @push('scripts_lib')
 <!-- iCheck -->

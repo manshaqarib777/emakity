@@ -86,6 +86,12 @@ Route::middleware('auth')->group(function () {
             Route::resource('countries', 'CountryController')->except([
                 'show'
             ]);
+            Route::resource('states', 'StateController')->except([
+                'show'
+            ]);
+            Route::resource('areas', 'AreaController')->except([
+                'show'
+            ]);
             Route::get('users/login-as-user/{id}', 'UserController@loginAsUser')->name('users.login-as-user');
             Route::patch('update', 'AppSettingController@update');
             Route::patch('translate', 'AppSettingController@translate');
@@ -148,9 +154,6 @@ Route::middleware('auth')->group(function () {
     ]);;
 
     Route::resource('faqs', 'FaqController')->except([
-        'show'
-    ]);
-    Route::resource('states', 'StateController')->except([
         'show'
     ]);
     Route::resource('marketReviews', 'MarketReviewController')->except([
