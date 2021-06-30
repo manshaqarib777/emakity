@@ -31,7 +31,10 @@ class State extends Model
 
   public $fillable = [
     'name',
-    'country_id'
+    'country_id',
+    'country_code',
+    'iso2',
+    'covered'
   ];
 
   /**
@@ -41,7 +44,11 @@ class State extends Model
    */
   protected $casts = [
     'name' => 'string',
-    'country_id' => 'integer'
+    'country_id' => 'integer',
+    'country_code' => 'string',
+    'iso2' => 'string',
+    'covered' => 'string'
+
   ];
 
   /**

@@ -6,12 +6,14 @@ use App\DataTables\StateDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateStateRequest;
 use App\Http\Requests\UpdateStateRequest;
+use App\Models\Country;
 use App\Repositories\CountryRepository;
 use App\Repositories\StateRepository;
 use Flash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
+use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Counts;
 use Prettus\Validator\Exceptions\ValidatorException;
 
 class StateController extends Controller
@@ -66,7 +68,11 @@ class StateController extends Controller
      */
     public function store(CreateStateRequest $request)
     {
+        $country=Country::find($request->input('country_id'));
         $input = $request->all();
+        $input['country_code']=$country->code;
+        $input['iso2']=$country->iso3;
+        $input['covered']=1;
         try {
             $state = $this->stateRepository->create($input);
             
@@ -138,7 +144,12 @@ class StateController extends Controller
             Flash::error('State not found');
             return redirect(route('states.index'));
         }
+        $country=Country::find($request->input('country_id'));
         $input = $request->all();
+        $input['country_code']=$country->code;
+        $input['iso2']=$country->iso3;
+        $input['covered']=1;
+        //dd($input);
         try {
             $state = $this->stateRepository->update($input, $id);
             
