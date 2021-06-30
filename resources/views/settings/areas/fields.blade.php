@@ -43,7 +43,7 @@
                 placeholder: "Select state",
             });
 
-            $('.select-country').trigger('change');
+
 
             $('#change-country').change(function() {
                 var id = $(this).val();
@@ -61,6 +61,7 @@
 
                 });
             });
+            $('.select-country').trigger('change');
         });
     </script>
 @endpush
