@@ -178,6 +178,38 @@
 
     <script src="{{asset('https://www.gstatic.com/firebasejs/7.2.0/firebase-messaging.js')}}"></script>
 
+
+
+    <!-- Sparkline -->
+    {{--<script src="{{asset('plugins/sparkline/jquery.sparkline.min.js')}}"></script>--}}
+    {{--<!-- iCheck -->--}}
+    {{--<script src="{{asset('plugins/iCheck/icheck.min.js')}}"></script>--}}
+    {{--<!-- select2 -->--}}
+    {{--<script src="{{asset('plugins/select2/select2.min.js')}}"></script>--}}
+    <!-- jQuery Knob Chart -->
+    {{--<script src="{{asset('plugins/knob/jquery.knob.js')}}"></script>--}}
+    <!-- daterangepicker -->
+    {{--<script src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js')}}"></script>--}}
+    {{--<script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>--}}
+    <!-- datepicker -->
+    <script src="{{asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    {{--<script src="{{asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>--}}
+    <!-- Slimscroll -->
+    <script src="{{asset('plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
+    <script src="{{asset('plugins/bootstrap-sweetalert/sweetalert.min.js')}}"></script>
+    <!-- FastClick -->
+    {{--<script src="{{asset('plugins/fastclick/fastclick.js')}}"></script>--}}
+    @stack('scripts_lib')
+    <!-- AdminLTE App -->
+    <script src="{{asset('dist/js/adminlte.js')}}"></script>
+    {{--<!-- AdminLTE dashboard demo (This is only for demo purposes) -->--}}
+    {{--<script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script>--}}
+    <!-- AdminLTE for demo purposes -->
+    <script src="{{asset('dist/js/demo.js')}}"></script>
+
+    <script src="{{asset('js/scripts.js')}}"></script>
+    @stack('scripts')
     <script type="text/javascript">@include('vendor.notifications.init_firebase')</script>
 
     <script type="text/javascript">
@@ -235,36 +267,5 @@
             });
         }
     </script>
-
-    <!-- Sparkline -->
-    {{--<script src="{{asset('plugins/sparkline/jquery.sparkline.min.js')}}"></script>--}}
-    {{--<!-- iCheck -->--}}
-    {{--<script src="{{asset('plugins/iCheck/icheck.min.js')}}"></script>--}}
-    {{--<!-- select2 -->--}}
-    {{--<script src="{{asset('plugins/select2/select2.min.js')}}"></script>--}}
-    <!-- jQuery Knob Chart -->
-    {{--<script src="{{asset('plugins/knob/jquery.knob.js')}}"></script>--}}
-    <!-- daterangepicker -->
-    {{--<script src="{{asset('https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js')}}"></script>--}}
-    {{--<script src="{{asset('plugins/daterangepicker/daterangepicker.js')}}"></script>--}}
-    <!-- datepicker -->
-    <script src="{{asset('plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
-    <!-- Bootstrap WYSIHTML5 -->
-    {{--<script src="{{asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js')}}"></script>--}}
-    <!-- Slimscroll -->
-    <script src="{{asset('plugins/slimScroll/jquery.slimscroll.min.js')}}"></script>
-    <script src="{{asset('plugins/bootstrap-sweetalert/sweetalert.min.js')}}"></script>
-    <!-- FastClick -->
-    {{--<script src="{{asset('plugins/fastclick/fastclick.js')}}"></script>--}}
-    @stack('scripts_lib')
-    <!-- AdminLTE App -->
-    <script src="{{asset('dist/js/adminlte.js')}}"></script>
-    {{--<!-- AdminLTE dashboard demo (This is only for demo purposes) -->--}}
-    {{--<script src="{{asset('plugins/summernote/summernote-bs4.min.js')}}"></script>--}}
-    <!-- AdminLTE for demo purposes -->
-    <script src="{{asset('dist/js/demo.js')}}"></script>
-
-    <script src="{{asset('js/scripts.js')}}"></script>
-    @stack('scripts')
 </body>
 </html>
