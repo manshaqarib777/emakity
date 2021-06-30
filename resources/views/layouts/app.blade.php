@@ -210,7 +210,7 @@
 
     <script src="{{asset('js/scripts.js')}}"></script>
     @stack('scripts')
-    <script type="text/javascript">@include('vendor.notifications.init_firebase')</script>
+    {{-- <script type="text/javascript">@include('vendor.notifications.init_firebase')</script>
 
     <script type="text/javascript">
         const messaging = firebase.messaging();
@@ -266,6 +266,6 @@
                 }
             });
         }
-    </script>
+    </script> --}}
 </body>
 </html>
