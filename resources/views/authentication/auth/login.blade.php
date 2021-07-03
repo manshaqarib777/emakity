@@ -52,10 +52,17 @@
                                 </div>
                             </div>
                             <!-- /.col -->
-                            <div class="col-2">
+                            {{-- <div class="col-2">
                                 <button type="submit" class="submit">{{ __('auth.login') }}</button>
-                            </div>
+                            </div> --}}
                             <!-- /.col -->
+                        </div>
+
+                        <div class="social-auth-links text-center mb-3">
+                            <button type="submit" class="submit btn-block">{{ __('auth.login') }}</button>
+                            {{-- <a href="{{ url('login/facebook') }}" class="btn btn-primary btn-block btn-facebook">
+                                <i class="fa fa-facebook mr-2"></i> {{ __('auth.login_facebook') }}
+                            </a> --}}
                         </div>
                         @if (env('APP_DEMO', false))
                             <div class="row mb-2">

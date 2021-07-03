@@ -72,6 +72,9 @@ class Handler extends ExceptionHandler
             return redirect()->back();
  
         }
+        if($exception instanceof \Symfony\Component\Debug\Exception\FatalErrorException) {
+            return redirect('/');
+        }
 
         return parent::render($request, $exception);
     }
