@@ -232,7 +232,7 @@ class HomeController extends Controller
         if (!$currency) {
             $currency = Currency::get()->first();
             $request->session()->put('currency_code', $currency->code);
-            flash(translate('Currency changed to ') . $currency->name)->success();
+            flash('Currency changed to' . $currency->name)->success();
             return $this->sendResponse($currency, __('lang.saved_successfully', ['operator' => __('lang.country')]));
         } else {
             $request->session()->put('currency_code', $currency->code);
