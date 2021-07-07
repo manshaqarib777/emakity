@@ -196,8 +196,10 @@
 
                 });
             });
-                $('.select-country').trigger('change');
-                $('.select-state').trigger('change');
+                @if(!isset($user))
+                    $('.select-country').trigger('change');
+                    $('.select-state').trigger('change');                    
+                @endif
         });
     </script>
 @endpush

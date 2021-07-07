@@ -61,7 +61,9 @@
 
                 });
             });
-            $('.select-country').trigger('change');
+            @if(!isset($area))
+                $('.select-country').trigger('change');
+            @endif
         });
     </script>
 @endpush
