@@ -206,7 +206,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        if (!auth()->user()->hasRole('admin') && $id != auth()->id()) {
+        if ((!auth()->user()->hasRole('admin') && !auth()->user()->hasRole('branch')) && $id != auth()->id()) {
             Flash::error('Permission denied');
             return redirect(route('users.index'));
         }
