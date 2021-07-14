@@ -296,9 +296,13 @@ class UserController extends Controller
                 $mediaItem = $cacheUpload->getMedia('avatar')->first();
                 $mediaItem->copy($user, 'avatar');
             }
-            if (auth()->user()->can('permissions.index')) {
-                $user->syncRoles($input['roles']);
+            if(!auth()->user()->hasRole('branch'))
+            {
+                if (auth()->user()->can('permissions.index')) {
+                    $user->syncRoles($input['roles']);
+                }
             }
+            
             foreach (getCustomFieldsValues($customFields, $request) as $value) {
                 $user->customFieldsValues()
                     ->updateOrCreate(['custom_field_id' => $value['custom_field_id']], $value);
