@@ -272,10 +272,13 @@ class UserController extends Controller
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->userRepository->model());
 
         $input = $request->all();
-        if (!auth()->user()->can('permissions.index')) {
-            unset($input['roles']);
-        } else {
-            $input['roles'] = isset($input['roles']) ? $input['roles'] : [];
+        if(!auth()->user()->hasRole('branch'))
+        {
+            if (!auth()->user()->can('permissions.index')) {
+                unset($input['roles']);
+            } else {
+                $input['roles'] = isset($input['roles']) ? $input['roles'] : [];
+            }
         }
         if (empty($input['password'])) {
             unset($input['password']);
