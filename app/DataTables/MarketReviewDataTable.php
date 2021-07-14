@@ -65,7 +65,7 @@ class MarketReviewDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($product) {
+        ->editColumn('market.country.name', function ($product) {
             return $product['market']['country']['name'];
         })
             ->editColumn('updated_at', function ($market_review) {
@@ -88,7 +88,7 @@ class MarketReviewDataTable extends DataTable
     public function query(MarketReview $model)
     {
         $this->marketReviewRepo->pushCriteria(new OrderMarketReviewsOfUserCriteria(auth()->id()));
-        return $this->marketReviewRepo->with("user")->with("market")->newQuery();
+        return $this->marketReviewRepo->newQuery()->with("user")->with("market.country");
 
     }
 
@@ -131,7 +131,7 @@ class MarketReviewDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'market.country.name',
                 'title' => trans('lang.country'),
 
             ],

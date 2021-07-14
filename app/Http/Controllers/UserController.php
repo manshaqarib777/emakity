@@ -95,7 +95,17 @@ class UserController extends Controller
      */
     public function create()
     {
-        $role = $this->roleRepository->pluck('name', 'name');
+        if(!auth()->user()->hasRole('branch'))
+        {
+            $role = $this->roleRepository->pluck('name', 'name');
+        }
+        else
+        {
+            $role = $this->roleRepository->whereNotIn('id',[2,6])->pluck('name', 'name');
+
+        }
+
+
 
         $rolesSelected = [];
         $hasCustomField = in_array($this->userRepository->model(), setting('custom_field_models', []));
@@ -203,7 +213,15 @@ class UserController extends Controller
         $user = $this->userRepository->findWithoutFail($id);
         unset($user->password);
         $html = false;
-        $role = $this->roleRepository->pluck('name', 'name');
+        if(!auth()->user()->hasRole('branch'))
+        {
+            $role = $this->roleRepository->pluck('name', 'name');
+        }
+        else
+        {
+            $role = $this->roleRepository->whereNotIn('id',[2,6])->pluck('name', 'name');
+
+        }
         $rolesSelected = $user->getRoleNames()->toArray();
         $customFieldsValues = $user->customFieldsValues()->with('customField')->get();
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->userRepository->model());

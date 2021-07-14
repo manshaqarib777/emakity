@@ -26,11 +26,11 @@ class UserDataTable extends DataTable
         if (auth()->user()->hasRole('client'))
             $query = $query->where('user_id', auth()->id());
         if (auth()->user()->hasRole('branch'))
-            $query = $query->where('country_id', get_role_country_id('branch'));
+            $query = $query->where('country_id', get_role_country_id('branch'))->whereNot('users.id',auth()->id());
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         return $dataTable
-            ->editColumn('country', function ($product) {
+            ->editColumn('country.name', function ($product) {
                 return $product['country']['name'];
             })
             ->editColumn('updated_at', function ($user) {
@@ -57,7 +57,7 @@ class UserDataTable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->newQuery()->with('roles');
+        return $model->newQuery()->with('roles')->with('country');
     }
 
     /**
@@ -101,7 +101,7 @@ class UserDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'country.name',
                 'title' => trans('lang.country'),
 
             ],

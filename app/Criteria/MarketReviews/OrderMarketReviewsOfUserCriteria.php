@@ -44,7 +44,11 @@ class OrderMarketReviewsOfUserCriteria implements CriteriaInterface
     {
         if (auth()->user()->hasRole('admin')) {
             return $model->select('market_reviews.*');
-        } else if (auth()->user()->hasRole('manager')) {
+        }
+        
+        else if (auth()->user()->hasRole('branch')) {
+            return $model->select('market_reviews.*');
+        }else if (auth()->user()->hasRole('manager')) {
             return $model->join("user_markets", "user_markets.market_id", "=", "market_reviews.market_id")
                 ->where('user_markets.user_id', $this->userId)
                 ->groupBy('market_reviews.id')
