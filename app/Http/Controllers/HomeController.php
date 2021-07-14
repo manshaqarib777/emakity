@@ -210,7 +210,7 @@ class HomeController extends Controller
     public function ajaxGetStates()
     {
         $country_id = $_GET['country_id'];
-        $states = State::where('country_id', $country_id)->where('covered', 1)->get();
+        $states = State::where('country_id', $country_id)->get();
         return response()->json($states);
     }
     public function ajaxGetAreas()
