@@ -34,7 +34,7 @@ class CartDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($cart) {
+        ->editColumn('product.market.country.name', function ($cart) {
             return $cart['product']['market']['country']['name'];
         })
             ->editColumn('updated_at', function ($cart) {
@@ -59,9 +59,9 @@ class CartDataTable extends DataTable
     {
 
         if (auth()->user()->hasRole('admin')) {
-            return $model->newQuery()->select('carts.*')->with("product")->with("user");
+            return $model->newQuery()->select('carts.*')->with("product.market.country")->with("user");
         } else {
-            return $model->newQuery()->with("product")->with("user")
+            return $model->newQuery()->with("product.market.country")->with("user")
                 ->where('carts.user_id', auth()->id())
                 ->select('carts.*');
         }
@@ -101,7 +101,7 @@ class CartDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'product.market.country.name',
                 'title' => trans('lang.country'),
 
             ],

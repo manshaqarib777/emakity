@@ -27,10 +27,10 @@ class AreaDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('state', function ($area) {
+        ->editColumn('state.name', function ($area) {
             return $area['state']['name'];
         })
-        ->editColumn('country', function ($area) {
+        ->editColumn('country.name', function ($area) {
             return $area['country']['name'];
         })    
         ->editColumn('updated_at', function ($area) {
@@ -50,7 +50,7 @@ class AreaDataTable extends DataTable
      */
     public function query(Area $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('country')->with('state')->select('areas.*');
     }
 
     /**
@@ -87,12 +87,12 @@ class AreaDataTable extends DataTable
                 'searchable' => true,
             ],
             [
-                'data' => 'state',
+                'data' => 'state.name',
                 'title' => trans('lang.state'),
                 'searchable' => false,
             ],
             [
-                'data' => 'country',
+                'data' => 'country.name',
                 'title' => trans('lang.country'),
                 'searchable' => false,
             ],

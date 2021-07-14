@@ -33,7 +33,7 @@ class DriverDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-            ->editColumn('country', function ($driver) {
+            ->editColumn('user.country.name', function ($driver) {
                 return $driver['user']['country']['name'];
             })
             ->editColumn('user.name', function ($driver) {
@@ -71,7 +71,7 @@ class DriverDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'user.country.name',
                 'title' => trans('lang.country'),
 
             ],
@@ -126,12 +126,12 @@ class DriverDataTable extends DataTable
     public function query(Driver $model)
     {
         if(auth()->user()->hasRole('admin')){
-            return $model->newQuery()->with("user")->select('drivers.*');
+            return $model->newQuery()->with("user.country")->select('drivers.*');
         }else if (auth()->user()->hasRole('manager')){
             // markets of this user
             $marketsIds = array_column(auth()->user()->markets->toArray(), 'id');
 
-            return $model->newQuery()->with("user")
+            return $model->newQuery()->with("user.country")
                 ->join('driver_markets','driver_markets.user_id','=','drivers.user_id')
                 ->whereIn('driver_markets.market_id',$marketsIds)
                 ->distinct('driver_markets.user_id')

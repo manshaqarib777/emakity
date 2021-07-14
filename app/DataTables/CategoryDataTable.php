@@ -39,7 +39,7 @@ class CategoryDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-            ->editColumn('country', function ($category) {
+            ->editColumn('country.name', function ($category) {
                 return $category['country']['name'];
             })
             ->editColumn('image', function ($category) {
@@ -68,7 +68,7 @@ class CategoryDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'country.name',
                 'title' => trans('lang.country'),
 
             ],
@@ -107,7 +107,7 @@ class CategoryDataTable extends DataTable
      */
     public function query(Category $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('country')->select('categories.*');
     }
 
     /**

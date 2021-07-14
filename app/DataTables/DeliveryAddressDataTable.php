@@ -32,7 +32,7 @@ class DeliveryAddressDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($delivery_address) {
+        ->editColumn('user.country.name', function ($delivery_address) {
             return $delivery_address['user']['country']['name'];
         })
             ->editColumn('updated_at',function($delivery_address){
@@ -56,7 +56,7 @@ class DeliveryAddressDataTable extends DataTable
      */
     public function query(DeliveryAddress $model)
     {
-        return $model->newQuery()->with("user");
+        return $model->newQuery()->with("user.country")->select('delivery_addresses.*');
     }
 
     /**
@@ -93,7 +93,7 @@ class DeliveryAddressDataTable extends DataTable
   
 ],
 [
-    'data' => 'country',
+    'data' => 'user.country.name',
     'title' => trans('lang.country'),
     
   ],

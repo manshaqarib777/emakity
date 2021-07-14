@@ -33,7 +33,7 @@ class DriversPayoutDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-            ->editColumn('country', function ($drivers_payout) {
+            ->editColumn('user.country.name', function ($drivers_payout) {
                 return $drivers_payout['user']['country']['name'];
             })
             ->editColumn('updated_at', function ($drivers_payout) {
@@ -61,7 +61,7 @@ class DriversPayoutDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'user.country.name',
                 'title' => trans('lang.country'),
 
             ],
@@ -116,9 +116,9 @@ class DriversPayoutDataTable extends DataTable
     public function query(DriversPayout $model)
     {
         if(auth()->user()->hasRole('admin')){
-            return $model->newQuery()->with("user")->select('drivers_payouts.*');
+            return $model->newQuery()->with("user.country")->select('drivers_payouts.*');
         }elseif(auth()->user()->hasRole('driver')){
-            return $model->newQuery()->with("user")->where('drivers_payouts.user_id',auth()->id())->select('drivers_payouts.*');
+            return $model->newQuery()->with("user.country")->where('drivers_payouts.user_id',auth()->id())->select('drivers_payouts.*');
         }
     }
 

@@ -31,7 +31,7 @@ class CouponDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-            ->editColumn('country', function ($coupon) {
+            ->editColumn('country.name', function ($coupon) {
                 return $coupon['country']['name'];
             })
             ->editColumn('updated_at', function ($coupon) {
@@ -69,7 +69,7 @@ class CouponDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'country.name',
                 'title' => trans('lang.country'),
 
             ],
@@ -124,14 +124,14 @@ class CouponDataTable extends DataTable
     public function query(Coupon $model)
     {
         if (auth()->user()->hasRole('admin')) {
-            return $model->newQuery();
+            return $model->newQuery()->with('country')->select("coupons.*");
         }elseif (auth()->user()->hasRole('manager')){
-            $markets = $model->join("discountables", "discountables.coupon_id", "=", "coupons.id")
+            $markets = $model->with('country')->join("discountables", "discountables.coupon_id", "=", "coupons.id")
                 ->join("user_markets", "user_markets.market_id", "=", "discountables.discountable_id")
                 ->where('discountable_type','App\\Models\\Market')
                 ->where("user_markets.user_id",auth()->id())->select("coupons.*");
 
-            $products = $model->join("discountables", "discountables.coupon_id", "=", "coupons.id")
+            $products = $model->with('country')->join("discountables", "discountables.coupon_id", "=", "coupons.id")
                 ->join("products", "products.id", "=", "discountables.discountable_id")
                 ->where('discountable_type','App\\Models\\Product')
                 ->join("user_markets", "user_markets.market_id", "=", "products.market_id")
@@ -140,7 +140,7 @@ class CouponDataTable extends DataTable
                 ->union($markets);
             return $products;
         }else{
-            $model->newQuery();
+            $model->newQuery()->with('country')->select("coupons.*");
         }
 
     }

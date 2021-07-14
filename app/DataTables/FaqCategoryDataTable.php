@@ -30,7 +30,7 @@ class FaqCategoryDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($faq_category) {
+        ->editColumn('country.name', function ($faq_category) {
             return $faq_category['country']['name'];
         })
         ->editColumn('updated_at',function($faq_category){
@@ -89,16 +89,16 @@ class FaqCategoryDataTable extends DataTable
             
             ],
             [
-                'data' => 'country',
+                'data' => 'country.name',
                 'title' => trans('lang.country'),
             
             ],
             [
-  'data' => 'updated_at',
-  'title' => trans('lang.faq_category_updated_at'),
-  'searchable'=>false,
-]
-            ];
+                'data' => 'updated_at',
+                'title' => trans('lang.faq_category_updated_at'),
+                'searchable'=>false,
+            ]
+        ];
 
         $hasCustomField = in_array(FaqCategory::class, setting('custom_field_models',[]));
         if ($hasCustomField) {
