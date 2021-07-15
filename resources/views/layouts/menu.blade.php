@@ -231,6 +231,7 @@
                 <i class="right fa fa-angle-left"></i>
             </p></a>
         <ul class="nav nav-treeview">
+            @if(!auth()->user()->hasRole('branch'))
             <li class="nav-item">
                 <a href="{!! url('settings/mobile/globals') !!}" class="nav-link {{  Request::is('settings/mobile/globals*') ? 'active' : '' }}">
                     @if($icons)<i class="nav-icon fa fa-cog"></i> @endif <p>{{trans('lang.app_setting_globals')}} <span class="right badge badge-danger">New</span> </p>
@@ -249,6 +250,7 @@
                         <span class="right badge badge-danger">New</span></p>
                 </a>
             </li>
+            @endif
 
             @can('slides.index')
                 <li class="nav-item">
@@ -270,11 +272,13 @@
             </p>
         </a>
         <ul class="nav nav-treeview">
+            @if(!auth()->user()->hasRole('branch'))
             <li class="nav-item">
                 <a href="{!! url('settings/app/globals') !!}" class="nav-link {{  Request::is('settings/app/globals*') ? 'active' : '' }}">
                     @if($icons)<i class="nav-icon fa fa-cog"></i> @endif <p>{{trans('lang.app_setting_globals')}}</p>
                 </a>
             </li>
+            @endif
 
             @can('users.index')
                 <li class="nav-item">
@@ -339,13 +343,13 @@
                 <a class="nav-link {{ Request::is('settings/currencies*') ? 'active' : '' }}" href="{!! route('currencies.index') !!}">@if($icons)<i class="nav-icon fa fa-dollar"></i>@endif<p>{{trans('lang.currency_plural')}}</p></a>
             </li>
             @endcan
-
-            @can('countries.index')
-            <li class="nav-item">
-                <a class="nav-link {{ Request::is('settings/countries*') ? 'active' : '' }}" href="{!! route('countries.index') !!}">@if($icons)<i class="nav-icon fa fa-flag"></i>@endif<p>{{trans('lang.country_plural')}}</p></a>
-            </li>
-            @endcan
-
+            @if(!auth()->user()->hasRole('branch'))
+                @can('countries.index')
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('settings/countries*') ? 'active' : '' }}" href="{!! route('countries.index') !!}">@if($icons)<i class="nav-icon fa fa-flag"></i>@endif<p>{{trans('lang.country_plural')}}</p></a>
+                </li>
+                @endcan
+            @endif
             @can('states.index')
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('settings/states*') ? 'active' : '' }}" href="{!! route('states.index') !!}">@if($icons)<i class="nav-icon fa fa-flag"></i>@endif<p>{{trans('lang.state_plural')}}</p></a>
@@ -363,6 +367,7 @@
                     @if($icons)<i class="nav-icon fa fa-credit-card"></i> @endif <p>{{trans('lang.app_setting_payment')}}</p>
                 </a>
             </li>
+            @if(!auth()->user()->hasRole('branch'))
 
             <li class="nav-item">
                 <a href="{!! url('settings/app/social') !!}" class="nav-link {{  Request::is('settings/app/social*') ? 'active' : '' }}">
@@ -376,12 +381,12 @@
                     @if($icons)<i class="nav-icon fa fa-bell"></i> @endif <p>{{trans('lang.app_setting_notifications')}}</p>
                 </a>
             </li>
-
             <li class="nav-item">
                 <a href="{!! url('settings/mail/smtp') !!}" class="nav-link {{ Request::is('settings/mail*') ? 'active' : '' }}">
                     @if($icons)<i class="nav-icon fa fa-envelope"></i> @endif <p>{{trans('lang.app_setting_mail')}}</p>
                 </a>
             </li>
+            @endif
 
         </ul>
     </li>

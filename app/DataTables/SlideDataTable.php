@@ -31,11 +31,18 @@ class SlideDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        if (auth()->user()->hasRole('client'))
+            $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+            $query = $query->where('country_id', get_role_country_id('branch'));
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
             ->editColumn('image', function ($slide) {
                 return getMediaColumn($slide, 'image');
+            })
+            ->editColumn('country.name', function ($category) {
+                return $category['country']['name'];
             })
             ->editColumn('updated_at', function ($slide) {
                 return getDateColumn($slide, 'updated_at');
@@ -65,6 +72,11 @@ class SlideDataTable extends DataTable
             [
                 'data' => 'text',
                 'title' => trans('lang.slide_text'),
+
+            ],
+            [
+                'data' => 'country.name',
+                'title' => trans('lang.country'),
 
             ],
             [
@@ -122,7 +134,7 @@ class SlideDataTable extends DataTable
      */
     public function query(Slide $model)
     {
-        return $model->newQuery()->with("product")->with("market");
+        return $model->newQuery()->with("product")->with("market")->with("country")->select('slides.*');
     }
 
     /**

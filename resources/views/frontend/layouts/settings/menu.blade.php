@@ -55,23 +55,26 @@
     </div>
     <div class="card-body p-0">
         <ul class="nav nav-pills flex-column">
+            @if(!auth()->user()->hasRole('branch'))
             <li class="nav-item">
                 <a href="{!! url('settings/app/globals') !!}" class="nav-link {{  Request::is('settings/app/globals*') ? 'selected' : '' }}">
                     <i class="fa fa-cog"></i> {{trans('lang.app_setting_globals')}}
                 </a>
             </li>
-
+            @endif
             <li class="nav-item">
                 <a href="{!! url('settings/app/localisation') !!}" class="nav-link {{  Request::is('settings/app/localisation*') ? 'selected' : '' }}">
                     <i class="fa fa-language"></i> {{trans('lang.app_setting_localisation')}}
                 </a>
             </li>
+            @if(!auth()->user()->hasRole('branch'))
 
             <li class="nav-item">
                 <a href="{!! url('settings/app/social') !!}" class="nav-link {{  Request::is('settings/app/social*') ? 'selected' : '' }}">
                     <i class="fa fa-globe"></i> {{trans('lang.app_setting_social')}}
                 </a>
             </li>
+            @endif
 
             <li class="nav-item">
                 <a href="{!! url('settings/payment/payment') !!}" class="nav-link {{  Request::is('settings/payment*') ? 'selected' : '' }}">
@@ -84,6 +87,7 @@
                     <a href="{!! route('currencies.index') !!}" class="nav-link {{ Request::is('settings/currencies*') ? 'selected' : '' }}" ><i class="nav-icon fa fa-dollar ml-1"></i> {{trans('lang.currency_plural')}}</a>
                 </li>
             @endcan
+            @if(!auth()->user()->hasRole('branch'))
 
             <li class="nav-item">
                 <a href="{!! url('settings/app/notifications') !!}" class="nav-link {{  Request::is('settings/app/notifications*') || Request::is('notificationTypes*') ? 'selected' : '' }}">
@@ -96,6 +100,7 @@
                     <i class="fa fa-envelope"></i> {{trans('lang.app_setting_mail')}}
                 </a>
             </li>
+            @endif
 
             <li class="nav-item">
                 <a href="{!! url('settings/translation/en') !!}" class="nav-link {{ Request::is('settings/translation*') ? 'selected' : '' }}">
@@ -113,7 +118,7 @@
     </div>
 </div>
 
-
+@if(!auth()->user()->hasRole('branch'))
 <div class="card {{ Request::is('settings/mobile*') ? '' : 'collapsed-card' }}">
     <div class="card-header">
         <h3 class="card-title">{{trans('lang.mobile_menu')}}</h3>
@@ -146,3 +151,4 @@
         </ul>
     </div>
 </div>
+@endif

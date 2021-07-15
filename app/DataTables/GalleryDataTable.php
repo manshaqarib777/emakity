@@ -24,6 +24,7 @@ class GalleryDataTable extends DataTable
      */
     public function dataTable($query)
     {
+        
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
@@ -47,7 +48,7 @@ class GalleryDataTable extends DataTable
      */
     public function query(Gallery $model)
     {
-        if (auth()->user()->hasRole('admin')) {
+        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager')) {
             return $model->newQuery()->with("market")->select('galleries.*');
         } else {
             return $model->newQuery()->with("market")

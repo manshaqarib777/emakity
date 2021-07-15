@@ -155,6 +155,13 @@
       0 => 'Orangehill\\Iseed\\IseedServiceProvider',
     ),
   ),
+  'overtrue/laravel-lang' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Overtrue\\LaravelLang\\TranslationServiceProvider',
+    ),
+  ),
   'prettus/l5-repository' => 
   array (
     'providers' => 

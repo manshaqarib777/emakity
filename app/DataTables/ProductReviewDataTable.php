@@ -46,14 +46,14 @@ class ProductReviewDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
         $query = $query->where('user_id', auth()->id());
-    if (auth()->user()->hasRole('branch'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
         $query = $query->whereHas('product.market.country', function($q){
             return $q->where('countries.id',get_role_country_id('branch'));
         });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($cart) {
+        ->editColumn('product.market.country.name', function ($cart) {
             return $cart['product']['market']['country']['name'];
         })
             ->editColumn('updated_at', function ($product_review) {
@@ -78,7 +78,7 @@ class ProductReviewDataTable extends DataTable
     {
         $this->productReviewRepo->resetCriteria();
         $this->productReviewRepo->pushCriteria(new OrderProductReviewsOfUserCriteria(auth()->id()));
-        return $this->productReviewRepo->with("user")->with("product")->newQuery();
+        return $this->productReviewRepo->with("user")->with("product.market.country")->newQuery();
     }
 
     /**
@@ -115,7 +115,7 @@ class ProductReviewDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'product.market.country.name',
                 'title' => trans('lang.country'),
 
             ],

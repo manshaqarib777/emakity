@@ -25,12 +25,12 @@ class OptionGroupDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
         $query = $query->where('user_id', auth()->id());
-    if (auth()->user()->hasRole('branch'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
         $query = $query->where('country_id', get_role_country_id('branch'));
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($optionGroup) {
+        ->editColumn('country.name', function ($optionGroup) {
             return $optionGroup['country']['name'];
         })
             ->editColumn('updated_at',function($optionGroup){
@@ -52,7 +52,7 @@ class OptionGroupDataTable extends DataTable
      */
     public function query(OptionGroup $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('country')->select('option_groups.*');
     }
 
     /**
@@ -89,7 +89,7 @@ class OptionGroupDataTable extends DataTable
   
 ],
 [
-    'data' => 'country',
+    'data' => 'country.name',
     'title' => trans('lang.country'),
     
   ],

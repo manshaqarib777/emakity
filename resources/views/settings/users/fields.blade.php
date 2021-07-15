@@ -12,8 +12,15 @@
             </div>
         </div>
     </div>
+    <div class="form-group row ">
+        {!! Form::label('language', trans("lang.app_setting_language"),['class' => 'col-3 control-label text-right']) !!}
+        <div class="col-9">
+            {!! Form::select('language', getAvailableLanguages(), null , ['class' => 'select2 form-control']) !!}
+            <div class="form-text text-muted">{{ trans("lang.app_setting_language_help") }}</div>
+        </div>
+    </div>
 
-    @if(!auth()->user()->hasRole('branch'))
+    @if(!auth()->user()->hasRole('branch') || !auth()->user()->hasRole('manager'))
         <div class="form-group row">
             {!! Form::label('country_id', trans('lang.app_country'), ['class' => 'col-3 control-label text-right']) !!}
             <div class="col-9">
@@ -26,7 +33,6 @@
     @else
         {!! Form::hidden('country_id', auth()->user()->country_id,  ['class' => 'form-control','placeholder'=>  trans("lang.user_name_placeholder"),'id'=>'change-country']) !!}
     @endif
-
     <div class="form-group row">
         {!! Form::label('state_id', trans('lang.app_state'), ['class' => 'col-3 control-label text-right']) !!}
         <div class="col-9">

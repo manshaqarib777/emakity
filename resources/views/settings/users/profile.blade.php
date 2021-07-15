@@ -120,7 +120,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @if(!auth()->user()->hasRole('branch'))
+                                    <div class="form-group row ">
+                                        {!! Form::label('language', trans("lang.app_setting_language"),['class' => 'col-3 control-label text-right']) !!}
+                                        <div class="col-9">
+                                            {!! Form::select('language', getAvailableLanguages(), null, ['class' => 'select2 form-control']) !!}
+                                            <div class="form-text text-muted">{{ trans("lang.app_setting_language_help") }}</div>
+                                        </div>
+                                    </div>
+                                    @if(!auth()->user()->hasRole('branch') || !auth()->user()->hasRole('manager'))
                                         <div class="form-group row">
                                             {!! Form::label('country_id', trans('lang.app_country'), ['class' => 'col-3 control-label text-right']) !!}
                                             <div class="col-9">
@@ -235,6 +242,20 @@
                                         dropzoneFields['avatar'] = dz_user_avatar;
                                     </script>
                                 @endprepend
+                                @if(auth()->user()->hasRole('admin'))
+                                    <!-- Roles Field -->
+                                    <div class="form-group row ">
+                                        {!! Form::label('roles[]', trans("lang.user_role_id"),['class' => 'col-3 control-label text-right']) !!}
+                                        <div class="col-9">
+                                            {!! Form::select('roles[]', $role, $rolesSelected, ['class' => 'select2 form-control' , 'multiple'=>'multiple']) !!}
+                                            <div class="form-text text-muted">{{ trans("lang.user_role_id_help") }}</div>
+                                        </div>
+                                    </div>
+                                @else
+                                    <div class="d-none">
+                                        {!! Form::select('roles[]', $role, $rolesSelected, ['class' => 'select2 form-control' , 'multiple'=>'multiple']) !!}
+                                    </div>
+                                @endif
 
                                 </div>
                                 @if($customFields)

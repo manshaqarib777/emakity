@@ -26,7 +26,7 @@ class DriverDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
             $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
             $query = $query->whereHas('user.country', function($q){
                 return $q->where('countries.id',get_role_country_id('branch'));
             });
@@ -127,7 +127,11 @@ class DriverDataTable extends DataTable
     {
         if(auth()->user()->hasRole('admin')){
             return $model->newQuery()->with("user.country")->select('drivers.*');
-        }else if (auth()->user()->hasRole('manager')){
+        }
+        elseif(auth()->user()->hasRole('branch')){
+            return $model->newQuery()->with("user.country")->select('drivers.*');
+        }
+        else if (auth()->user()->hasRole('manager')){
             // markets of this user
             $marketsIds = array_column(auth()->user()->markets->toArray(), 'id');
 

@@ -26,7 +26,7 @@ class CouponDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
             $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
             $query = $query->where('country_id',get_role_country_id('branch'));        
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
@@ -125,21 +125,8 @@ class CouponDataTable extends DataTable
     {
         if (auth()->user()->hasRole('admin')) {
             return $model->newQuery()->with('country')->select("coupons.*");
-        }elseif (auth()->user()->hasRole('manager')){
-            $markets = $model->with('country')->join("discountables", "discountables.coupon_id", "=", "coupons.id")
-                ->join("user_markets", "user_markets.market_id", "=", "discountables.discountable_id")
-                ->where('discountable_type','App\\Models\\Market')
-                ->where("user_markets.user_id",auth()->id())->select("coupons.*");
-
-            $products = $model->with('country')->join("discountables", "discountables.coupon_id", "=", "coupons.id")
-                ->join("products", "products.id", "=", "discountables.discountable_id")
-                ->where('discountable_type','App\\Models\\Product')
-                ->join("user_markets", "user_markets.market_id", "=", "products.market_id")
-                ->where("user_markets.user_id",auth()->id())
-                ->select("coupons.*")
-                ->union($markets);
-            return $products;
-        }else{
+        }
+        else{
             $model->newQuery()->with('country')->select("coupons.*");
         }
 

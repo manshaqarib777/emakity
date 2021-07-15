@@ -33,14 +33,14 @@ class PaymentDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
         $query = $query->where('user_id', auth()->id());
-    if (auth()->user()->hasRole('branch'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
         $query = $query->whereHas('user.country', function($q){
             return $q->where('countries.id',get_role_country_id('branch'));
         });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($order) {
+        ->editColumn('user.country.name', function ($order) {
             return $order['user']['country']['name'];
         })
             ->editColumn('updated_at', function ($payment) {
@@ -64,20 +64,10 @@ class PaymentDataTable extends DataTable
     public function query(Payment $model)
     {
 
-        if (auth()->user()->hasRole('admin')) {
-            return $model->newQuery()->with(["user","order"])->select('payments.*')->orderBy('id', 'desc');
-        } else if(auth()->user()->hasRole('manager')){
-            return $model->newQuery()->with(["user","order"])
-                ->join("orders", "payments.id", "=", "orders.payment_id")
-                ->join("product_orders", "orders.id", "=", "product_orders.order_id")
-                ->join("products", "products.id", "=", "product_orders.product_id")
-                ->join("user_markets", "user_markets.market_id", "=", "products.market_id")
-                ->where('user_markets.user_id', auth()->id())
-                ->groupBy('payments.id')
-                ->orderBy('payments.id', 'desc')
-                ->select('payments.*');
-        } else if (auth()->user()->hasRole('client')) {
-            return $model->newQuery()->with(["user","order"])
+        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager')) {
+            return $model->newQuery()->with(["user.country","order"])->select('payments.*')->orderBy('id', 'desc');
+        }  else if (auth()->user()->hasRole('client')) {
+            return $model->newQuery()->with(["user.country","order"])
                 ->where('payments.user_id', auth()->id())
                 ->select('payments.*')->orderBy('id', 'desc');
         }
@@ -127,7 +117,7 @@ class PaymentDataTable extends DataTable
 
             ] : null,
             [
-                'data' => 'country',
+                'data' => 'user.country.name',
                 'title' => trans('lang.country'),
 
             ],

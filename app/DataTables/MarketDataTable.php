@@ -33,7 +33,7 @@ class MarketDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
         $query = $query->where('user_id', auth()->id());
-    if (auth()->user()->hasRole('branch'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
         $query = $query->where('country_id', get_role_country_id('branch'));
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
@@ -56,7 +56,7 @@ class MarketDataTable extends DataTable
             ->editColumn('active', function ($market) {
                 return getBooleanColumn($market, 'active');
             })
-            ->editColumn('country', function ($market) {
+            ->editColumn('country.name', function ($market) {
                 return $market['country']['name'];
             })
             ->addColumn('action', 'markets.datatables_actions')
@@ -73,22 +73,16 @@ class MarketDataTable extends DataTable
      */
     public function query(Market $model)
     {
-        if (auth()->user()->hasRole('admin')) {
-            return $model->newQuery();
-        } else if (auth()->user()->hasRole('manager')){
-            return $model->newQuery()
-                ->join("user_markets", "market_id", "=", "markets.id")
-                ->where('user_markets.user_id', auth()->id())
-                ->groupBy("markets.id")
-                ->select("markets.*");
+        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager') ) {
+            return $model->newQuery()->with('country');
         }else if(auth()->user()->hasRole('driver')){
-            return $model->newQuery()
+            return $model->newQuery()->with('country')
                 ->join("driver_markets", "market_id", "=", "markets.id")
                 ->where('driver_markets.user_id', auth()->id())
                 ->groupBy("markets.id")
                 ->select("markets.*");
         } else if (auth()->user()->hasRole('client')) {
-            return $model->newQuery()
+            return $model->newQuery()->with('country')
                 ->join("products", "products.market_id", "=", "markets.id")
                 ->join("product_orders", "products.id", "=", "product_orders.product_id")
                 ->join("orders", "orders.id", "=", "product_orders.order_id")
@@ -96,7 +90,7 @@ class MarketDataTable extends DataTable
                 ->groupBy("markets.id")
                 ->select("markets.*");
         } else {
-            return $model->newQuery();
+            return $model->newQuery()->with('country');
         }
     }
 
@@ -139,7 +133,7 @@ class MarketDataTable extends DataTable
                 'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
             ],
             [
-                'data' => 'country',
+                'data' => 'country.name',
                 'title' => trans('lang.country'),
 
             ],

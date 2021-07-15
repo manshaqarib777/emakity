@@ -10,7 +10,7 @@ use App\Repositories\UserRepository;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Laravel\Socialite\Facades\Socialite;
 use Prettus\Validator\Exceptions\ValidatorException;
-
+use Session;
 class LoginController extends Controller
 {
     /*
@@ -96,6 +96,8 @@ class LoginController extends Controller
     }
     public function authenticated()
     {
+        Session::put('locale', auth()->user()->language);
+        
         if(auth()->user()->country_id){
             $country=\App\Models\Country::find(auth()->user()->country_id);
             request()->session()->put('country', $country->code);

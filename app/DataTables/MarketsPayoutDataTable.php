@@ -26,14 +26,14 @@ class MarketsPayoutDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
         $query = $query->where('user_id', auth()->id());
-    if (auth()->user()->hasRole('branch'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
         $query = $query->whereHas('market.country', function($q){
             return $q->where('countries.id',get_role_country_id('branch'));
         });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-            ->editColumn('country', function ($product) {
+            ->editColumn('market.country.name', function ($product) {
                 return $product['market']['country']['name'];
             })
             ->editColumn('updated_at', function ($markets_payout) {
@@ -62,7 +62,7 @@ class MarketsPayoutDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'market.country.name',
                 'title' => trans('lang.country'),
 
             ],
@@ -116,10 +116,10 @@ class MarketsPayoutDataTable extends DataTable
      */
     public function query(MarketsPayout $model)
     {
-        if(auth()->user()->hasRole('admin')){
-            return $model->newQuery()->with("market")->select('markets_payouts.*');
+        if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager')){
+            return $model->newQuery()->with("market.country")->select('markets_payouts.*');
         }elseif (auth()->user()->hasRole('manager')){
-            return $model->newQuery()->with("market")->join('user_markets','user_markets.market_id','=','markets_payouts.market_id')
+            return $model->newQuery()->with("market.country")->join('user_markets','user_markets.market_id','=','markets_payouts.market_id')
                 ->where('user_markets.user_id',auth()->id())->select('markets_payouts.*');
         }
     }

@@ -27,14 +27,14 @@ class ProductOrderDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
             $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
             $query = $query->whereHas('product.market.country', function($q){
                 return $q->where('countries.id',get_role_country_id('branch'));
             });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($cart) {
+        ->editColumn('product.market.country.name', function ($cart) {
             return $cart['product']['market']['country']['name'];
         })
             ->editColumn('updated_at', function ($product_order) {
@@ -62,7 +62,7 @@ class ProductOrderDataTable extends DataTable
      */
     public function query(ProductOrder $model)
     {
-        return $model->newQuery()->with("product")
+        return $model->newQuery()->with("product.market.country")
             ->where('product_orders.order_id', $this->id)
             ->select('product_orders.*')->orderBy('product_orders.id', 'desc');
 
@@ -104,7 +104,7 @@ class ProductOrderDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'product.market.country.name',
                 'title' => trans('lang.country'),
 
             ],

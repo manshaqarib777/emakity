@@ -55,23 +55,26 @@
     </div>
     <div class="card-body p-0">
         <ul class="nav nav-pills flex-column">
+            @if(!auth()->user()->hasRole('branch'))
             <li class="nav-item">
                 <a href="{!! url('settings/app/globals') !!}" class="nav-link {{  Request::is('settings/app/globals*') ? 'selected' : '' }}">
                     <i class="fa fa-cog"></i> {{trans('lang.app_setting_globals')}}
                 </a>
             </li>
-
+            @endif
             <li class="nav-item">
                 <a href="{!! url('settings/app/localisation') !!}" class="nav-link {{  Request::is('settings/app/localisation*') ? 'selected' : '' }}">
                     <i class="fa fa-language"></i> {{trans('lang.app_setting_localisation')}}
                 </a>
             </li>
+            @if(!auth()->user()->hasRole('branch'))
 
             <li class="nav-item">
                 <a href="{!! url('settings/app/social') !!}" class="nav-link {{  Request::is('settings/app/social*') ? 'selected' : '' }}">
                     <i class="fa fa-globe"></i> {{trans('lang.app_setting_social')}}
                 </a>
             </li>
+            @endif
 
             <li class="nav-item">
                 <a href="{!! url('settings/payment/payment') !!}" class="nav-link {{  Request::is('settings/payment*') ? 'selected' : '' }}">
@@ -85,18 +88,18 @@
                 </li>
             @endcan
 
+            @if(!auth()->user()->hasRole('branch'))
             <li class="nav-item">
                 <a href="{!! url('settings/app/notifications') !!}" class="nav-link {{  Request::is('settings/app/notifications*') || Request::is('notificationTypes*') ? 'selected' : '' }}">
                     <i class="fa fa-bell"></i> {{trans('lang.app_setting_notifications')}}
                 </a>
             </li>
-
             <li class="nav-item">
                 <a href="{!! url('settings/mail/smtp') !!}" class="nav-link {{ Request::is('settings/mail*') ? 'selected' : '' }}">
                     <i class="fa fa-envelope"></i> {{trans('lang.app_setting_mail')}}
                 </a>
             </li>
-
+            @endif
             <li class="nav-item">
                 <a href="{!! url('settings/translation/en') !!}" class="nav-link {{ Request::is('settings/translation*') ? 'selected' : '' }}">
                     <i class="fa fa-language"></i> {{trans('lang.app_setting_translation')}}

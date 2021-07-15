@@ -33,14 +33,14 @@ class ProductDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
         $query = $query->where('user_id', auth()->id());
-    if (auth()->user()->hasRole('branch'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
         $query = $query->whereHas('market.country', function($q){
             return $q->where('countries.id',get_role_country_id('branch'));
         });
         $dataTable = new EloquentDataTable($query->with(['market','market.country','market.country.currency']));
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($product) {
+        ->editColumn('market.country.name', function ($product) {
             return $product['market']['country']['name'];
         })
             ->editColumn('image', function ($product) {
@@ -79,22 +79,16 @@ class ProductDataTable extends DataTable
     public function query(Product $model)
     {
 
-        if (auth()->user()->hasRole('admin')) {
-            return $model->newQuery()->with("market")->with("category")->select('products.*')->orderBy('products.updated_at','desc');
-        } else if (auth()->user()->hasRole('manager')) {
-            return $model->newQuery()->with("market")->with("category")
-                ->join("user_markets", "user_markets.market_id", "=", "products.market_id")
-                ->where('user_markets.user_id', auth()->id())
-                ->groupBy('products.id')
-                ->select('products.*')->orderBy('products.updated_at', 'desc');
+        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager')) {
+            return $model->newQuery()->with("market.country")->with("category")->select('products.*')->orderBy('products.updated_at','desc');
         } else if (auth()->user()->hasRole('driver')) {
-            return $model->newQuery()->with("market")->with("category")
+            return $model->newQuery()->with("market.country")->with("category")
                 ->join("driver_markets", "driver_markets.market_id", "=", "products.market_id")
                 ->where('driver_markets.user_id', auth()->id())
                 ->groupBy('products.id')
                 ->select('products.*')->orderBy('products.updated_at', 'desc');
         } else if (auth()->user()->hasRole('client')) {
-            return $model->newQuery()->with("market")->with("category")
+            return $model->newQuery()->with("market.country")->with("category")
                 ->join("product_orders", "product_orders.product_id", "=", "products.id")
                 ->join("orders", "product_orders.order_id", "=", "orders.id")
                 ->where('orders.user_id', auth()->id())
@@ -137,7 +131,7 @@ class ProductDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'market.country.name',
                 'title' => trans('lang.country'),
 
             ],

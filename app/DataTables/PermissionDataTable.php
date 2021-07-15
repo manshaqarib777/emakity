@@ -109,8 +109,14 @@ class PermissionDataTable extends DataTable
             ],
         ];
 
-
-        $roles = Role::select('id','name')->get();
+        if(!auth()->user()->hasRole('branch'))
+        {
+            $roles = Role::select('id','name')->get();
+        }
+        else
+        {
+            $roles = Role::select('id','name')->whereNotIn('id',[2,6])->get();
+        }
         foreach ($roles as $role){
             $newColumn['data'] = 'roles';
             $newColumn['title'] = $role->name;

@@ -33,14 +33,14 @@ class OptionDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
             $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
             $query = $query->whereHas('optionGroup.country', function($q){
                 return $q->where('countries.id',get_role_country_id('branch'));
             });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($product) {
+        ->editColumn('optionGroup.country.name', function ($product) {
             return $product['optionGroup']['country']['name'];
         })
             ->editColumn('image', function ($option) {
@@ -78,7 +78,7 @@ class OptionDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'optionGroup.country.name',
                 'title' => trans('lang.country'),
 
             ],
@@ -138,18 +138,7 @@ class OptionDataTable extends DataTable
      */
     public function query(Option $model)
     {
-        if (auth()->user()->hasRole('admin')) {
-            return $model->newQuery()->with("product")->with("optionGroup")->with('product.market');
-        } else if (auth()->user()->hasRole('manager')) {
-            return $model->newQuery()->with("product")->with("optionGroup")->with('product.market')
-                ->join("products", "options.product_id", "=", "products.id")
-                ->join("user_markets", "products.market_id", "=", "user_markets.market_id")
-                ->where('user_markets.user_id', auth()->id())
-                ->groupBy("options.id")
-                ->select('options.*');
-        } else {
-            return $model->newQuery()->with("product")->with("optionGroup")->with('product.market');
-        }
+            return $model->newQuery()->with("product")->with("optionGroup.country")->with('product.market')->select('options.*');
     }
 
     /**

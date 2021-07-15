@@ -18,7 +18,7 @@ use App\Repositories\RoleRepository;
 use App\Repositories\UploadRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\CountryRepository;
-use Flash;
+use Flash,Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -272,19 +272,22 @@ class UserController extends Controller
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->userRepository->model());
 
         $input = $request->all();
-        if(!auth()->user()->hasRole('branch'))
-        {
-            if (!auth()->user()->can('permissions.index')) {
-                unset($input['roles']);
-            } else {
-                $input['roles'] = isset($input['roles']) ? $input['roles'] : [];
-            }
+
+        if (!auth()->user()->can('permissions.index')) {
+            unset($input['roles']);
+        } else {
+            $input['roles'] = isset($input['roles']) ? $input['roles'] : [];
         }
         if (empty($input['password'])) {
             unset($input['password']);
         } else {
             $input['password'] = Hash::make($input['password']);
         }
+        if(auth()->id()==$id)
+        {
+            Session::put('locale', $input['language']);
+        }
+        
         try {
             $user = $this->userRepository->update($input, $id);
             if (empty($user)) {
@@ -296,12 +299,11 @@ class UserController extends Controller
                 $mediaItem = $cacheUpload->getMedia('avatar')->first();
                 $mediaItem->copy($user, 'avatar');
             }
-            if(!auth()->user()->hasRole('branch'))
-            {
-                if (auth()->user()->can('permissions.index')) {
-                    $user->syncRoles($input['roles']);
-                }
+
+            if (auth()->user()->can('permissions.index')) {
+                $user->syncRoles($input['roles']);
             }
+            
             
             foreach (getCustomFieldsValues($customFields, $request) as $value) {
                 $user->customFieldsValues()

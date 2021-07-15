@@ -50,7 +50,14 @@ class AreaDataTable extends DataTable
      */
     public function query(Area $model)
     {
-        return $model->newQuery()->with('country')->with('state')->select('areas.*');
+        if(!auth()->user()->hasRole('branch'))
+        {
+            return $model->newQuery()->with('country')->with('state')->select('areas.*');        
+        }
+        else
+        {
+            return $model->newQuery()->with('country')->with('state')->select('areas.*')->where('country_id',auth()->user()->country_id);
+        }
     }
 
     /**

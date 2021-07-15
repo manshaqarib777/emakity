@@ -26,14 +26,14 @@ class NotificationDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
             $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
             $query = $query->whereHas('user.country', function($q){
                 return $q->where('countries.id',get_role_country_id('branch'));
             });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-            ->editColumn('country', function ($delivery_address) {
+            ->editColumn('user.country.name', function ($delivery_address) {
                 return $delivery_address['user']['country']['name'];
             })
             ->editColumn('type', function ($notification) {
@@ -68,7 +68,7 @@ class NotificationDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'user.country.name',
                 'title' => trans('lang.country'),
 
             ],
@@ -114,7 +114,7 @@ class NotificationDataTable extends DataTable
     {
 
 
-        return $model->newQuery()->where('notifications.notifiable_id', auth()->id())->select('notifications.*')->orderBy('notifications.updated_at', 'desc');
+        return $model->newQuery()->with('user.country')->where('notifications.notifiable_id', auth()->id())->select('notifications.*')->orderBy('notifications.updated_at', 'desc');
 
     }
 

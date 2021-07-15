@@ -26,7 +26,7 @@ class DriversPayoutDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
             $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch'))
+            if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
             $query = $query->whereHas('user.country', function($q){
                 return $q->where('countries.id',get_role_country_id('branch'));
             });
@@ -115,7 +115,8 @@ class DriversPayoutDataTable extends DataTable
      */
     public function query(DriversPayout $model)
     {
-        if(auth()->user()->hasRole('admin')){
+        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        {
             return $model->newQuery()->with("user.country")->select('drivers_payouts.*');
         }elseif(auth()->user()->hasRole('driver')){
             return $model->newQuery()->with("user.country")->where('drivers_payouts.user_id',auth()->id())->select('drivers_payouts.*');

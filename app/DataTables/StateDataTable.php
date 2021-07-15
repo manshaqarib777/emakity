@@ -27,7 +27,7 @@ class StateDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($state) {
+        ->editColumn('country.name', function ($state) {
             return $state['country']['name'];
         })    
         ->editColumn('updated_at', function ($state) {
@@ -47,7 +47,15 @@ class StateDataTable extends DataTable
      */
     public function query(State $model)
     {
-        return $model->newQuery();
+        if(!auth()->user()->hasRole('branch'))
+        {
+            return $model->newQuery()->with('country');
+        }
+        else
+        {
+            return $model->newQuery()->with('country')->where('country_id',auth()->user()->country_id);
+        }
+
     }
 
     /**
@@ -84,7 +92,7 @@ class StateDataTable extends DataTable
                 'searchable' => true,
             ],
             [
-                'data' => 'country',
+                'data' => 'country.name',
                 'title' => trans('lang.country'),
                 'searchable' => false,
             ],

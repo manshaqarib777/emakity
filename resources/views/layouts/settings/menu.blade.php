@@ -61,11 +61,13 @@
     </div>
     <div class="card-body p-0">
         <ul class="nav nav-pills flex-column">
+            @if(!auth()->user()->hasRole('branch'))
             <li class="nav-item">
                 <a href="{!! url('settings/app/globals') !!}" class="nav-link {{  Request::is('settings/app/globals*') ? 'selected' : '' }}">
                     <i class="fa fa-cog"></i> {{trans('lang.app_setting_globals')}}
                 </a>
             </li>
+            @endif
 
             <li class="nav-item">
                 <a href="{!! url('settings/app/localisation') !!}" class="nav-link {{  Request::is('settings/app/localisation*') ? 'selected' : '' }}">
@@ -73,12 +75,13 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a href="{!! url('settings/app/social') !!}" class="nav-link {{  Request::is('settings/app/social*') ? 'selected' : '' }}">
-                    <i class="fa fa-globe"></i> {{trans('lang.app_setting_social')}}
-                </a>
-            </li>
-
+            @if(!auth()->user()->hasRole('branch'))
+                <li class="nav-item">
+                    <a href="{!! url('settings/app/social') !!}" class="nav-link {{  Request::is('settings/app/social*') ? 'selected' : '' }}">
+                        <i class="fa fa-globe"></i> {{trans('lang.app_setting_social')}}
+                    </a>
+                </li>
+            @endif
             <li class="nav-item">
                 <a href="{!! url('settings/payment/payment') !!}" class="nav-link {{  Request::is('settings/payment*') ? 'selected' : '' }}">
                     <i class="fa fa-credit-card"></i> {{trans('lang.app_setting_payment')}}
@@ -90,12 +93,13 @@
                     <a href="{!! route('currencies.index') !!}" class="nav-link {{ Request::is('settings/currencies*') ? 'selected' : '' }}" ><i class="nav-icon fa fa-dollar ml-1"></i> {{trans('lang.currency_plural')}}</a>
                 </li>
             @endcan
-
+            @if(!auth()->user()->hasRole('branch'))
             @can('countries.index')
             <li class="nav-item">
                 <a href="{!! route('countries.index') !!}" class="nav-link {{ Request::is('settings/countries*') ? 'selected' : '' }}" ><i class="nav-icon fa fa-flag ml-1"></i> {{trans('lang.country_plural')}}</a>
             </li>
             @endcan
+            @endif
 
             @can('states.index')
             <li class="nav-item">
@@ -108,18 +112,18 @@
                 <a href="{!! route('areas.index') !!}" class="nav-link {{ Request::is('settings/areas*') ? 'selected' : '' }}" ><i class="nav-icon fa fa-flag ml-1"></i> {{trans('lang.area_plural')}}</a>
             </li>
             @endcan
-
+            @if(!auth()->user()->hasRole('branch'))
             <li class="nav-item">
                 <a href="{!! url('settings/app/notifications') !!}" class="nav-link {{  Request::is('settings/app/notifications*') || Request::is('notificationTypes*') ? 'selected' : '' }}">
                     <i class="fa fa-bell"></i> {{trans('lang.app_setting_notifications')}}
                 </a>
             </li>
-
             <li class="nav-item">
                 <a href="{!! url('settings/mail/smtp') !!}" class="nav-link {{ Request::is('settings/mail*') ? 'selected' : '' }}">
                     <i class="fa fa-envelope"></i> {{trans('lang.app_setting_mail')}}
                 </a>
             </li>
+            @endif
 
             <li class="nav-item">
                 <a href="{!! url('settings/translation/en') !!}" class="nav-link {{ Request::is('settings/translation*') ? 'selected' : '' }}">
@@ -137,7 +141,7 @@
     </div>
 </div>
 
-
+@if(!auth()->user()->hasRole('branch'))
 <div class="card {{ Request::is('settings/mobile*') ? '' : 'collapsed-card' }}">
     <div class="card-header">
         <h3 class="card-title">{{trans('lang.mobile_menu')}}</h3>
@@ -170,3 +174,4 @@
         </ul>
     </div>
 </div>
+@endif

@@ -33,12 +33,12 @@ class RequestedMarketDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
         $query = $query->where('user_id', auth()->id());
-    if (auth()->user()->hasRole('branch'))
+    if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
         $query = $query->where('country_id',get_role_country_id('branch'));
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($cart) {
+        ->editColumn('country.name', function ($cart) {
             return $cart['country']['name'];
         })
             ->editColumn('image', function ($market) {
@@ -67,10 +67,11 @@ class RequestedMarketDataTable extends DataTable
      */
     public function query(Market $model)
     {
-        if (auth()->user()->hasRole('admin')) {
-            return $model->newQuery()->where('markets.active', '0');
-        } else {
-            return $model->newQuery()
+        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager') ) {
+            return $model->newQuery()->with('country')->where('markets.active', '0')->select("markets.*");
+        } 
+        else {
+            return $model->newQuery()->with('country')
                 ->join("user_markets", "market_id", "=", "markets.id")
                 ->where('user_markets.user_id', auth()->id())
                 ->where('markets.active', '0')
@@ -135,7 +136,7 @@ class RequestedMarketDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'country.name',
                 'title' => trans('lang.country'),
 
             ],

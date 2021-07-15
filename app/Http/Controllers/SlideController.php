@@ -23,7 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Response;
 use Prettus\Validator\Exceptions\ValidatorException;
-
+use App\Repositories\CountryRepository;
 class SlideController extends Controller
 {
     /** @var  SlideRepository */
@@ -46,10 +46,11 @@ class SlideController extends Controller
      * @var MarketRepository
      */
     private $marketRepository;
-
+    private $countryRepository;
     public function __construct(SlideRepository $slideRepo, CustomFieldRepository $customFieldRepo, UploadRepository $uploadRepo
         , ProductRepository $productRepo
-        , MarketRepository $marketRepo)
+        , MarketRepository $marketRepo
+        ,CountryRepository $countryRepository)
     {
         parent::__construct();
         $this->slideRepository = $slideRepo;
@@ -57,6 +58,7 @@ class SlideController extends Controller
         $this->uploadRepository = $uploadRepo;
         $this->productRepository = $productRepo;
         $this->marketRepository = $marketRepo;
+        $this->countryRepository = $countryRepository;
     }
 
     /**
@@ -85,7 +87,8 @@ class SlideController extends Controller
             $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->slideRepository->model());
             $html = generateCustomField($customFields);
         }
-        return view('slides.create')->with("customFields", isset($html) ? $html : false)->with("product", $product)->with("market", $market);
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        return view('slides.create')->with("customFields", isset($html) ? $html : false)->with("product", $product)->with("market", $market)->with('countries',$countries);
     }
 
     /**
@@ -163,8 +166,8 @@ class SlideController extends Controller
         if ($hasCustomField) {
             $html = generateCustomField($customFields, $customFieldsValues);
         }
-
-        return view('slides.edit')->with('slide', $slide)->with("customFields", isset($html) ? $html : false)->with("product", $product)->with("market", $market);
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        return view('slides.edit')->with('slide', $slide)->with("customFields", isset($html) ? $html : false)->with("product", $product)->with("market", $market)->with('countries',$countries);
     }
 
     /**

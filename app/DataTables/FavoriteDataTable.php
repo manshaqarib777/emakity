@@ -33,14 +33,14 @@ class FavoriteDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
             $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
             $query = $query->whereHas('product.market.country', function($q){
                 return $q->where('countries.id',get_role_country_id('branch'));
             });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($favorite) {
+        ->editColumn('product.market.country.name', function ($favorite) {
             return $favorite['product']['market']['country']['name'];
         })
             ->editColumn('updated_at', function ($favorite) {
@@ -65,9 +65,9 @@ class FavoriteDataTable extends DataTable
     {
 
         if (auth()->user()->hasRole('admin')) {
-            return $model->newQuery()->with("product")->with("user")->select("favorites.*");
+            return $model->newQuery()->with("product.market.country")->with("user")->select("favorites.*");
         } else {
-            return $model->newQuery()->with("product")->with("user")
+            return $model->newQuery()->with("product.market.country")->with("user")
                 ->join("products","products.id","=","favorites.product_id")
                 ->join("user_markets", "user_markets.market_id", "=", "products.market_id")
                 ->where('user_markets.user_id', auth()->id())
@@ -109,7 +109,7 @@ class FavoriteDataTable extends DataTable
 
             ],
             [
-                'data' => 'country',
+                'data' => 'product.market.country.name',
                 'title' => trans('lang.country'),
 
             ],

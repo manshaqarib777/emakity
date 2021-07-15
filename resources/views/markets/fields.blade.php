@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    @if(!auth()->user()->hasRole('branch'))
+    @if(!auth()->user()->hasRole('branch') || !auth()->user()->hasRole('manager'))
         <div class="form-group row">
             {!! Form::label('country_id', trans('lang.app_country'), ['class' => 'col-3 control-label text-right']) !!}
             <div class="col-9">
@@ -51,8 +51,9 @@
         </div>
     </div>
 
-    @hasanyrole('admin|manager')
+    @hasanyrole('admin|manager|branch')
     <!-- Users Field -->
+    @if(!auth()->user()->hasRole('branch') || !isset($market))
     <div class="form-group row ">
         {!! Form::label('drivers[]', trans("lang.market_drivers"),['class' => 'col-3 control-label text-right']) !!}
         <div class="col-9">
@@ -92,7 +93,7 @@
             </div>
         </div>
     </div>
-
+    @endif
     @endhasanyrole
 
     <!-- Phone Field -->
@@ -314,7 +315,8 @@
 
 </div>
 
-@hasrole('admin')
+@hasanyrole('admin|manager|branch')
+@if(!auth()->user()->hasRole('branch') || !isset($market))
 <div class="col-12 custom-field-container">
     <h5 class="col-12 pb-4">{!! trans('lang.admin_area') !!}</h5>
     <div style="flex: 50%;max-width: 50%;padding: 0 4px;" class="column">
@@ -350,6 +352,7 @@
         </div>
     </div>
 </div>
+@endif
 @endhasrole
 
 @if($customFields)

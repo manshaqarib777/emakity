@@ -57,7 +57,8 @@ class Slide extends Model implements HasMedia
         'image_fit',
         'product_id',
         'market_id',
-        'enabled'
+        'enabled',
+        'country_id'
     ];
 
     /**
@@ -178,6 +179,9 @@ class Slide extends Model implements HasMedia
     {
         return $this->belongsTo(\App\Models\Market::class, 'market_id', 'id');
     }
-
+    public function country()
+    {
+        return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
+    }
     
 }
