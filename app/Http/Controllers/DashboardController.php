@@ -41,7 +41,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('market'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
         {
             $ordersCount = $this->orderRepository->whereHas('user.country', function($q){
                 return $q->where('countries.id',get_role_country_id('branch'));
