@@ -122,7 +122,12 @@
                             <i class="nav-icon fa fa-server"></i>@endif<p>{{trans('lang.order_status_plural')}}</p></a>
                 </li>
             @endcan
-
+            @can('deliveryTimes.index')
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('deliveryTimes*') ? 'active' : '' }}" href="{!! route('deliveryTimes.index') !!}">@if($icons)
+                            <i class="nav-icon fa fa-shopping-bag"></i>@endif<p>{{trans('lang.delivery_time_plural')}}</p></a>
+                </li>
+            @endcan
                 @can('deliveryAddresses.index')
                     <li class="nav-item">
                         <a class="nav-link {{ Request::is('deliveryAddresses*') ? 'active' : '' }}" href="{!! route('deliveryAddresses.index') !!}">@if($icons)<i class="nav-icon fa fa-map"></i>@endif<p>{{trans('lang.delivery_address_plural')}}</p></a>
