@@ -46,7 +46,8 @@ class Order extends Model
         'delivery_address_id',
         'delivery_fee',
         'active',
-        'driver_id'
+        'driver_id',
+        'delivery_time_id'
     ];
 
     /**
@@ -130,6 +131,10 @@ class Order extends Model
     public function orderStatus()
     {
         return $this->belongsTo(\App\Models\OrderStatus::class, 'order_status_id', 'id');
+    }
+    public function deliveryTime()
+    {
+        return $this->belongsTo(\App\Models\DeliveryTime::class, 'delivery_time_id', 'id');
     }
 
     /**

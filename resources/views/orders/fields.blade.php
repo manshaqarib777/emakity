@@ -34,6 +34,15 @@
         </div>
     </div>
 
+    <!-- Order Status Id Field -->
+    <div class="form-group row ">
+        {!! Form::label('deliver_time_id', trans("lang.order_deliver_time_id"),['class' => 'col-3 control-label text-right']) !!}
+        <div class="col-9">
+            {!! Form::select('deliver_time_id', $deliveryTime, null, ['class' => 'select2 form-control']) !!}
+            <div class="form-text text-muted">{{ trans("lang.order_deliver_time_id_help") }}</div>
+        </div>
+    </div>
+
     <!-- Status Field -->
     <div class="form-group row ">
         {!! Form::label('status', trans("lang.payment_status"),['class' => 'col-3 control-label text-right']) !!}

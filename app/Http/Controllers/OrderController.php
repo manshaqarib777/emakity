@@ -24,6 +24,7 @@ use App\Repositories\CustomFieldRepository;
 use App\Repositories\NotificationRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\OrderStatusRepository;
+use App\Repositories\DeliveryTimeRepository;
 use App\Repositories\PaymentRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\CartRepository;
@@ -58,12 +59,14 @@ class OrderController extends Controller
     /** @var  PaymentRepository */
     private $paymentRepository;
     private $cartRepository;
+    private $deliveryTimeRepository;
     private $productOrderRepository;
     
 
     public function __construct(OrderRepository $orderRepo, CustomFieldRepository $customFieldRepo, UserRepository $userRepo
         , OrderStatusRepository $orderStatusRepo, NotificationRepository $notificationRepo, PaymentRepository $paymentRepo
-        , CartRepository $cartRepo,ProductOrderRepository $productOrderRepository)
+        , CartRepository $cartRepo,ProductOrderRepository $productOrderRepository
+        ,DeliveryTimeRepository $deliveryTimeRepo)
     {
         parent::__construct();
         $this->orderRepository = $orderRepo;
@@ -73,6 +76,7 @@ class OrderController extends Controller
         $this->notificationRepository = $notificationRepo;
         $this->paymentRepository = $paymentRepo;
         $this->cartRepository = $cartRepo;
+        $this->deliveryTimeRepository = $deliveryTimeRepo;
         $this->productOrderRepository = $productOrderRepository;
     }
 
@@ -99,6 +103,7 @@ class OrderController extends Controller
         $driver = $this->userRepository->getByCriteria(new DriversCriteria())->pluck('name', 'id');
 
         $orderStatus = $this->orderStatusRepository->pluck('status', 'id');
+        $deliveryTime = $this->deliveryTimeRepository->pluck('name', 'id');
 
         $hasCustomField = in_array($this->orderRepository->model(), setting('custom_field_models', []));
         if ($hasCustomField) {
@@ -117,7 +122,7 @@ class OrderController extends Controller
             return redirect(route('deliveryAddresses.create'));
         }
         //dd(count(Auth::user()->deliveryAddress()->get()));
-        return view('orders.create')->with("customFields", isset($html) ? $html : false)->with("user", $user)->with("driver", $driver)->with("orderStatus", $orderStatus)->with("product", $product);
+        return view('orders.create')->with("customFields", isset($html) ? $html : false)->with("user", $user)->with("driver", $driver)->with("orderStatus", $orderStatus)->with("product", $product)->with('deliveryTime',$deliveryTime);
     }
 
     /**
@@ -330,8 +335,9 @@ class OrderController extends Controller
             $html = generateCustomField($customFields, $customFieldsValues);
         }
         $product = $this->cartRepository->with('product','product.market')->where('user_id',Auth::user()->id)->first();
+        $deliveryTime = $this->deliveryTimeRepository->pluck('name', 'id');
 
-        return view('orders.edit')->with('order', $order)->with("customFields", isset($html) ? $html : false)->with("user", $user)->with("driver", $driver)->with("orderStatus", $orderStatus)->with("product", $product);
+        return view('orders.edit')->with('order', $order)->with("customFields", isset($html) ? $html : false)->with("user", $user)->with("driver", $driver)->with("orderStatus", $orderStatus)->with("product", $product)->with('deliveryTime',$deliveryTime);
     }
 
     /**

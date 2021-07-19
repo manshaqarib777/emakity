@@ -49,6 +49,7 @@ Route::resource('categories', 'API\CategoryAPIController');
 Route::resource('markets', 'API\MarketAPIController');
 
 Route::resource('faq_categories', 'API\FaqCategoryAPIController');
+Route::resource('delivery_times', 'API\DeliveryTimeAPIController');
 Route::get('products/categories', 'API\ProductAPIController@categories');
 Route::resource('products', 'API\ProductAPIController');
 Route::resource('galleries', 'API\GalleryAPIController');
@@ -75,6 +76,7 @@ Route::middleware('auth:api')->group(function () {
             Route::resource('notifications', 'API\NotificationAPIController');
             Route::post('users/{id}', 'API\UserAPIController@update');
             Route::resource('faq_categories', 'API\FaqCategoryAPIController');
+            Route::resource('delivery_times', 'API\DeliveryTimeAPIController');
             Route::resource('faqs', 'API\FaqAPIController');
         });
     });

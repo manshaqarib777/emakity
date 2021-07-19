@@ -128,6 +128,10 @@ Route::middleware('auth')->group(function () {
         'show'
     ]);
 
+    Route::resource('deliveryTimes', 'DeliveryTimeController')->except([
+        'show'
+    ]);
+
     Route::resource('orderStatuses', 'OrderStatusController')->except([
         'create', 'store', 'destroy'
     ]);;

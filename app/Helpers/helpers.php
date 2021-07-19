@@ -150,8 +150,7 @@ function getPriceValue($modelObject, $attributeName = 'price')
 
 function getPayemntOptions($modelObject, $attributeName = 'available_for_delivery')
 {
-    //dd($modelObject['market']['currency_right']);
-    if ($modelObject[$attributeName] != false) {
+    if ($modelObject!==null && $modelObject[$attributeName] != false) {
         return 'Cash on Delivery';
     } 
     return 'Pay on Pickup';
