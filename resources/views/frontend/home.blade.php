@@ -172,7 +172,7 @@
                                         <!-- Start Product Image -->
                                         <div class="product__img-box  pos-relative">
                                             <a href="{{ route('market', $market->id) }}" class="product__img--link">
-                                                {!! getMediaurl_frontend($market, 'web_image', 'product__img img-fluid',asset('frontend/assets/img/product/size-normal/product-home-1-img-1.jpg'),480,480) !!}
+                                                {!! getMediaurl_frontend($market, 'web_image', 'product__img img-fluid',asset('frontend/assets/img/product/size-normal/product-home-1-img-1.jpg'),480,268) !!}
                                             </a>
                                         </div> <!-- End Product Image -->
                                         <!-- Start Product Content -->
@@ -267,7 +267,7 @@
                                                     <div class="product__img-box  pos-relative">
                                                         <a href="{{ route('market', $market->id) }}"
                                                             class="product__img--link">
-                                                            {!! getMediaurl_frontend($market, 'web_image', 'product__img img-fluid',asset('frontend/assets/img/product/size-normal/product-home-1-img-1.jpg'),480,480) !!}
+                                                            {!! getMediaurl_frontend($market, 'web_image', 'product__img img-fluid',asset('frontend/assets/img/product/size-normal/product-home-1-img-1.jpg'),480,268) !!}
                                                         </a>
                                                     </div> <!-- End Product Image -->
                                                     <!-- Start Product Content -->
