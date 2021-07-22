@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Potenza - Job Application Form Wizard with Resume upload and Branch feature">
+    <meta name="description" content="Making your Grocery a lot Easier">
     <meta name="author" content="Ansonika">
 
     <title>{{ setting('app_name') }} | {{ setting('app_short_description') }}</title>
