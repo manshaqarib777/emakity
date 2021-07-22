@@ -74,7 +74,7 @@ class MarketDataTable extends DataTable
     public function query(Market $model)
     {
         if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager') ) {
-            return $model->newQuery()->with('country');
+            return $model->newQuery()->with('country')->select('markets.*');
         }else if(auth()->user()->hasRole('driver')){
             return $model->newQuery()->with('country')
                 ->join("driver_markets", "market_id", "=", "markets.id")
@@ -90,7 +90,7 @@ class MarketDataTable extends DataTable
                 ->groupBy("markets.id")
                 ->select("markets.*");
         } else {
-            return $model->newQuery()->with('country');
+            return $model->newQuery()->with('country')->select('markets.*');
         }
     }
 
