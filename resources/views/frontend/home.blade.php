@@ -294,7 +294,7 @@
         as $slide)
             <div class="banner m-t-100 pos-relative">
                 <div class="banner__bg">
-                    {!! getMediaurl_frontend($slide, 'image', '', asset('frontend/assets/img/banner/size-extra-large-wide/banner-home-1-img-1-extra-large-wide.jpg'),1920,500) !!}
+                    {!! getMediaurl_frontend($slide, 'image', '', asset('frontend/assets/img/banner/size-extra-large-wide/banner-home-1-img-1-extra-large-wide.jpg'),1351,380) !!}
 
                 </div>
                 <div class="banner__box banner__box--single-text-style-2">
