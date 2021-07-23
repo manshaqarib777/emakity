@@ -61,7 +61,7 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-
+        return redirect('login'); 
 
         $products=new Product();
         $markets=new Market();
