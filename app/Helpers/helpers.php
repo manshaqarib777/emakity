@@ -127,7 +127,7 @@ function getPriceColumn($modelObject,$modelObject1, $attributeName = 'price')
         }
         else
         {
-            if ($modelObject1['currency_right'] != false) {
+            if ($modelObject1['country']['currency_right'] != false) {
                 return $modelObject[$attributeName] . "<span>" . $modelObject1['country']['currency']['symbol'] . "</span>";
             } else {
                 return "<span>" . $modelObject1['country']['currency']['symbol'] . "</span>" . $modelObject[$attributeName];

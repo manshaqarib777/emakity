@@ -24,10 +24,18 @@
 
         <a href="{{ route('product', $product->id) }}" class="product__link">{{ $product->name }}</a>
         <div class="product__price m-t-5">
-            <span class="product__price">{{ $product->market->country->currency->symbol }}
-                {{ $product->discount_price }} <del>
-                    {{ $product->market->country->currency->symbol }}
-                    {{ $product->price }} </del></span>
+            <span class="product__price">
+                @if(!$product->market->country->currency_right)
+                    {{ $product->market->country->currency->symbol }} {{ $product->discount_price }}
+                @else
+                    {{ $product->discount_price }} {{ $product->market->country->currency->symbol }}
+                @endif
+                @if(!$product->market->country->currency_right)
+                    <del> {{ $product->market->country->currency->symbol }} {{ $product->price }} </del>
+                @else
+                    <del>{{ $product->price }} {{ $product->market->country->currency->symbol }} </del>
+                @endif
+            </span>
         </div>
     </div> <!-- End Product Content -->
 </div> <!-- End Single Default Product -->

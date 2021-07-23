@@ -12,6 +12,18 @@
             </div>
         </div>
     </div>
+    <div class="form-group row">
+        {!! Form::label('currency_right', trans('lang.app_setting_currency_right'),['class' => 'col-3 control-label text-right']) !!}
+        <div class="col-9">
+            <div class="checkbox icheck">
+                <label class="w-100 ml-2 form-check-inline">
+                    {!! Form::hidden('currency_right', 0) !!}
+                    {!! Form::checkbox('currency_right', 1, null) !!}
+                    <span class="ml-2">{!! trans('lang.app_setting_currency_right_help') !!}</span>
+                </label>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Code Field -->

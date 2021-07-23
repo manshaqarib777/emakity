@@ -34,6 +34,7 @@ class Country extends Model
         'code',
         'active',
         'currency_id',
+        'currency_right'
     ];
 
     /**

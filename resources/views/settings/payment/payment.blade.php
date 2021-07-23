@@ -69,7 +69,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row col-6">
+                {{-- <div class="form-group row col-6">
                     {!! Form::label('currency_right', trans('lang.app_setting_currency_right'),['class' => 'col-4 control-label text-right']) !!}
                     <div class="checkbox icheck">
                         <label class="w-100 ml-2 form-check-inline">
@@ -78,7 +78,7 @@
                             <span class="ml-2">{!! trans('lang.app_setting_currency_right_help') !!}</span>
                         </label>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- Submit Field -->
                 <div class="form-group mt-4 col-12 text-right">

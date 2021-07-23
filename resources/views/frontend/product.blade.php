@@ -68,10 +68,18 @@
                             <h4 class="font--regular m-b-20">{{ $product->name }}</h4>
                             @include('frontend.layouts.components.product_review',['rate'=>($product->rate!=null)?((int)$product->rate):0])
                             <div class="product__price m-t-5">
-                                <span
-                                    class="product__price product__price--large">{{ $product->market->country->currency->symbol }}
-                                    {{ $product->price }} <del> {{ $product->market->country->currency->symbol }}
-                                        {{ $product->discount_price }} </del></span>
+                                <span class="product__price product__price--large">
+                                    @if(!$product->market->country->currency_right)
+                                        {{ $product->market->country->currency->symbol }} {{ $product->discount_price }}
+                                    @else
+                                        {{ $product->discount_price }} {{ $product->market->country->currency->symbol }}
+                                    @endif
+                                    @if(!$product->market->country->currency_right)
+                                        <del> {{ $product->market->country->currency->symbol }} {{ $product->price }} </del>
+                                    @else
+                                        <del>{{ $product->price }} {{ $product->market->country->currency->symbol }} </del>
+                                    @endif
+                                </span>
                                 <span class="product__tag m-l-15 btn--tiny btn--green">-34%</span>
                             </div>
                             <div class="product__desc m-t-25 m-b-30">
