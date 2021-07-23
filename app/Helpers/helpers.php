@@ -120,7 +120,15 @@ function getPriceColumn($modelObject,$modelObject1, $attributeName = 'price')
 {
     //dd($modelObject['market']['currency_right']);
     if ($modelObject[$attributeName] != null && strlen($modelObject[$attributeName]) > 0) {
-        $modelObject[$attributeName] = number_format((float)$modelObject[$attributeName], 2, '.', '');
+        if( isset($modelObject1['country']['currency']) && $modelObject1['country']['currency']['decimal_digits'] >=0)
+        {
+            $digits=$modelObject1['country']['currency']['decimal_digits'];
+        }
+        else
+        {
+            $digits=2;
+        }
+        $modelObject[$attributeName] = number_format((float)$modelObject[$attributeName], $digits, '.', '');
         if($modelObject1==null)
         {
             return "<span>$</span>" . $modelObject[$attributeName];
