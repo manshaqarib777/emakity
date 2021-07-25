@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use InvalidArgumentException;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
@@ -9,7 +9,7 @@ use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\Permission\Traits\HasRoles;
-
+use Stripe\Charge as StripeCharge;
 /**
  * Class User
  * @package App\Models
@@ -197,5 +197,23 @@ class User extends Authenticatable implements HasMedia
     public function area()
     {
         return $this->belongsTo(\App\Models\Area::class, 'area_id', 'id');
+    }
+    public function charge($amount, array $options = [])
+    {
+        // $options = array_merge([
+        //     'currency' => $this->preferredCurrency(),
+        // ], $options);
+
+        $options['amount'] = $amount;
+
+        if (! array_key_exists('source', $options) && $this->stripe_id) {
+            $options['customer'] = $this->stripe_id;
+        }
+
+        if (! array_key_exists('source', $options) && ! array_key_exists('customer', $options)) {
+            throw new InvalidArgumentException('No payment source provided.');
+        }
+
+        return StripeCharge::create($options, ['api_key' => $this->getStripeKey()]);
     }
 }
