@@ -37,9 +37,9 @@ trait Billable
      */
     public function charge($amount, array $options = [])
     {
-        $options = array_merge([
-            'currency' => $this->preferredCurrency(),
-        ], $options);
+        // $options = array_merge([
+        //     'currency' => $this->preferredCurrency(),
+        // ], $options);
 
         $options['amount'] = $amount;
 

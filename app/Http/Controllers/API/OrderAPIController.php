@@ -181,9 +181,10 @@ class OrderAPIController extends Controller
                     $amount += $productOrder['price'] * $productOrder['quantity'];
                     $this->productOrderRepository->create($productOrder);
                 }
+                dd($order->user->country->currency);
                 $amount += $order->delivery_fee;
                 $amountWithTax = $amount + ($amount * $order->tax / 100);
-                $charge = $user->charge((int)($amountWithTax * 100), ['source' => $stripeToken]);
+                $charge = $user->charge((int)($amountWithTax * 100), ['source' => $stripeToken,'currency'=>$order->user->country->currency->code]);
                 $payment = $this->paymentRepository->create([
                     "user_id" => $input['user_id'],
                     "description" => trans("lang.payment_order_done"),
