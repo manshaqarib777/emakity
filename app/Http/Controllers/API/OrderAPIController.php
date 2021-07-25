@@ -181,7 +181,9 @@ class OrderAPIController extends Controller
                     $amount += $productOrder['price'] * $productOrder['quantity'];
                     $this->productOrderRepository->create($productOrder);
                 }
-                dd($order->user->country->currency);
+                Log::info('order_data',$order->user->country->currency);
+                Log::info($input);
+
                 $amount += $order->delivery_fee;
                 $amountWithTax = $amount + ($amount * $order->tax / 100);
                 $charge = $user->charge((int)($amountWithTax * 100), ['source' => $stripeToken,'currency'=>$order->user->country->currency->code]);
@@ -217,7 +219,7 @@ class OrderAPIController extends Controller
             $order = $this->orderRepository->create(
                 $request->only('user_id', 'order_status_id','delivery_time_id', 'tax', 'delivery_address_id', 'delivery_fee', 'hint')
             );
-            Log::info($input['products']);
+            Log::info($input);
             foreach ($input['products'] as $productOrder) {
                 $productOrder['order_id'] = $order->id;
                 $amount += $productOrder['price'] * $productOrder['quantity'];
