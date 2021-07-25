@@ -151,6 +151,7 @@ class OrderAPIController extends Controller
     private function stripPayment(Request $request)
     {
         $input = $request->all();
+        dd($input);
         $amount = 0;
         try {
             $user = $this->userRepository->findWithoutFail($input['user_id']);
@@ -182,6 +183,7 @@ class OrderAPIController extends Controller
                     $this->productOrderRepository->create($productOrder);
                 }
                 Log::info('order_data',$order->user->country->currency);
+
                 Log::info($input);
 
                 $amount += $order->delivery_fee;
