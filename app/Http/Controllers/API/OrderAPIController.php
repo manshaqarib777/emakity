@@ -226,7 +226,7 @@ class OrderAPIController extends Controller
                 $request->only('user_id', 'order_status_id','delivery_time_id', 'tax', 'delivery_address_id', 'delivery_fee', 'hint')
             );
             Log::info($input);
-            dd($order);
+            //dd($order);
             foreach ($input['products'] as $productOrder) {
                 $productOrder['order_id'] = $order->id;
                 $amount += $productOrder['price'] * $productOrder['quantity'];
