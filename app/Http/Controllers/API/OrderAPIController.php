@@ -133,6 +133,7 @@ class OrderAPIController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
         $payment = $request->only('payment');
         if (isset($payment['payment']) && $payment['payment']['method']) {
             if ($payment['payment']['method'] == "Credit Card (Stripe Gateway)") {
@@ -151,7 +152,7 @@ class OrderAPIController extends Controller
     private function stripPayment(Request $request)
     {
         $input = $request->all();
-        dd($input);
+        //dd($input);
         $amount = 0;
         try {
             $user = $this->userRepository->findWithoutFail($input['user_id']);
@@ -167,6 +168,7 @@ class OrderAPIController extends Controller
                     "name" => $user->name,
                 )
             ));
+            //dd($stripeToken->created);
             if ($stripeToken->created > 0) {
                 if (empty($input['delivery_address_id'])) {
                     $order = $this->orderRepository->create(
@@ -177,18 +179,20 @@ class OrderAPIController extends Controller
                         $request->only('user_id', 'order_status_id','delivery_time_id', 'tax', 'delivery_address_id', 'delivery_fee', 'hint')
                     );
                 }
+                //dd('asas');
                 foreach ($input['products'] as $productOrder) {
                     $productOrder['order_id'] = $order->id;
                     $amount += $productOrder['price'] * $productOrder['quantity'];
                     $this->productOrderRepository->create($productOrder);
                 }
-                Log::info('order_data',$order->user->country->currency);
-
-                Log::info($input);
+                //dd('asas');
+                
+                //dd($order->products[0]->market->country->currency->code);
 
                 $amount += $order->delivery_fee;
                 $amountWithTax = $amount + ($amount * $order->tax / 100);
-                $charge = $user->charge((int)($amountWithTax * 100), ['source' => $stripeToken,'currency'=>$order->user->country->currency->code]);
+                $charge = $user->charge((int)($amountWithTax * 100), ['source' => $stripeToken,'currency'=>$order->products[0]->market->country->currency->code]);
+                //dd($charge);
                 $payment = $this->paymentRepository->create([
                     "user_id" => $input['user_id'],
                     "description" => trans("lang.payment_order_done"),
@@ -222,6 +226,7 @@ class OrderAPIController extends Controller
                 $request->only('user_id', 'order_status_id','delivery_time_id', 'tax', 'delivery_address_id', 'delivery_fee', 'hint')
             );
             Log::info($input);
+            dd($order);
             foreach ($input['products'] as $productOrder) {
                 $productOrder['order_id'] = $order->id;
                 $amount += $productOrder['price'] * $productOrder['quantity'];
