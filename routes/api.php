@@ -72,7 +72,7 @@ Route::resource('options', 'API\OptionAPIController');
 Route::middleware('auth:api')->group(function () {
     Route::group(['middleware' => ['role:driver']], function () {
         Route::prefix('driver')->group(function () {
-            //Route::resource('orders', 'API\OrderAPIController');
+            Route::resource('orders', 'API\OrderAPIController');
             Route::resource('notifications', 'API\NotificationAPIController');
             Route::post('users/{id}', 'API\UserAPIController@update');
             Route::resource('faq_categories', 'API\FaqCategoryAPIController');
@@ -99,7 +99,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('favorites/exist', 'API\FavoriteAPIController@exist');
     Route::resource('favorites', 'API\FavoriteAPIController');
 
-    
+    Route::resource('orders', 'API\OrderAPIController');
+
     Route::resource('product_orders', 'API\ProductOrderAPIController');
 
     Route::resource('notifications', 'API\NotificationAPIController');
@@ -121,4 +122,3 @@ Route::middleware('auth:api')->group(function () {
         'show'
     ]);
 });
-Route::resource('orders', 'API\OrderAPIController');
