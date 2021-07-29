@@ -43,14 +43,14 @@ class PaymentDataTable extends DataTable
         ->editColumn('user.country.name', function ($order) {
             return $order['user']['country']['name'];
         })
-            ->editColumn('updated_at', function ($payment) {
-                return getDateColumn($payment, 'updated_at');
-            })
-            ->editColumn('price', function ($payment) {
-                return getPriceColumn($payment,$payment['order']['products'][0]['market'],'price');
-            })
-            ->addColumn('action', 'payments.datatables_actions')
-            ->rawColumns(array_merge($columns, ['action']));
+        ->editColumn('updated_at', function ($payment) {
+            return getDateColumn($payment, 'updated_at');
+        })
+        ->editColumn('price', function ($payment) {
+            return getPriceColumn($payment,$payment['user'],'price');
+        })
+        ->addColumn('action', 'payments.datatables_actions')
+        ->rawColumns(array_merge($columns, ['action']));
 
         return $dataTable;
     }
@@ -67,9 +67,9 @@ class PaymentDataTable extends DataTable
         if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager')) {
             return $model->newQuery()->with(["user.country","order"])->select('payments.*')->orderBy('id', 'desc');
         }  else if (auth()->user()->hasRole('client')) {
-            return $model->newQuery()->with(["user.country","order"])
+            return $model->newQuery()->select('payments.*')->with(["user.country","order"])
                 ->where('payments.user_id', auth()->id())
-                ->select('payments.*')->orderBy('id', 'desc');
+                ->orderBy('id', 'desc');
         }
     }
 
