@@ -34,14 +34,18 @@ class DashboardAPIController extends Controller
      * @var EarningRepository
      */
     private $earningRepository;
+    private $paymentRepository;
 
-    public function __construct(OrderRepository $orderRepo, EarningRepository $earningRepository, MarketRepository $marketRepo, ProductRepository $productRepository)
+
+    public function __construct(OrderRepository $orderRepo, EarningRepository $earningRepository, MarketRepository $marketRepo, PaymentRepository $paymentRepo,ProductRepository $productRepository)
     {
         parent::__construct();
         $this->orderRepository = $orderRepo;
         $this->marketRepository = $marketRepo;
         $this->productRepository = $productRepository;
         $this->earningRepository = $earningRepository;
+        $this->paymentRepository = $paymentRepo;
+
     }
 
     /**
