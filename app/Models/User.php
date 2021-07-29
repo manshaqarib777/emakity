@@ -57,6 +57,7 @@ class User extends Authenticatable implements HasMedia
         'state_id',
         'area_id',
         'language',
+        'chat_id',
     ];
     /**
      * The attributes that should be casted to native types.
