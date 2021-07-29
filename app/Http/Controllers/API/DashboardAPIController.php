@@ -56,24 +56,30 @@ class DashboardAPIController extends Controller
         $statistics = [];
         try{
 
-            $this->earningRepository->pushCriteria(new EarningOfUserCriteria(auth()->id()));
+            //$this->earningRepository->pushCriteria(new EarningOfUserCriteria(auth()->id()));
             $earning['description'] = 'total_earning';
-            $earning['value'] = $this->earningRepository->all()->sum('market_earning');
+            $earning['value'] = $this->earningRepository->whereHas('market.country', function($q){
+                return $q->where('countries.id',get_role_country_id('branch'));
+            })->sum('market_earning');
             $statistics[] = $earning;
 
-            $this->orderRepository->pushCriteria(new OrdersOfUserCriteria(auth()->id()));
+            //$this->orderRepository->pushCriteria(new OrdersOfUserCriteria(auth()->id()));
             $ordersCount['description'] = "total_orders";
-            $ordersCount['value'] = $this->orderRepository->all('orders.id')->count();
+            $ordersCount['value'] = $this->orderRepository->whereHas('user.country', function($q){
+                return $q->where('countries.id',get_role_country_id('branch'));
+            })->count();
             $statistics[] = $ordersCount;
 
-            $this->marketRepository->pushCriteria(new MarketsOfManagerCriteria(auth()->id()));
+            //$this->marketRepository->pushCriteria(new MarketsOfManagerCriteria(auth()->id()));
             $marketsCount['description'] = "total_markets";
-            $marketsCount['value'] = $this->marketRepository->all('markets.id')->count();
+            $marketsCount['value'] = $this->marketRepository->where('country_id',get_role_country_id('branch'))->count();
             $statistics[] = $marketsCount;
 
-            $this->productRepository->pushCriteria(new ProductsOfUserCriteria(auth()->id()));
+            //$this->productRepository->pushCriteria(new ProductsOfUserCriteria(auth()->id()));
             $productsCount['description'] = "total_products";
-            $productsCount['value'] = $this->productRepository->all('products.id')->count();
+            $productsCount['value'] = $this->productRepository->whereHas('market.country', function($q){
+                return $q->where('countries.id',get_role_country_id('branch'));
+            })->count();
             $statistics[] = $productsCount;
 
 
