@@ -58,9 +58,9 @@ class DashboardAPIController extends Controller
 
             //$this->earningRepository->pushCriteria(new EarningOfUserCriteria(auth()->id()));
             $earning['description'] = 'total_earning';
-            $earning['value'] = $this->earningRepository->whereHas('market.country', function($q){
+            $earning['value'] = $this->paymentRepository->whereHas('user.country', function($q){
                 return $q->where('countries.id',get_role_country_id('branch'));
-            })->sum('market_earning');
+            })->where('status','Paid')->sum('price');
             $statistics[] = $earning;
 
             //$this->orderRepository->pushCriteria(new OrdersOfUserCriteria(auth()->id()));
