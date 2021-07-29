@@ -49,9 +49,7 @@ class DashboardController extends Controller
             $membersCount = $this->userRepository->where('country_id',get_role_country_id('branch'))->count();
             $marketsCount = $this->marketRepository->where('country_id',get_role_country_id('branch'))->count();
             $markets = $this->marketRepository->where('country_id',get_role_country_id('branch'))->limit(4)->get();
-            $earning = $this->paymentRepository->whereHas('user.country', function($q){
-                return $q->where('countries.id',get_role_country_id('branch'));
-            })->all()->where('status','Paid')->sum('price');
+            $earning = $this->paymentRepository->where('status','Paid')->sum('price');
             $ajaxEarningUrl = route('payments.byMonth',['api_token'=>auth()->user()->api_token]);
         }
         else
