@@ -7,7 +7,6 @@ use App\Repositories\PaymentRepository;
 use App\Repositories\MarketRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
-use App\Repositories\EarningRepository;
 
 class DashboardController extends Controller
 {
@@ -25,19 +24,15 @@ class DashboardController extends Controller
     private $marketRepository;
     /** @var  PaymentRepository */
     private $paymentRepository;
-    
 
-    public function __construct( EarningRepository $earningRepository,OrderRepository $orderRepo, UserRepository $userRepo, PaymentRepository $paymentRepo, MarketRepository $marketRepo)
+    public function __construct(OrderRepository $orderRepo, UserRepository $userRepo, PaymentRepository $paymentRepo, MarketRepository $marketRepo)
     {
         parent::__construct();
         $this->orderRepository = $orderRepo;
         $this->userRepository = $userRepo;
         $this->marketRepository = $marketRepo;
         $this->paymentRepository = $paymentRepo;
-        $this->earningRepository = $earningRepository;
-
     }
-
 
     /**
      * Display a listing of the resource.
@@ -54,7 +49,7 @@ class DashboardController extends Controller
             $membersCount = $this->userRepository->where('country_id',get_role_country_id('branch'))->count();
             $marketsCount = $this->marketRepository->where('country_id',get_role_country_id('branch'))->count();
             $markets = $this->marketRepository->where('country_id',get_role_country_id('branch'))->limit(4)->get();
-            $earning = $this->earningRepository->whereHas('market.country', function($q){
+            $earning = $this->paymentRepository->whereHas('user.country', function($q){
                 return $q->where('countries.id',get_role_country_id('branch'));
             })->all()->sum('price');
             $ajaxEarningUrl = route('payments.byMonth',['api_token'=>auth()->user()->api_token]);
@@ -65,7 +60,7 @@ class DashboardController extends Controller
             $membersCount = $this->userRepository->count();
             $marketsCount = $this->marketRepository->count();
             $markets = $this->marketRepository->limit(4)->get();
-            $earning = $this->earningRepository->all()->sum('price');
+            $earning = $this->paymentRepository->all()->sum('price');
             $ajaxEarningUrl = route('payments.byMonth',['api_token'=>auth()->user()->api_token]);
 
         }
