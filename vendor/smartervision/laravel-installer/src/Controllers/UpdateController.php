@@ -1,9 +1,8 @@
 <?php
 
 namespace RachidLaasri\LaravelInstaller\Controllers;
-use Illuminate\Http\Request;
+
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Artisan;
 use RachidLaasri\LaravelInstaller\Helpers\DatabaseManager;
 use RachidLaasri\LaravelInstaller\Helpers\InstalledFileManager;
 
@@ -16,9 +15,9 @@ class UpdateController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function welcome($version)
+    public function welcome()
     {
-        return view('vendor.installer.update.welcome',["version" => $version]);
+        return view('vendor.installer.update.welcome');
     }
 
     /**
@@ -26,12 +25,12 @@ class UpdateController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function overview($version)
+    public function overview()
     {
-        $migrations = $this->getMigrations($version);
-        //$dbMigrations = $this->getExecutedMigrations();
+        $migrations = $this->getMigrations();
+        $dbMigrations = $this->getExecutedMigrations();
 
-        return view('vendor.installer.update.overview', ['numberOfUpdatesPending' => count($migrations),"version"=>$version]);
+        return view('vendor.installer.update.overview', ['numberOfUpdatesPending' => count($migrations) - count($dbMigrations)]);
     }
 
     /**
@@ -39,10 +38,10 @@ class UpdateController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function database($version)
+    public function database()
     {
         $databaseManager = new DatabaseManager;
-        $response = $databaseManager->migrateAndSeed($version);
+        $response = $databaseManager->migrateAndSeed();
 
         return redirect()->route('LaravelUpdater::final')
                          ->with(['message' => $response]);
@@ -57,16 +56,6 @@ class UpdateController extends Controller
     public function finish(InstalledFileManager $fileManager)
     {
         $fileManager->update();
-
-        try{
-            Artisan::call('cache:forget', ['key' => 'spatie.permission.cache']);
-            Artisan::call('cache:clear');
-            Artisan::call('config:clear');
-            Artisan::call('view:clear');
-            Artisan::call('route:clear');
-        }catch (\Exception $e){
-
-        }
 
         return view('vendor.installer.update.finished');
     }

@@ -17,8 +17,6 @@ class canUpdate
      */
     public function handle($request, Closure $next)
     {
-        $version = $request->route("version");
-//        dd($version);
         $updateEnabled = filter_var(config('installer.updaterEnabled'), FILTER_VALIDATE_BOOLEAN);
         switch ($updateEnabled) {
             case true:
@@ -30,7 +28,7 @@ class canUpdate
                     return redirect()->route('LaravelInstaller::welcome');
                 }
 
-                if ($this->alreadyUpdated($version)) {
+                if ($this->alreadyUpdated()) {
                     abort(404);
                 }
                 break;
@@ -49,14 +47,14 @@ class canUpdate
      *
      * @return bool
      */
-    public function alreadyUpdated($version)
+    public function alreadyUpdated()
     {
-        $migrations = $this->getMigrations($version);
+        $migrations = $this->getMigrations();
         $dbMigrations = $this->getExecutedMigrations();
 
         // If the count of migrations and dbMigrations is equal,
         // then the update as already been updated.
-        if (count($migrations) == 0) {
+        if (count($migrations) == count($dbMigrations)) {
             return true;
         }
 
