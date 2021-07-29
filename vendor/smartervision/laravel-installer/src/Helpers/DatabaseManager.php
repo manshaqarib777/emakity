@@ -16,13 +16,13 @@ class DatabaseManager
      *
      * @return array
      */
-    public function migrateAndSeed($version = null)
+    public function migrateAndSeed()
     {
         $outputLog = new BufferedOutput;
 
         $this->sqlite($outputLog);
 
-        return $this->migrate($version,$outputLog);
+        return $this->migrate($outputLog);
     }
 
     /**
@@ -31,14 +31,10 @@ class DatabaseManager
      * @param \Symfony\Component\Console\Output\BufferedOutput $outputLog
      * @return array
      */
-    private function migrate($version, BufferedOutput $outputLog)
+    private function migrate(BufferedOutput $outputLog)
     {
         try {
-            if($version != null){
-                Artisan::call('migrate', ['--force'=>true, '--path'=>"database/migrations/".$version."/"], $outputLog);
-            }else{
-                Artisan::call('migrate', ['--force'=>true], $outputLog);
-            }
+            Artisan::call('migrate', ['--force'=> true], $outputLog);
         } catch (Exception $e) {
             return $this->response($e->getMessage(), 'error', $outputLog);
         }
