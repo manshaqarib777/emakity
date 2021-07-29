@@ -278,8 +278,9 @@ class OrderController extends Controller
 
     public function show(ProductOrderDataTable $productOrderDataTable, $id)
     {
-        $this->orderRepository->pushCriteria(new OrdersOfUserCriteria(auth()->id()));
+        //$this->orderRepository->pushCriteria(new OrdersOfUserCriteria(auth()->id()));
         $order = $this->orderRepository->findWithoutFail($id);
+        //dd($order);
         if (empty($order)) {
             Flash::error(__('lang.not_found', ['operator' => __('lang.order')]));
 
