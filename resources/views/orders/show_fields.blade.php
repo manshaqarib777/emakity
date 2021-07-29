@@ -99,7 +99,7 @@
     </div>
     {!! Form::label('delivery_time', trans('lang.delivery_time'), ['class' => 'col-4 control-label']) !!}
     <div class="col-8">
-        <p>{!! $order->deliveryTime->name !!}</p>
+        <p>{!! @$order->deliveryTime->name !!}</p>
     </div>
 
 </div>
