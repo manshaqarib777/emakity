@@ -33,7 +33,7 @@ class EarningDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-        ->editColumn('country', function ($driver) {
+        ->editColumn('market.country.name', function ($driver) {
             return $driver['market']['country']['name'];
         })
             ->editColumn('market.name', function ($earning) {
@@ -71,53 +71,102 @@ class EarningDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'market.name',
-                'title' => trans('lang.earning_market_id'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'market.name',
+                    'title' => trans('lang.earning_market_id'),
+    
+                ],
+                [
+                    'data' => 'market.country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'total_orders',
+                    'title' => trans('lang.earning_total_orders'),
+    
+                ],
+                [
+                    'data' => 'total_earning',
+                    'title' => trans('lang.earning_total_earning'),
+    
+                ],
+                [
+                    'data' => 'admin_earning',
+                    'title' => trans('lang.earning_admin_earning'),
+    
+                ],
+                [
+                    'data' => 'market_earning',
+                    'title' => trans('lang.earning_market_earning'),
+    
+                ],
+                [
+                    'data' => 'delivery_fee',
+                    'title' => trans('lang.earning_delivery_fee'),
+    
+                ],
+                [
+                    'data' => 'tax',
+                    'title' => trans('lang.earning_tax'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.earning_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'market.name',
+                    'title' => trans('lang.earning_market_id'),
+    
+                ],
+                [
+                    'data' => 'total_orders',
+                    'title' => trans('lang.earning_total_orders'),
+    
+                ],
+                [
+                    'data' => 'total_earning',
+                    'title' => trans('lang.earning_total_earning'),
+    
+                ],
+                [
+                    'data' => 'admin_earning',
+                    'title' => trans('lang.earning_admin_earning'),
+    
+                ],
+                [
+                    'data' => 'market_earning',
+                    'title' => trans('lang.earning_market_earning'),
+    
+                ],
+                [
+                    'data' => 'delivery_fee',
+                    'title' => trans('lang.earning_delivery_fee'),
+    
+                ],
+                [
+                    'data' => 'tax',
+                    'title' => trans('lang.earning_tax'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.earning_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+            
+        }
 
-            ],
-            [
-                'data' => 'country',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'total_orders',
-                'title' => trans('lang.earning_total_orders'),
-
-            ],
-            [
-                'data' => 'total_earning',
-                'title' => trans('lang.earning_total_earning'),
-
-            ],
-            [
-                'data' => 'admin_earning',
-                'title' => trans('lang.earning_admin_earning'),
-
-            ],
-            [
-                'data' => 'market_earning',
-                'title' => trans('lang.earning_market_earning'),
-
-            ],
-            [
-                'data' => 'delivery_fee',
-                'title' => trans('lang.earning_delivery_fee'),
-
-            ],
-            [
-                'data' => 'tax',
-                'title' => trans('lang.earning_tax'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.earning_updated_at'),
-                'searchable' => false,
-            ]
-        ];
 
         $hasCustomField = in_array(Earning::class, setting('custom_field_models', []));
         if ($hasCustomField) {
@@ -142,7 +191,7 @@ class EarningDataTable extends DataTable
      */
     public function query(Earning $model)
     {
-        return $model->newQuery()->with("market")->select('earnings.*');
+        return $model->newQuery()->with("market.country")->select('earnings.*');
         
     }
 

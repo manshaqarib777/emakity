@@ -87,6 +87,50 @@ class AreaDataTable extends DataTable
      */
     protected function getColumns()
     {
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.area_name'),
+                    'searchable' => true,
+                ],
+                [
+                    'data' => 'state.name',
+                    'title' => trans('lang.state'),
+                    'searchable' => false,
+                ],
+                [
+                    'data' => 'country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.area_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.area_name'),
+                    'searchable' => true,
+                ],
+                [
+                    'data' => 'state.name',
+                    'title' => trans('lang.state'),
+                    'searchable' => false,
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.area_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
         $columns = [
             [
                 'data' => 'name',
@@ -98,17 +142,17 @@ class AreaDataTable extends DataTable
                 'title' => trans('lang.state'),
                 'searchable' => false,
             ],
-            [
+            (auth()->check() && auth()->user()->hasRole('admin')) ? [
                 'data' => 'country.name',
                 'title' => trans('lang.country'),
-                'searchable' => false,
-            ],
+            ] : '',
             [
                 'data' => 'updated_at',
                 'title' => trans('lang.area_updated_at'),
                 'searchable' => false,
             ]
         ];
+
         return $columns;
     }
 

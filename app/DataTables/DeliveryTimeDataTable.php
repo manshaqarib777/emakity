@@ -81,23 +81,41 @@ class DeliveryTimeDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'name',
-                'title' => trans('lang.delivery_time_name'),
-            
-            ],
-            [
-                'data' => 'country.name',
-                'title' => trans('lang.country'),
-            
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.delivery_time_updated_at'),
-                'searchable'=>false,
-            ]
-        ];
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.delivery_time_name'),
+                
+                ],
+                [
+                    'data' => 'country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.delivery_time_updated_at'),
+                    'searchable'=>false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.delivery_time_name'),
+                
+                ],
+               [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.delivery_time_updated_at'),
+                    'searchable'=>false,
+                ]
+            ];
+        }
+
         return $columns;
     }
 

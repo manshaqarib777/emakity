@@ -74,65 +74,125 @@ class OrderDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'id',
-                'title' => trans('lang.order_id'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'id',
+                    'title' => trans('lang.order_id'),
+    
+                ],
+                [
+                    'data' => 'user.name',
+                    'title' => trans('lang.order_user_id'),
+    
+                ],
+                [
+                    'data' => 'user.country.name',
+                    'title' => trans('lang.country'),
+    
+                ],
+                [
+                    'data' => 'order_status.status',
+                    'name' => 'orderStatus.status',
+                    'title' => trans('lang.order_order_status_id'),
+    
+                ],
+                [
+                    'data' => 'tax',
+                    'title' => trans('lang.order_tax'),
+                    'searchable' => false,
+    
+                ],
+                [
+                    'data' => 'delivery_fee',
+                    'title' => trans('lang.order_delivery_fee'),
+                    'searchable' => false,
+    
+                ],
+                [
+                    'data' => 'payment.status',
+                    'name' => 'payment.status',
+                    'title' => trans('lang.payment_status'),
+    
+                ],
+                [
+                    'data' => 'payment.method',
+                    'name' => 'payment.method',
+                    'title' => trans('lang.payment_method'),
+    
+                ],
+                [
+                    'data' => 'active',
+                    'title' => trans('lang.order_active'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.order_updated_at'),
+                    'searchable' => false,
+                    'orderable' => true,
+    
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'id',
+                    'title' => trans('lang.order_id'),
+    
+                ],
+                [
+                    'data' => 'user.name',
+                    'title' => trans('lang.order_user_id'),
+    
+                ],
+                [
+                    'data' => 'user.country.name',
+                    'title' => trans('lang.country'),
+    
+                ],
+                [
+                    'data' => 'tax',
+                    'title' => trans('lang.order_tax'),
+                    'searchable' => false,
+    
+                ],
+                [
+                    'data' => 'delivery_fee',
+                    'title' => trans('lang.order_delivery_fee'),
+                    'searchable' => false,
+    
+                ],
+                [
+                    'data' => 'payment.status',
+                    'name' => 'payment.status',
+                    'title' => trans('lang.payment_status'),
+    
+                ],
+                [
+                    'data' => 'payment.method',
+                    'name' => 'payment.method',
+                    'title' => trans('lang.payment_method'),
+    
+                ],
+                [
+                    'data' => 'active',
+                    'title' => trans('lang.order_active'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.order_updated_at'),
+                    'searchable' => false,
+                    'orderable' => true,
+    
+                ]
+            ];
+        }
 
-            ],
-            [
-                'data' => 'user.name',
-                'title' => trans('lang.order_user_id'),
-
-            ],
-            [
-                'data' => 'user.country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'order_status.status',
-                'name' => 'orderStatus.status',
-                'title' => trans('lang.order_order_status_id'),
-
-            ],
-            [
-                'data' => 'tax',
-                'title' => trans('lang.order_tax'),
-                'searchable' => false,
-
-            ],
-            [
-                'data' => 'delivery_fee',
-                'title' => trans('lang.order_delivery_fee'),
-                'searchable' => false,
-
-            ],
-            [
-                'data' => 'payment.status',
-                'name' => 'payment.status',
-                'title' => trans('lang.payment_status'),
-
-            ],
-            [
-                'data' => 'payment.method',
-                'name' => 'payment.method',
-                'title' => trans('lang.payment_method'),
-
-            ],
-            [
-                'data' => 'active',
-                'title' => trans('lang.order_active'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.order_updated_at'),
-                'searchable' => false,
-                'orderable' => true,
-
-            ]
-        ];
 
         $hasCustomField = in_array(Order::class, setting('custom_field_models', []));
         if ($hasCustomField) {

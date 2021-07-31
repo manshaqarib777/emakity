@@ -108,11 +108,10 @@ class FavoriteDataTable extends DataTable
                 'title' => trans('lang.favorite_product_id'),
 
             ],
-            [
+            (auth()->check() && auth()->user()->hasRole('admin')) ? [
                 'data' => 'product.market.country.name',
                 'title' => trans('lang.country'),
-
-            ],
+            ] : '',
             [
                 'data' => 'options',
                 'title' => trans('lang.favorite_options'),
@@ -123,7 +122,7 @@ class FavoriteDataTable extends DataTable
                 'data' => 'user.name',
                 'title' => trans('lang.favorite_user_id'),
 
-            ] : null,
+            ] : '',
             [
                 'data' => 'updated_at',
                 'title' => trans('lang.favorite_updated_at'),

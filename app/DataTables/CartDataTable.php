@@ -26,10 +26,9 @@ class CartDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
             $query = $query->where('user_id', auth()->id());
-            if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
-            $query = $query->whereHas('product.market.country', function($q){
-                return $q->where('countries.id',get_role_country_id('branch'));
-            });
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+            $query = $query->where('user_id', auth()->id());
+
 
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
@@ -94,38 +93,73 @@ class CartDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'product.name',
-                'title' => trans('lang.cart_product_id'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'product.name',
+                    'title' => trans('lang.cart_product_id'),
+    
+                ],
+                [
+                    'data' => 'product.market.country.name',
+                    'title' => trans('lang.country'),
+    
+                ],
+                [
+                    'data' => 'user.name',
+                    'title' => trans('lang.cart_user_id'),
+    
+                ],
+                [
+                    'data' => 'options',
+                    'title' => trans('lang.cart_options'),
+                    'searchable' => false,
+                ],
+                [
+                    'data' => 'quantity',
+                    'title' => trans('lang.cart_quantity'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.cart_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'product.name',
+                    'title' => trans('lang.cart_product_id'),
+    
+                ],
+                [
+                    'data' => 'product.market.country.name',
+                    'title' => trans('lang.country'),
+    
+                ],
+                [
+                    'data' => 'options',
+                    'title' => trans('lang.cart_options'),
+                    'searchable' => false,
+                ],
+                [
+                    'data' => 'quantity',
+                    'title' => trans('lang.cart_quantity'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.cart_updated_at'),
+                    'searchable' => false,
+                ]
+            ]; 
+        }
 
-            ],
-            [
-                'data' => 'product.market.country.name',
-                'title' => trans('lang.country'),
 
-            ],
-            (auth()->check() && auth()->user()->hasRole('admin')) ? [
-                'data' => 'user.name',
-                'title' => trans('lang.cart_user_id'),
-
-            ] : null,
-            [
-                'data' => 'options',
-                'title' => trans('lang.cart_options'),
-                'searchable' => false,
-            ],
-            [
-                'data' => 'quantity',
-                'title' => trans('lang.cart_quantity'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.cart_updated_at'),
-                'searchable' => false,
-            ]
-        ];
         $columns = array_filter($columns);
         $hasCustomField = in_array(Cart::class, setting('custom_field_models', []));
         if ($hasCustomField) {

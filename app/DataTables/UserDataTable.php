@@ -87,41 +87,77 @@ class UserDataTable extends DataTable
      */
     protected function getColumns()
     {
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'avatar',
+                    'title' => trans('lang.user_avatar'),
+                    'orderable' => false, 'searchable' => false,
+    
+                ],
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.user_name'),
+    
+                ],
+                [
+                    'data' => 'country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'email',
+                    'title' => trans('lang.user_email'),
+    
+                ],
+                [
+                    'data' => 'role',
+                    'title' => trans('lang.user_role_id'),
+                    'orderable' => false, 'searchable' => false,
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.user_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'avatar',
+                    'title' => trans('lang.user_avatar'),
+                    'orderable' => false, 'searchable' => false,
+    
+                ],
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.user_name'),
+    
+                ],
+                [
+                    'data' => 'email',
+                    'title' => trans('lang.user_email'),
+    
+                ],
+                [
+                    'data' => 'role',
+                    'title' => trans('lang.user_role_id'),
+                    'orderable' => false, 'searchable' => false,
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.user_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+            
+        }
         // TODO custom element generator
-        $columns = [
-            [
-                'data' => 'avatar',
-                'title' => trans('lang.user_avatar'),
-                'orderable' => false, 'searchable' => false,
-
-            ],
-            [
-                'data' => 'name',
-                'title' => trans('lang.user_name'),
-
-            ],
-            [
-                'data' => 'country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'email',
-                'title' => trans('lang.user_email'),
-
-            ],
-            [
-                'data' => 'role',
-                'title' => trans('lang.user_role_id'),
-                'orderable' => false, 'searchable' => false,
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.user_updated_at'),
-                'searchable' => false,
-            ]
-        ];
+        
 
         // TODO custom element generator
         $hasCustomField = in_array(User::class, setting('custom_field_models',[]));

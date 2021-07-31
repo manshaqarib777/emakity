@@ -119,38 +119,73 @@ class MarketReviewDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'review',
-                'title' => trans('lang.market_review_review'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'review',
+                    'title' => trans('lang.market_review_review'),
+    
+                ],
+                [
+                    'data' => 'rate',
+                    'title' => trans('lang.market_review_rate'),
+    
+                ],
+                [
+                    'data' => 'market.country.name',
+                    'title' => trans('lang.country'),
+    
+                ],
+                [
+                    'data' => 'user.name',
+                    'title' => trans('lang.market_review_user_id'),
+    
+                ],
+                [
+                    'data' => 'market.name',
+                    'title' => trans('lang.market_review_market_id'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.market_review_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'review',
+                    'title' => trans('lang.market_review_review'),
+    
+                ],
+                [
+                    'data' => 'rate',
+                    'title' => trans('lang.market_review_rate'),
+    
+                ],
+                [
+                    'data' => 'user.name',
+                    'title' => trans('lang.market_review_user_id'),
+    
+                ],
+                [
+                    'data' => 'market.name',
+                    'title' => trans('lang.market_review_market_id'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.market_review_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+            
+        }
 
-            ],
-            [
-                'data' => 'rate',
-                'title' => trans('lang.market_review_rate'),
-
-            ],
-            [
-                'data' => 'market.country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'user.name',
-                'title' => trans('lang.market_review_user_id'),
-
-            ],
-            [
-                'data' => 'market.name',
-                'title' => trans('lang.market_review_market_id'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.market_review_updated_at'),
-                'searchable' => false,
-            ]
-        ];
 
         $hasCustomField = in_array(MarketReview::class, setting('custom_field_models', []));
         if ($hasCustomField) {

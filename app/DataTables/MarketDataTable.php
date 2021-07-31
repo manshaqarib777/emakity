@@ -121,63 +121,121 @@ class MarketDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'image',
-                'title' => trans('lang.market_image'),
-                'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
-            ],
-            [
-                'data' => 'web_image',
-                'title' => trans('lang.market_web_image'),
-                'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
-            ],
-            [
-                'data' => 'country.name',
-                'title' => trans('lang.country'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.market_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'web_image',
+                    'title' => trans('lang.market_web_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.market_name'),
+    
+                ],
+                [
+                    'data' => 'address',
+                    'title' => trans('lang.market_address'),
+    
+                ],
+                [
+                    'data' => 'phone',
+                    'title' => trans('lang.market_phone'),
+    
+                ],
+                [
+                    'data' => 'mobile',
+                    'title' => trans('lang.market_mobile'),
+    
+                ],
+                [
+                    'data' => 'available_for_delivery',
+                    'title' => trans('lang.market_available_for_delivery'),
+    
+                ],
+                [
+                    'data' => 'closed',
+                    'title' => trans('lang.market_closed'),
+    
+                ],
+                [
+                    'data' => 'active',
+                    'title' => trans('lang.market_active'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.market_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
 
-            ],
-            [
-                'data' => 'name',
-                'title' => trans('lang.market_name'),
-
-            ],
-            [
-                'data' => 'address',
-                'title' => trans('lang.market_address'),
-
-            ],
-            [
-                'data' => 'phone',
-                'title' => trans('lang.market_phone'),
-
-            ],
-            [
-                'data' => 'mobile',
-                'title' => trans('lang.market_mobile'),
-
-            ],
-            [
-                'data' => 'available_for_delivery',
-                'title' => trans('lang.market_available_for_delivery'),
-
-            ],
-            [
-                'data' => 'closed',
-                'title' => trans('lang.market_closed'),
-
-            ],
-            [
-                'data' => 'active',
-                'title' => trans('lang.market_active'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.market_updated_at'),
-                'searchable' => false,
-            ]
-        ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.market_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'web_image',
+                    'title' => trans('lang.market_web_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.market_name'),
+    
+                ],
+                [
+                    'data' => 'address',
+                    'title' => trans('lang.market_address'),
+    
+                ],
+                [
+                    'data' => 'phone',
+                    'title' => trans('lang.market_phone'),
+    
+                ],
+                [
+                    'data' => 'mobile',
+                    'title' => trans('lang.market_mobile'),
+    
+                ],
+                [
+                    'data' => 'available_for_delivery',
+                    'title' => trans('lang.market_available_for_delivery'),
+    
+                ],
+                [
+                    'data' => 'closed',
+                    'title' => trans('lang.market_closed'),
+    
+                ],
+                [
+                    'data' => 'active',
+                    'title' => trans('lang.market_active'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.market_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
 
         $hasCustomField = in_array(Market::class, setting('custom_field_models', []));
         if ($hasCustomField) {

@@ -78,16 +78,16 @@ class OrderStatusDataTable extends DataTable
     {
         $columns = [
             [
-  'data' => 'status',
-  'title' => trans('lang.order_status_status'),
-  
-],
-            [
-  'data' => 'updated_at',
-  'title' => trans('lang.order_status_updated_at'),
-  'searchable'=>false,
-]
-            ];
+            'data' => 'status',
+            'title' => trans('lang.order_status_status'),
+            
+            ],
+                        [
+            'data' => 'updated_at',
+            'title' => trans('lang.order_status_updated_at'),
+            'searchable'=>false,
+            ]
+        ];
 
         $hasCustomField = in_array(OrderStatus::class, setting('custom_field_models',[]));
         if ($hasCustomField) {

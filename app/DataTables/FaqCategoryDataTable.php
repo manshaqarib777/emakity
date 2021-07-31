@@ -52,7 +52,7 @@ class FaqCategoryDataTable extends DataTable
      */
     public function query(FaqCategory $model)
     {
-        return $model->newQuery();
+        return $model->newQuery()->with('country')->select('faq_categories.*');
     }
 
     /**
@@ -82,23 +82,41 @@ class FaqCategoryDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'name',
-                'title' => trans('lang.faq_category_name'),
-            
-            ],
-            [
-                'data' => 'country.name',
-                'title' => trans('lang.country'),
-            
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.faq_category_updated_at'),
-                'searchable'=>false,
-            ]
-        ];
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.faq_category_name'),
+                
+                ],
+                [
+                    'data' => 'country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.faq_category_updated_at'),
+                    'searchable'=>false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.faq_category_name'),
+                
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.faq_category_updated_at'),
+                    'searchable'=>false,
+                ]
+            ];            
+        }
+
 
         $hasCustomField = in_array(FaqCategory::class, setting('custom_field_models',[]));
         if ($hasCustomField) {

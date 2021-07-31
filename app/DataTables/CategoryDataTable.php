@@ -61,28 +61,51 @@ class CategoryDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'name',
-                'title' => trans('lang.category_name'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.category_name'),
+    
+                ],
+                [
+                    'data' => 'country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.category_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.category_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.category_name'),
+    
+                ],
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.category_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.category_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
 
-            ],
-            [
-                'data' => 'country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'image',
-                'title' => trans('lang.category_image'),
-                'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.category_updated_at'),
-                'searchable' => false,
-            ]
-        ];
 
         $hasCustomField = in_array(Category::class, setting('custom_field_models', []));
         if ($hasCustomField) {

@@ -108,38 +108,71 @@ class ProductReviewDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'review',
-                'title' => trans('lang.product_review_review'),
-
-            ],
-            [
-                'data' => 'product.market.country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'rate',
-                'title' => trans('lang.product_review_rate'),
-
-            ],
-            [
-                'data' => 'user.name',
-                'title' => trans('lang.product_review_user_id'),
-
-            ],
-            [
-                'data' => 'product.name',
-                'title' => trans('lang.product_review_product_id'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.product_review_updated_at'),
-                'searchable' => false,
-            ]
-        ];
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'review',
+                    'title' => trans('lang.product_review_review'),
+    
+                ],
+                [
+                    'data' => 'product.market.country.name',
+                    'title' => trans('lang.country'),
+    
+                ],
+                [
+                    'data' => 'rate',
+                    'title' => trans('lang.product_review_rate'),
+    
+                ],
+                [
+                    'data' => 'user.name',
+                    'title' => trans('lang.product_review_user_id'),
+    
+                ],
+                [
+                    'data' => 'product.name',
+                    'title' => trans('lang.product_review_product_id'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.product_review_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'review',
+                    'title' => trans('lang.product_review_review'),
+    
+                ],
+                [
+                    'data' => 'rate',
+                    'title' => trans('lang.product_review_rate'),
+    
+                ],
+                [
+                    'data' => 'user.name',
+                    'title' => trans('lang.product_review_user_id'),
+    
+                ],
+                [
+                    'data' => 'product.name',
+                    'title' => trans('lang.product_review_product_id'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.product_review_updated_at'),
+                    'searchable' => false,
+                ]
+            ];   
+        }
 
         $hasCustomField = in_array(ProductReview::class, setting('custom_field_models', []));
         if ($hasCustomField) {

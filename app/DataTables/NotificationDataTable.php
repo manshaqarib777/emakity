@@ -61,33 +61,62 @@ class NotificationDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'type',
-                'title' => trans('lang.notification_title'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'type',
+                    'title' => trans('lang.notification_title'),
+    
+                ],
+                [
+                    'data' => 'user.country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'read_at',
+                    'title' => trans('lang.notification_read'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.notification_read_at'),
+                    'searchable' => false,
+                ],
+                [
+                    'data' => 'created_at',
+                    'title' => trans('lang.notification_created_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'type',
+                    'title' => trans('lang.notification_title'),
+    
+                ],
+                [
+                    'data' => 'read_at',
+                    'title' => trans('lang.notification_read'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.notification_read_at'),
+                    'searchable' => false,
+                ],
+                [
+                    'data' => 'created_at',
+                    'title' => trans('lang.notification_created_at'),
+                    'searchable' => false,
+                ]
+            ];
+            
+        }
 
-            ],
-            [
-                'data' => 'user.country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'read_at',
-                'title' => trans('lang.notification_read'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.notification_read_at'),
-                'searchable' => false,
-            ],
-            [
-                'data' => 'created_at',
-                'title' => trans('lang.notification_created_at'),
-                'searchable' => false,
-            ]
-        ];
         $columns = array_filter($columns);
         $hasCustomField = in_array(Notification::class, setting('custom_field_models', []));
         if ($hasCustomField) {

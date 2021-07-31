@@ -95,38 +95,71 @@ class ProductOrderDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'product.name',
-                'title' => trans('lang.product_order_product_id'),
-                'orderable' => false,
-                'searchable' => false,
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'product.name',
+                    'title' => trans('lang.product_order_product_id'),
+                    'orderable' => false,
+                    'searchable' => false,
+    
+                ],
+                [
+                    'data' => 'product.market.country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'options',
+                    'title' => trans('lang.product_order_options'),
+                    'searchable' => false,
+                    'orderable' => false,
+                ],
+                [
+                    'data' => 'price',
+                    'title' => trans('lang.product_order_price'),
+                    'orderable' => false,
+    
+                ],
+                [
+                    'data' => 'quantity',
+                    'title' => trans('lang.product_order_quantity'),
+                    'orderable' => false,
+    
+                ]
+            ];
 
-            ],
-            [
-                'data' => 'product.market.country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'options',
-                'title' => trans('lang.product_order_options'),
-                'searchable' => false,
-                'orderable' => false,
-            ],
-            [
-                'data' => 'price',
-                'title' => trans('lang.product_order_price'),
-                'orderable' => false,
-
-            ],
-            [
-                'data' => 'quantity',
-                'title' => trans('lang.product_order_quantity'),
-                'orderable' => false,
-
-            ]
-        ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'product.name',
+                    'title' => trans('lang.product_order_product_id'),
+                    'orderable' => false,
+                    'searchable' => false,
+    
+                ],
+                [
+                    'data' => 'options',
+                    'title' => trans('lang.product_order_options'),
+                    'searchable' => false,
+                    'orderable' => false,
+                ],
+                [
+                    'data' => 'price',
+                    'title' => trans('lang.product_order_price'),
+                    'orderable' => false,
+    
+                ],
+                [
+                    'data' => 'quantity',
+                    'title' => trans('lang.product_order_quantity'),
+                    'orderable' => false,
+    
+                ]
+            ];
+        }
 
         $hasCustomField = in_array(ProductOrder::class, setting('custom_field_models', []));
         if ($hasCustomField) {

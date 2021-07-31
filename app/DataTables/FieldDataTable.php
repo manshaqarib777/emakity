@@ -69,11 +69,10 @@ class FieldDataTable extends DataTable
                 'title' => trans('lang.field_name'),
 
             ],
-            [
+            (auth()->check() && auth()->user()->hasRole('admin')) ? [
                 'data' => 'country.name',
                 'title' => trans('lang.country'),
-
-            ],
+            ] : '',
             [
                 'data' => 'image',
                 'title' => trans('lang.field_image'),
@@ -84,7 +83,7 @@ class FieldDataTable extends DataTable
                 'title' => trans('lang.field_markets'),
                 'searchable' => false,
 
-            ] : null,
+            ] : '',
             [
                 'data' => 'updated_at',
                 'title' => trans('lang.field_updated_at'),

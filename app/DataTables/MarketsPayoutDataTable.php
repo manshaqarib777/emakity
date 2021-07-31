@@ -55,43 +55,81 @@ class MarketsPayoutDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'market.name',
-                'title' => trans('lang.markets_payout_market_id'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'market.name',
+                    'title' => trans('lang.markets_payout_market_id'),
+    
+                ],
+                [
+                    'data' => 'market.country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'method',
+                    'title' => trans('lang.markets_payout_method'),
+    
+                ],
+                [
+                    'data' => 'amount',
+                    'title' => trans('lang.markets_payout_amount'),
+    
+                ],
+                [
+                    'data' => 'paid_date',
+                    'title' => trans('lang.markets_payout_paid_date'),
+    
+                ],
+                [
+                    'data' => 'note',
+                    'title' => trans('lang.markets_payout_note'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.markets_payout_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'market.name',
+                    'title' => trans('lang.markets_payout_market_id'),
+    
+                ],
+                [
+                    'data' => 'method',
+                    'title' => trans('lang.markets_payout_method'),
+    
+                ],
+                [
+                    'data' => 'amount',
+                    'title' => trans('lang.markets_payout_amount'),
+    
+                ],
+                [
+                    'data' => 'paid_date',
+                    'title' => trans('lang.markets_payout_paid_date'),
+    
+                ],
+                [
+                    'data' => 'note',
+                    'title' => trans('lang.markets_payout_note'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.markets_payout_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
 
-            ],
-            [
-                'data' => 'market.country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'method',
-                'title' => trans('lang.markets_payout_method'),
-
-            ],
-            [
-                'data' => 'amount',
-                'title' => trans('lang.markets_payout_amount'),
-
-            ],
-            [
-                'data' => 'paid_date',
-                'title' => trans('lang.markets_payout_paid_date'),
-
-            ],
-            [
-                'data' => 'note',
-                'title' => trans('lang.markets_payout_note'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.markets_payout_updated_at'),
-                'searchable' => false,
-            ]
-        ];
 
         $hasCustomField = in_array(MarketsPayout::class, setting('custom_field_models', []));
         if ($hasCustomField) {

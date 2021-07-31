@@ -100,6 +100,7 @@ class PaymentDataTable extends DataTable
      */
     protected function getColumns()
     {
+        
         $columns = [
             [
                 'data' => 'price',
@@ -115,12 +116,11 @@ class PaymentDataTable extends DataTable
                 'data' => 'user.name',
                 'title' => trans('lang.payment_user_id'),
 
-            ] : null,
-            [
+            ] : '',
+            (auth()->check() && auth()->user()->hasRole('admin')) ? [
                 'data' => 'user.country.name',
                 'title' => trans('lang.country'),
-
-            ],
+            ] : '',
             [
                 'data' => 'method',
                 'title' => trans('lang.payment_method'),

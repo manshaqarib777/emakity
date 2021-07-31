@@ -71,10 +71,6 @@ class RoleDataTable extends DataTable
                 'data' => 'name',
                 'title' => trans('lang.role_name')
             ],
-            // [
-            //     'data' => 'country',
-            //     'title' => trans('lang.country')
-            // ],
             [
                 'data' => 'guard_name',
                 'title' => trans('lang.role_guard_name')

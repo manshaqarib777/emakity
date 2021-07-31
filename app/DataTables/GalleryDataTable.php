@@ -24,12 +24,20 @@ class GalleryDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        
+        if (auth()->user()->hasRole('client'))
+            $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+            $query = $query->whereHas('market.country', function($q){
+                return $q->where('countries.id',get_role_country_id('branch'));
+            });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
             ->editColumn('image', function ($gallery) {
                 return getMediaColumn($gallery, 'image');
+            })
+            ->editColumn('market.country.name', function ($product) {
+                return $product['market']['country']['name'];
             })
             ->editColumn('updated_at', function ($gallery) {
                 return getDateColumn($gallery, 'updated_at');
@@ -49,9 +57,9 @@ class GalleryDataTable extends DataTable
     public function query(Gallery $model)
     {
         if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager')) {
-            return $model->newQuery()->with("market")->select('galleries.*');
+            return $model->newQuery()->with("market.country")->select('galleries.*');
         } else {
-            return $model->newQuery()->with("market")
+            return $model->newQuery()->with("market.country")
                 ->join("user_markets", "user_markets.market_id", "=", "galleries.market_id")
                 ->where('user_markets.user_id', auth()->id())
                 ->select('galleries.*');
@@ -86,28 +94,61 @@ class GalleryDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'description',
-                'title' => trans('lang.gallery_description'),
-
-            ],
-            [
-                'data' => 'image',
-                'title' => trans('lang.gallery_image'),
-                'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
-            ],
-            [
-                'data' => 'market.name',
-                'title' => trans('lang.gallery_market_id'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.gallery_updated_at'),
-                'searchable' => false,
-            ]
-        ];
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'description',
+                    'title' => trans('lang.gallery_description'),
+    
+                ],
+                [
+                    'data' => 'market.country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.gallery_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'market.name',
+                    'title' => trans('lang.gallery_market_id'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.gallery_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'description',
+                    'title' => trans('lang.gallery_description'),
+    
+                ],
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.gallery_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'market.name',
+                    'title' => trans('lang.gallery_market_id'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.gallery_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+            
+        }
 
         $hasCustomField = in_array(Gallery::class, setting('custom_field_models', []));
         if ($hasCustomField) {

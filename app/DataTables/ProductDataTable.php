@@ -124,63 +124,132 @@ class ProductDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'name',
-                'title' => trans('lang.product_name'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.product_name'),
+    
+                ],
+                [
+                    'data' => 'market.country.name',
+                    'title' => trans('lang.country'),
+    
+                ],
+                [
+                    'data' => 'market.country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.product_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'web_image',
+                    'title' => trans('lang.product_web_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'price',
+                    'title' => trans('lang.product_price'),
+    
+                ],
+                [
+                    'data' => 'discount_price',
+                    'title' => trans('lang.product_discount_price'),
+    
+                ],
+                [
+                    'data' => 'capacity',
+                    'title' => trans('lang.product_capacity'),
+    
+                ],
+                [
+                    'data' => 'featured',
+                    'title' => trans('lang.product_featured'),
+    
+                ],
+                [
+                    'data' => 'market.name',
+                    'title' => trans('lang.product_market_id'),
+    
+                ],
+                [
+                    'data' => 'category.name',
+                    'title' => trans('lang.product_category_id'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.product_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
 
-            ],
-            [
-                'data' => 'market.country.name',
-                'title' => trans('lang.country'),
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.product_name'),
+    
+                ],
+                [
+                    'data' => 'market.country.name',
+                    'title' => trans('lang.country'),
+    
+                ],
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.product_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'web_image',
+                    'title' => trans('lang.product_web_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'price',
+                    'title' => trans('lang.product_price'),
+    
+                ],
+                [
+                    'data' => 'discount_price',
+                    'title' => trans('lang.product_discount_price'),
+    
+                ],
+                [
+                    'data' => 'capacity',
+                    'title' => trans('lang.product_capacity'),
+    
+                ],
+                [
+                    'data' => 'featured',
+                    'title' => trans('lang.product_featured'),
+    
+                ],
+                [
+                    'data' => 'market.name',
+                    'title' => trans('lang.product_market_id'),
+    
+                ],
+                [
+                    'data' => 'category.name',
+                    'title' => trans('lang.product_category_id'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.product_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
 
-            ],
-            [
-                'data' => 'image',
-                'title' => trans('lang.product_image'),
-                'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
-            ],
-            [
-                'data' => 'web_image',
-                'title' => trans('lang.product_web_image'),
-                'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
-            ],
-            [
-                'data' => 'price',
-                'title' => trans('lang.product_price'),
-
-            ],
-            [
-                'data' => 'discount_price',
-                'title' => trans('lang.product_discount_price'),
-
-            ],
-            [
-                'data' => 'capacity',
-                'title' => trans('lang.product_capacity'),
-
-            ],
-            [
-                'data' => 'featured',
-                'title' => trans('lang.product_featured'),
-
-            ],
-            [
-                'data' => 'market.name',
-                'title' => trans('lang.product_market_id'),
-
-            ],
-            [
-                'data' => 'category.name',
-                'title' => trans('lang.product_category_id'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.product_updated_at'),
-                'searchable' => false,
-            ]
-        ];
 
         $hasCustomField = in_array(Product::class, setting('custom_field_models', []));
         if ($hasCustomField) {

@@ -24,18 +24,18 @@ class OptionGroupDataTable extends DataTable
     public function dataTable($query)
     {
         if (auth()->user()->hasRole('client'))
-        $query = $query->where('user_id', auth()->id());
+            $query = $query->where('user_id', auth()->id());
         if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
-        $query = $query->where('country_id', get_role_country_id('branch'));
+            $query = $query->where('country_id', get_role_country_id('branch'));
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
         ->editColumn('country.name', function ($optionGroup) {
             return $optionGroup['country']['name'];
         })
-            ->editColumn('updated_at',function($optionGroup){
-    return getDateColumn($optionGroup,'updated_at');
-})
+        ->editColumn('updated_at',function($optionGroup){
+            return getDateColumn($optionGroup,'updated_at');
+        })
             
             
             ->addColumn('action', 'option_groups.datatables_actions')
@@ -82,23 +82,42 @@ class OptionGroupDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-  'data' => 'name',
-  'title' => trans('lang.option_group_name'),
-  
-],
-[
-    'data' => 'country.name',
-    'title' => trans('lang.country'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.option_group_name'),
+                
+                ],
+                [
+                    'data' => 'country.name',
+                    'title' => trans('lang.country'),
     
-  ],
-            [
-  'data' => 'updated_at',
-  'title' => trans('lang.option_group_updated_at'),
-  'searchable'=>false,
-]
+                ],            
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.option_group_updated_at'),
+                    'searchable'=>false,
+                ]
             ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.option_group_name'),
+                
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.option_group_updated_at'),
+                    'searchable'=>false,
+                ]
+            ];
+            
+        }
 
         $hasCustomField = in_array(OptionGroup::class, setting('custom_field_models',[]));
         if ($hasCustomField) {

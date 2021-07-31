@@ -62,43 +62,81 @@ class CouponDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'code',
-                'title' => trans('lang.coupon_code'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'code',
+                    'title' => trans('lang.coupon_code'),
+    
+                ],
+                [
+                    'data' => 'country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'discount',
+                    'title' => trans('lang.coupon_discount'),
+    
+                ],
+                [
+                    'data' => 'description',
+                    'title' => trans('lang.coupon_description'),
+    
+                ],
+                [
+                    'data' => 'expires_at',
+                    'title' => trans('lang.coupon_expires_at'),
+    
+                ],
+                [
+                    'data' => 'enabled',
+                    'title' => trans('lang.coupon_enabled'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.coupon_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'code',
+                    'title' => trans('lang.coupon_code'),
+    
+                ],
+                [
+                    'data' => 'discount',
+                    'title' => trans('lang.coupon_discount'),
+    
+                ],
+                [
+                    'data' => 'description',
+                    'title' => trans('lang.coupon_description'),
+    
+                ],
+                [
+                    'data' => 'expires_at',
+                    'title' => trans('lang.coupon_expires_at'),
+    
+                ],
+                [
+                    'data' => 'enabled',
+                    'title' => trans('lang.coupon_enabled'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.coupon_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
 
-            ],
-            [
-                'data' => 'country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'discount',
-                'title' => trans('lang.coupon_discount'),
-
-            ],
-            [
-                'data' => 'description',
-                'title' => trans('lang.coupon_description'),
-
-            ],
-            [
-                'data' => 'expires_at',
-                'title' => trans('lang.coupon_expires_at'),
-
-            ],
-            [
-                'data' => 'enabled',
-                'title' => trans('lang.coupon_enabled'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.coupon_updated_at'),
-                'searchable' => false,
-            ]
-        ];
 
         $hasCustomField = in_array(Coupon::class, setting('custom_field_models', []));
         if ($hasCustomField) {

@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    @if(!auth()->user()->hasRole('branch') || !auth()->user()->hasRole('manager'))
+    @if(!auth()->user()->hasRole('branch') && !auth()->user()->hasRole('manager'))
         <div class="form-group row">
             {!! Form::label('country_id', trans('lang.app_country'), ['class' => 'col-3 control-label text-right']) !!}
             <div class="col-9">

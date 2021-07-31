@@ -102,8 +102,8 @@
 @endcan
 
 @can('orders.index')
-    <li class="nav-item has-treeview {{ Request::is('orders*') || Request::is('orderStatuses*') || Request::is('deliveryAddresses*')? 'menu-open' : '' }}">
-        <a href="#" class="nav-link {{ Request::is('orders*') || Request::is('orderStatuses*') || Request::is('deliveryAddresses*')? 'active' : '' }}"> @if($icons)
+    <li class="nav-item has-treeview {{ Request::is('orders*') || Request::is('orderStatuses*') || Request::is('deliveryAddresses*') || Request::is('deliveryTimes*') ? 'menu-open' : '' }}">
+        <a href="#" class="nav-link {{ Request::is('orders*') || Request::is('orderStatuses*') || Request::is('deliveryAddresses*') || Request::is('deliveryTimes*')? 'active' : '' }}"> @if($icons)
                 <i class="nav-icon fa fa-shopping-bag"></i>@endif
             <p>{{trans('lang.order_plural')}} <i class="right fa fa-angle-left"></i>
             </p>
@@ -292,43 +292,43 @@
                         <p>{{trans('lang.user_plural')}}</p></a>
                 </li>
             @endcan
+            @if(auth()->user()->hasRole('admin'))
+                <li class="nav-item has-treeview {{ Request::is('settings/permissions*') || Request::is('settings/roles*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('settings/permissions*') || Request::is('settings/roles*') ? 'active' : '' }}">
+                        @if($icons)<i class="nav-icon fa fa-user-secret"></i>@endif
+                        <p>
+                            {{trans('lang.permission_menu')}}
+                            <i class="right fa fa-angle-left"></i>
+                        </p></a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::is('settings/permissions') ? 'active' : '' }}" href="{!! route('permissions.index') !!}">
+                                @if($icons)<i class="nav-icon fa fa-circle-o"></i>@endif
+                                <p>{{trans('lang.permission_table')}}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::is('settings/permissions/create') ? 'active' : '' }}" href="{!! route('permissions.create') !!}">
+                                @if($icons)<i class="nav-icon fa fa-circle-o"></i>@endif
+                                <p>{{trans('lang.permission_create')}}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::is('settings/roles') ? 'active' : '' }}" href="{!! route('roles.index') !!}">
+                                @if($icons)<i class="nav-icon fa fa-circle-o"></i>@endif
+                                <p>{{trans('lang.role_table')}}</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::is('settings/roles/create') ? 'active' : '' }}" href="{!! route('roles.create') !!}">
+                                @if($icons)<i class="nav-icon fa fa-circle-o"></i>@endif
+                                <p>{{trans('lang.role_create')}}</p>
+                            </a>
+                        </li>
+                    </ul>
 
-            <li class="nav-item has-treeview {{ Request::is('settings/permissions*') || Request::is('settings/roles*') ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{ Request::is('settings/permissions*') || Request::is('settings/roles*') ? 'active' : '' }}">
-                    @if($icons)<i class="nav-icon fa fa-user-secret"></i>@endif
-                    <p>
-                        {{trans('lang.permission_menu')}}
-                        <i class="right fa fa-angle-left"></i>
-                    </p></a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('settings/permissions') ? 'active' : '' }}" href="{!! route('permissions.index') !!}">
-                            @if($icons)<i class="nav-icon fa fa-circle-o"></i>@endif
-                            <p>{{trans('lang.permission_table')}}</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('settings/permissions/create') ? 'active' : '' }}" href="{!! route('permissions.create') !!}">
-                            @if($icons)<i class="nav-icon fa fa-circle-o"></i>@endif
-                            <p>{{trans('lang.permission_create')}}</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('settings/roles') ? 'active' : '' }}" href="{!! route('roles.index') !!}">
-                            @if($icons)<i class="nav-icon fa fa-circle-o"></i>@endif
-                            <p>{{trans('lang.role_table')}}</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Request::is('settings/roles/create') ? 'active' : '' }}" href="{!! route('roles.create') !!}">
-                            @if($icons)<i class="nav-icon fa fa-circle-o"></i>@endif
-                            <p>{{trans('lang.role_create')}}</p>
-                        </a>
-                    </li>
-                </ul>
-
-            </li>
-
+                </li>
+            @endif
             <li class="nav-item">
                 <a class="nav-link {{ Request::is('settings/customFields*') ? 'active' : '' }}" href="{!! route('customFields.index') !!}">@if($icons)
                         <i class="nav-icon fa fa-list"></i>@endif<p>{{trans('lang.custom_field_plural')}}</p></a>

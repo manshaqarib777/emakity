@@ -64,43 +64,81 @@ class DriverDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'user.name',
-                'title' => trans('lang.driver_user_id'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'user.name',
+                    'title' => trans('lang.driver_user_id'),
+    
+                ],
+                [
+                    'data' => 'user.country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'delivery_fee',
+                    'title' => trans('lang.driver_delivery_fee'),
+    
+                ],
+                [
+                    'data' => 'total_orders',
+                    'title' => trans('lang.driver_total_orders'),
+    
+                ],
+                [
+                    'data' => 'earning',
+                    'title' => trans('lang.driver_earning'),
+    
+                ],
+                [
+                    'data' => 'available',
+                    'title' => trans('lang.driver_available'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.driver_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'user.name',
+                    'title' => trans('lang.driver_user_id'),
+    
+                ],
+                [
+                    'data' => 'delivery_fee',
+                    'title' => trans('lang.driver_delivery_fee'),
+    
+                ],
+                [
+                    'data' => 'total_orders',
+                    'title' => trans('lang.driver_total_orders'),
+    
+                ],
+                [
+                    'data' => 'earning',
+                    'title' => trans('lang.driver_earning'),
+    
+                ],
+                [
+                    'data' => 'available',
+                    'title' => trans('lang.driver_available'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.driver_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
 
-            ],
-            [
-                'data' => 'user.country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'delivery_fee',
-                'title' => trans('lang.driver_delivery_fee'),
-
-            ],
-            [
-                'data' => 'total_orders',
-                'title' => trans('lang.driver_total_orders'),
-
-            ],
-            [
-                'data' => 'earning',
-                'title' => trans('lang.driver_earning'),
-
-            ],
-            [
-                'data' => 'available',
-                'title' => trans('lang.driver_available'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.driver_updated_at'),
-                'searchable' => false,
-            ]
-        ];
 
         $hasCustomField = in_array(Driver::class, setting('custom_field_models', []));
         if ($hasCustomField) {

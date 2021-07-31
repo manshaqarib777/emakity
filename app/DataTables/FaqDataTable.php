@@ -26,7 +26,7 @@ class FaqDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
             $query = $query->where('user_id', auth()->id());
-            if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
             $query = $query->whereHas('faqCategory.country', function($q){
                 return $q->where('countries.id',get_role_country_id('branch'));
             });
@@ -86,33 +86,62 @@ class FaqDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'question',
-                'title' => trans('lang.faq_question'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'question',
+                    'title' => trans('lang.faq_question'),
+    
+                ],
+                [
+                    'data' => 'answer',
+                    'title' => trans('lang.faq_answer'),
+    
+                ],
+                [
+                    'data' => 'faqCategory.name',
+                    'title' => trans('lang.faq_faq_category_id'),
+    
+                ],
+                [
+                    'data' => 'faqCategory.country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.faq_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'question',
+                    'title' => trans('lang.faq_question'),
+    
+                ],
+                [
+                    'data' => 'answer',
+                    'title' => trans('lang.faq_answer'),
+    
+                ],
+                [
+                    'data' => 'faqCategory.name',
+                    'title' => trans('lang.faq_faq_category_id'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.faq_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+            
+        }
 
-            ],
-            [
-                'data' => 'answer',
-                'title' => trans('lang.faq_answer'),
-
-            ],
-            [
-                'data' => 'faqCategory.name',
-                'title' => trans('lang.faq_faq_category_id'),
-
-            ],
-            [
-                'data' => 'faqCategory.country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.faq_updated_at'),
-                'searchable' => false,
-            ]
-        ];
 
         $hasCustomField = in_array(Faq::class, setting('custom_field_models', []));
         if ($hasCustomField) {

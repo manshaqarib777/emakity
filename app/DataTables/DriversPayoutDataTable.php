@@ -54,43 +54,81 @@ class DriversPayoutDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'user.name',
-                'title' => trans('lang.drivers_payout_user_id'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'user.name',
+                    'title' => trans('lang.drivers_payout_user_id'),
+    
+                ],
+                [
+                    'data' => 'user.country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'method',
+                    'title' => trans('lang.drivers_payout_method'),
+    
+                ],
+                [
+                    'data' => 'amount',
+                    'title' => trans('lang.drivers_payout_amount'),
+    
+                ],
+                [
+                    'data' => 'paid_date',
+                    'title' => trans('lang.drivers_payout_paid_date'),
+    
+                ],
+                [
+                    'data' => 'note',
+                    'title' => trans('lang.drivers_payout_note'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.drivers_payout_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'user.name',
+                    'title' => trans('lang.drivers_payout_user_id'),
+    
+                ],
+                [
+                    'data' => 'method',
+                    'title' => trans('lang.drivers_payout_method'),
+    
+                ],
+                [
+                    'data' => 'amount',
+                    'title' => trans('lang.drivers_payout_amount'),
+    
+                ],
+                [
+                    'data' => 'paid_date',
+                    'title' => trans('lang.drivers_payout_paid_date'),
+    
+                ],
+                [
+                    'data' => 'note',
+                    'title' => trans('lang.drivers_payout_note'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.drivers_payout_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
 
-            ],
-            [
-                'data' => 'user.country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'method',
-                'title' => trans('lang.drivers_payout_method'),
-
-            ],
-            [
-                'data' => 'amount',
-                'title' => trans('lang.drivers_payout_amount'),
-
-            ],
-            [
-                'data' => 'paid_date',
-                'title' => trans('lang.drivers_payout_paid_date'),
-
-            ],
-            [
-                'data' => 'note',
-                'title' => trans('lang.drivers_payout_note'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.drivers_payout_updated_at'),
-                'searchable' => false,
-            ]
-        ];
 
         $hasCustomField = in_array(DriversPayout::class, setting('custom_field_models', []));
         if ($hasCustomField) {

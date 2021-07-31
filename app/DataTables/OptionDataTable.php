@@ -71,49 +71,94 @@ class OptionDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'name',
-                'title' => trans('lang.option_name'),
-
-            ],
-            [
-                'data' => 'optionGroup.country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'image',
-                'title' => trans('lang.option_image'),
-                'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
-            ],
-            [
-                'data' => 'price',
-                'title' => trans('lang.option_price'),
-
-            ],
-            [
-                'data' => 'product.name',
-                'title' => trans('lang.product'),
-
-            ],
-            [
-                'data' => 'product.market.name',
-                'title' => trans('lang.market'),
-
-            ],
-            [
-                'data' => 'option_group.name',
-                'name' => 'optionGroup.name',
-                'title' => trans('lang.option_group'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.option_updated_at'),
-                'searchable' => false,
-            ]
-        ];
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.option_name'),
+    
+                ],
+                [
+                    'data' => 'optionGroup.country.name',
+                    'title' => trans('lang.country'),
+    
+                ],
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.option_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'price',
+                    'title' => trans('lang.option_price'),
+    
+                ],
+                [
+                    'data' => 'product.name',
+                    'title' => trans('lang.product'),
+    
+                ],
+                [
+                    'data' => 'product.market.name',
+                    'title' => trans('lang.market'),
+    
+                ],
+                [
+                    'data' => 'option_group.name',
+                    'name' => 'optionGroup.name',
+                    'title' => trans('lang.option_group'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.option_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.option_name'),
+    
+                ],
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.option_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'price',
+                    'title' => trans('lang.option_price'),
+    
+                ],
+                [
+                    'data' => 'product.name',
+                    'title' => trans('lang.product'),
+    
+                ],
+                [
+                    'data' => 'product.market.name',
+                    'title' => trans('lang.market'),
+    
+                ],
+                [
+                    'data' => 'option_group.name',
+                    'name' => 'optionGroup.name',
+                    'title' => trans('lang.option_group'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.option_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+            
+        }
 
         $hasCustomField = in_array(Option::class, setting('custom_field_models', []));
         if ($hasCustomField) {

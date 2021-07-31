@@ -60,33 +60,61 @@ class TestimonialDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'name',
-                'title' => trans('lang.testimonial_name'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.testimonial_name'),
+    
+                ],
+                [
+                    'data' => 'country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'description',
+                    'title' => trans('lang.testimonial_description'),
+    
+                ],
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.testimonial_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.testimonial_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.testimonial_name'),
+    
+                ],
+                [
+                    'data' => 'description',
+                    'title' => trans('lang.testimonial_description'),
+    
+                ],
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.testimonial_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.testimonial_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
 
-            ],
-            [
-                'data' => 'country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'description',
-                'title' => trans('lang.testimonial_description'),
-
-            ],
-            [
-                'data' => 'image',
-                'title' => trans('lang.testimonial_image'),
-                'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.testimonial_updated_at'),
-                'searchable' => false,
-            ]
-        ];
         $columns = array_filter($columns);
 
         $hasCustomField = in_array(Testimonial::class, setting('custom_testimonial_models', []));

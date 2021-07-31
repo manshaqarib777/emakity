@@ -1,6 +1,6 @@
 <div style="flex: 50%;max-width: 50%;padding: 0 4px;" class="column">
     <!-- Question Field -->
-    @if(!auth()->user()->hasRole('branch') || !auth()->user()->hasRole('manager'))
+    @if(!auth()->user()->hasRole('branch') && !auth()->user()->hasRole('manager'))
         <div class="form-group row">
             {!! Form::label('country_id', trans('lang.app_country'), ['class' => 'col-3 control-label text-right']) !!}
             <div class="col-9">

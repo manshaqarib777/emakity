@@ -86,38 +86,66 @@ class DeliveryAddressDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-  'data' => 'description',
-  'title' => trans('lang.delivery_address_description'),
-  
-],
-[
-    'data' => 'user.country.name',
-    'title' => trans('lang.country'),
-    
-  ],
-            [
-  'data' => 'address',
-  'title' => trans('lang.delivery_address_address'),
-  
-],
-            [
-  'data' => 'is_default',
-  'title' => trans('lang.delivery_address_is_default'),
-  
-],
-            [
-  'data' => 'user.name',
-  'title' => trans('lang.delivery_address_user_id'),
-  
-],
-            [
-  'data' => 'updated_at',
-  'title' => trans('lang.delivery_address_updated_at'),
-  'searchable'=>false,
-]
+
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'description',
+                    'title' => trans('lang.delivery_address_description'),            
+                ],
+                [
+                    'data' => 'user.country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'address',
+                    'title' => trans('lang.delivery_address_address'),
+                
+                ],
+                [
+                    'data' => 'is_default',
+                    'title' => trans('lang.delivery_address_is_default'),
+                ],
+                [
+                    'data' => 'user.name',
+                    'title' => trans('lang.delivery_address_user_id'),            
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.delivery_address_updated_at'),
+                    'searchable'=>false,
+                ]
             ];
+
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'description',
+                    'title' => trans('lang.delivery_address_description'),            
+                ],
+                [
+                    'data' => 'address',
+                    'title' => trans('lang.delivery_address_address'),
+                
+                ],
+                [
+                    'data' => 'is_default',
+                    'title' => trans('lang.delivery_address_is_default'),
+                ],
+                [
+                    'data' => 'user.name',
+                    'title' => trans('lang.delivery_address_user_id'),            
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.delivery_address_updated_at'),
+                    'searchable'=>false,
+                ]
+            ];   
+        }
 
         $hasCustomField = in_array(DeliveryAddress::class, setting('custom_field_models',[]));
         if ($hasCustomField) {

@@ -63,53 +63,101 @@ class SlideDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'order',
-                'title' => trans('lang.slide_order'),
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'order',
+                    'title' => trans('lang.slide_order'),
+    
+                ],
+                [
+                    'data' => 'text',
+                    'title' => trans('lang.slide_text'),
+    
+                ],
+                [
+                    'data' => 'country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'button',
+                    'title' => trans('lang.slide_button'),
+    
+                ],
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.slide_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'product.name',
+                    'title' => trans('lang.slide_product_id'),
+    
+                ],
+                [
+                    'data' => 'market.name',
+                    'title' => trans('lang.slide_market_id'),
+    
+                ],
+                [
+                    'data' => 'enabled',
+                    'title' => trans('lang.slide_enabled'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.slide_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'order',
+                    'title' => trans('lang.slide_order'),
+    
+                ],
+                [
+                    'data' => 'text',
+                    'title' => trans('lang.slide_text'),
+    
+                ],
+                [
+                    'data' => 'button',
+                    'title' => trans('lang.slide_button'),
+    
+                ],
+                [
+                    'data' => 'image',
+                    'title' => trans('lang.slide_image'),
+                    'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
+                ],
+                [
+                    'data' => 'product.name',
+                    'title' => trans('lang.slide_product_id'),
+    
+                ],
+                [
+                    'data' => 'market.name',
+                    'title' => trans('lang.slide_market_id'),
+    
+                ],
+                [
+                    'data' => 'enabled',
+                    'title' => trans('lang.slide_enabled'),
+    
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.slide_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
 
-            ],
-            [
-                'data' => 'text',
-                'title' => trans('lang.slide_text'),
-
-            ],
-            [
-                'data' => 'country.name',
-                'title' => trans('lang.country'),
-
-            ],
-            [
-                'data' => 'button',
-                'title' => trans('lang.slide_button'),
-
-            ],
-            [
-                'data' => 'image',
-                'title' => trans('lang.slide_image'),
-                'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
-            ],
-            [
-                'data' => 'product.name',
-                'title' => trans('lang.slide_product_id'),
-
-            ],
-            [
-                'data' => 'market.name',
-                'title' => trans('lang.slide_market_id'),
-
-            ],
-            [
-                'data' => 'enabled',
-                'title' => trans('lang.slide_enabled'),
-
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.slide_updated_at'),
-                'searchable' => false,
-            ]
-        ];
 
         $hasCustomField = in_array(Slide::class, setting('custom_field_models', []));
         if ($hasCustomField) {

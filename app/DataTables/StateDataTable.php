@@ -31,10 +31,10 @@ class StateDataTable extends DataTable
             return $state['country']['name'];
         })    
         ->editColumn('updated_at', function ($state) {
-                return getDateColumn($state, 'updated_at');
-            })
-            ->addColumn('action', 'settings.states.datatables_actions')
-            ->rawColumns(array_merge($columns, ['action']));
+            return getDateColumn($state, 'updated_at');
+        })
+        ->addColumn('action', 'settings.states.datatables_actions')
+        ->rawColumns(array_merge($columns, ['action']));
 
         return $dataTable;
     }
@@ -47,13 +47,13 @@ class StateDataTable extends DataTable
      */
     public function query(State $model)
     {
-        if(!auth()->user()->hasRole('branch'))
+        if(auth()->user()->hasRole('admin'))
         {
-            return $model->newQuery()->with('country');
+            return $model->newQuery()->with('country')->select('states.*');
         }
         else
         {
-            return $model->newQuery()->with('country')->where('country_id',auth()->user()->country_id);
+            return $model->newQuery()->with('country')->where('country_id',auth()->user()->country_id)->select('states.*');
         }
 
     }
@@ -85,23 +85,41 @@ class StateDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $columns = [
-            [
-                'data' => 'name',
-                'title' => trans('lang.state_name'),
-                'searchable' => true,
-            ],
-            [
-                'data' => 'country.name',
-                'title' => trans('lang.country'),
-                'searchable' => false,
-            ],
-            [
-                'data' => 'updated_at',
-                'title' => trans('lang.state_updated_at'),
-                'searchable' => false,
-            ]
-        ];
+        if(auth()->check() && auth()->user()->hasRole('admin'))
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.state_name'),
+                    'searchable' => true,
+                ],
+                [
+                    'data' => 'country.name',
+                    'title' => trans('lang.country'),
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.state_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+
+        }
+        else
+        {
+            $columns = [
+                [
+                    'data' => 'name',
+                    'title' => trans('lang.state_name'),
+                    'searchable' => true,
+                ],
+                [
+                    'data' => 'updated_at',
+                    'title' => trans('lang.state_updated_at'),
+                    'searchable' => false,
+                ]
+            ];
+        }
         return $columns;
     }
 
