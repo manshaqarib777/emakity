@@ -137,11 +137,6 @@ class CartDataTable extends DataTable
     
                 ],
                 [
-                    'data' => 'product.market.country.name',
-                    'title' => trans('lang.country'),
-    
-                ],
-                [
                     'data' => 'options',
                     'title' => trans('lang.cart_options'),
                     'searchable' => false,
