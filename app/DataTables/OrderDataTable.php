@@ -150,11 +150,6 @@ class OrderDataTable extends DataTable
     
                 ],
                 [
-                    'data' => 'user.country.name',
-                    'title' => trans('lang.country'),
-    
-                ],
-                [
                     'data' => 'tax',
                     'title' => trans('lang.order_tax'),
                     'searchable' => false,
