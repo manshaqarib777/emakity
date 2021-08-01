@@ -95,5 +95,9 @@ class Country extends Model
     public function currency()
     {
         return $this->belongsTo(\App\Models\Currency::class, 'currency_id', 'id');
+    }
+    public function states()
+    {
+        return $this->hasMany(\App\Models\State::class, 'country_id', 'id');
     }    
 }

@@ -69,4 +69,8 @@ class State extends Model
   {
     return $this->hasOne('App\Models\Country', 'id', 'country_id');
   }
+  public function areas()
+  {
+      return $this->hasMany(\App\Models\Area::class, 'state_id', 'id');
+  }
 }
