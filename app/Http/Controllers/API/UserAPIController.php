@@ -140,7 +140,7 @@ class UserAPIController extends Controller
 
     function countries(Request $request)
     {
-        $countries = Country::with('currency')->where('active',1)->get();
+        $countries = Country::with('currency','states.areas')->where('active',1)->get();
 
         if (!$countries) {
             return $this->sendError('User not found', 401);
