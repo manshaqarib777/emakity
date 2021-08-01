@@ -1,5 +1,15 @@
 @extends('layouts.app')
 @section('content')
+@php
+    if( isset($$country->currency->currency_right) && $$country->currency->currency_right->decimal_digits >=0)
+    {
+        $digits=$$country->currency->currency_right->decimal_digits;
+    }
+    else
+    {
+        $digits=2;
+    }
+@endphp
     <!-- Content Header (Page header) -->
     <section class="content-header content-header{{setting('fixed_header')}}">
         <div class="container-fluid">
@@ -52,9 +62,9 @@
                 <div class="small-box bg-danger">
                     <div class="inner">
                         @if($country->currency->currency_right != false)
-                            <h3>{{$earning}}{{$country->currency->symbol}}</h3>
+                            <h3>{{ number_format((float)$earning, $digits, '.', '')}}{{$country->currency->symbol}}</h3>
                         @else
-                            <h3>{{$country->currency->symbol}}{{$earning}}</h3>
+                            <h3>{{$country->currency->symbol}}{{number_format((float)$earning, $digits, '.', '')}}</h3>
                         @endif
 
                         <p>{{trans('lang.dashboard_total_earnings')}} <span style="font-size: 11px">({{trans('lang.dashboard_after taxes')}})</span></p>
@@ -115,9 +125,9 @@
                         <div class="d-flex">
                             <p class="d-flex flex-column">
                                 @if($country->currency->currency_right != false)
-                                    <span class="text-bold text-lg">{{$earning}}{{$country->currency->symbol}}</span>
+                                    <span class="text-bold text-lg">{{number_format((float)$earning, $digits, '.', '')}}{{$country->currency->symbol}}</span>
                                 @else
-                                    <span class="text-bold text-lg">{{$country->currency->symbol}}{{$earning}}</span>
+                                    <span class="text-bold text-lg">{{$country->currency->symbol}}{{number_format((float)$earning, $digits, '.', '')}}</span>
                                 @endif
                                 <span>{{trans('lang.dashboard_earning_over_time')}}</span>
                             </p>
