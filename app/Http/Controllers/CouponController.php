@@ -92,7 +92,15 @@ class CouponController extends Controller
         $this->marketRepository->pushCriteria(new ActiveCriteria());
         $market = $this->marketRepository->pluck('name', 'id');
 
-        $category = $this->categoryRepository->pluck('name', 'id');
+
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        {    
+            $category = $this->categoryRepository->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+        }
+        else
+        {
+            $category = $this->categoryRepository->pluck('name', 'id');
+        }
 
         $productsSelected = [];
         $marketsSelected = [];
@@ -194,7 +202,14 @@ class CouponController extends Controller
         $this->marketRepository->pushCriteria(new ActiveCriteria());
         $market = $this->marketRepository->pluck('name', 'id');
 
-        $category = $this->categoryRepository->pluck('name', 'id');
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        {    
+            $category = $this->categoryRepository->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+        }
+        else
+        {
+            $category = $this->categoryRepository->pluck('name', 'id');
+        }
 
         $productsSelected = $coupon->discountables()->where("discountable_type","App\Models\Product")->pluck('discountable_id');
         $marketsSelected = $coupon->discountables()->where("discountable_type","App\Models\Market")->pluck('discountable_id');
