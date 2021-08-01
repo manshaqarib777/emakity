@@ -84,6 +84,23 @@ class PaymentAPIController extends Controller
                     return $row->sum('price');
                 });
             }
+            else if (auth()->user()->hasRole('manager'))
+            {
+                $payments = $this->paymentRepository->join("orders", "payments.id", "=", "orders.payment_id")
+                ->join("product_orders", "orders.id", "=", "product_orders.order_id")
+                ->join("products", "products.id", "=", "product_orders.product_id")
+                ->join("user_markets", "user_markets.market_id", "=", "products.market_id")
+                ->where('user_markets.user_id', auth()->id())
+                ->where('payments.status','Paid')
+                ->groupBy('payments.id')
+                ->orderBy('payments.created_at', 'asc')
+                ->select('payments.*')->get()->map(function ($row) {
+                    $row['month'] = $row['created_at']->format('M');
+                    return $row;
+                })->groupBy('month')->map(function ($row) {
+                    return $row->sum('price');
+                });
+            }
             else
             {
                 $payments = $this->paymentRepository->orderBy("created_at",'asc')->all()->map(function ($row) {

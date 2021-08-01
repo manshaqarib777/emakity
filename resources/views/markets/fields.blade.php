@@ -38,7 +38,7 @@
 
 
 
-    @hasanyrole('admin|manager|branch')
+    @hasanyrole('admin|branch')
     <!-- Users Field -->
     @if(!auth()->user()->hasRole('branch') || !isset($market))
     <div class="form-group row ">
@@ -302,7 +302,7 @@
 
 </div>
 
-@hasanyrole('admin|manager|branch')
+@hasanyrole('admin|branch')
 @if(!auth()->user()->hasRole('branch') || !isset($market))
 <div class="col-12 custom-field-container">
     <h5 class="col-12 pb-4">{!! trans('lang.admin_area') !!}</h5>

@@ -12,6 +12,17 @@
                         <li class="breadcrumb-item"><a href="#">{{trans('lang.dashboard')}}</a></li>
                         <li class="breadcrumb-item active">{{trans('lang.dashboard')}}</li>
                     </ol>
+                    @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch'))
+                    {!! Form::open(['method' => 'get']) !!}
+                    <div class="form-group align-items-baseline d-flex flex-column flex-md-row">
+                        {!! Form::label('country_id', trans('lang.app_country'), ['class' => 'col-3 control-label text-right']) !!}
+                        <div class="col-9">
+                            {!! Form::select('country_id', $countries, $country->id, ['class' => 'select2 form-control', 'onchange'=>"this.form.submit()"]) !!}
+                            <div class="form-text text-muted">{{ trans('lang.app_setting_default_country_help') }}</div>
+                        </div>
+                    </div>
+                    {!! Form::close() !!}
+                    @endif
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -40,10 +51,10 @@
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        @if(setting('currency_right', false) != false)
-                            <h3>{{$earning}}{{setting('default_currency')}}</h3>
+                        @if($country->currency->currency_right != false)
+                            <h3>{{$earning}}{{$country->currency->symbol}}</h3>
                         @else
-                            <h3>{{setting('default_currency')}}{{$earning}}</h3>
+                            <h3>{{$country->currency->symbol}}{{$earning}}</h3>
                         @endif
 
                         <p>{{trans('lang.dashboard_total_earnings')}} <span style="font-size: 11px">({{trans('lang.dashboard_after taxes')}})</span></p>
@@ -103,10 +114,10 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <p class="d-flex flex-column">
-                                @if(setting('currency_right', false) != false)
-                                    <span class="text-bold text-lg">{{$earning}}{{setting('default_currency')}}</span>
+                                @if($country->currency->currency_right != false)
+                                    <span class="text-bold text-lg">{{$earning}}{{$country->currency->symbol}}</span>
                                 @else
-                                    <span class="text-bold text-lg">{{setting('default_currency')}}{{$earning}}</span>
+                                    <span class="text-bold text-lg">{{$country->currency->symbol}}{{$earning}}</span>
                                 @endif
                                 <span>{{trans('lang.dashboard_earning_over_time')}}</span>
                             </p>
@@ -225,10 +236,10 @@
 
                                 // Include a dollar sign in the ticks
                                 callback: function (value, index, values) {
-                                    @if(setting('currency_right', '0') == '0')
-                                        return "{{setting('default_currency')}} "+value;
+                                    @if($country->currency->currency_right == '0')
+                                        return "{{$country->currency->symbol}} "+value;
                                     @else
-                                        return value+" {{setting('default_currency')}}";
+                                        return value+" {{$country->currency->symbol}}";
                                         @endif
 
                                 }
