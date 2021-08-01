@@ -78,7 +78,14 @@ class ProductController extends Controller
     public function create()
     {
 
-        $category = $this->categoryRepository->pluck('name', 'id');
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        {    
+            $category = $this->categoryRepository->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+        }
+        else
+        {
+            $category = $this->categoryRepository->pluck('name', 'id');
+        }
         if (auth()->user()->hasRole('admin')) {
             $market = $this->marketRepository->pluck('name', 'id');
         } else {
@@ -167,7 +174,14 @@ class ProductController extends Controller
             Flash::error(__('lang.not_found', ['operator' => __('lang.product')]));
             return redirect(route('products.index'));
         }
-        $category = $this->categoryRepository->pluck('name', 'id');
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        {    
+            $category = $this->categoryRepository->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+        }
+        else
+        {
+            $category = $this->categoryRepository->pluck('name', 'id');
+        }
         if (auth()->user()->hasRole('admin')) {
             $market = $this->marketRepository->pluck('name', 'id');
         } else {
