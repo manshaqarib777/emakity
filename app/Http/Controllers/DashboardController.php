@@ -52,7 +52,7 @@ class DashboardController extends Controller
         {
             $country_id=$request->input('country_id');
         }
-        if(auth()->user()->hasRole('manager'))
+        if(auth()->user()->hasRole('manager') || auth()->user()->hasRole('branch'))
         {
             $country_id=auth()->user()->country_id;
         }
