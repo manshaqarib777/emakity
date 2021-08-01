@@ -57,6 +57,7 @@ class DashboardController extends Controller
             $country_id=auth()->user()->country_id;
         }
         $country = $this->countryRepository->find($country_id);
+        dd($country);
         if (auth()->user()->hasRole('branch'))
         {
             $ordersCount = $this->orderRepository->whereHas('user.country', function($q){
