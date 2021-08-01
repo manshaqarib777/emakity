@@ -23,9 +23,9 @@ class DeliveryAddressDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        if (auth()->user()->hasRole('client'))
+        if (auth()->user()->hasRole('client') || auth()->user()->hasRole('manager'))
             $query = $query->where('user_id', auth()->id());
-            if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        if (auth()->user()->hasRole('branch'))
             $query = $query->whereHas('user.country', function($q){
                 return $q->where('countries.id',get_role_country_id('branch'));
             });
@@ -36,12 +36,12 @@ class DeliveryAddressDataTable extends DataTable
             return $delivery_address['user']['country']['name'];
         })
             ->editColumn('updated_at',function($delivery_address){
-    return getDateColumn($delivery_address,'updated_at');
-})
-            
-            ->editColumn('is_default',function($delivery_address){
-    return getBooleanColumn($delivery_address,'is_default');
-})
+                return getDateColumn($delivery_address,'updated_at');
+            })
+                        
+                        ->editColumn('is_default',function($delivery_address){
+                return getBooleanColumn($delivery_address,'is_default');
+            })
             ->addColumn('action', 'delivery_addresses.datatables_actions')
             ->rawColumns(array_merge($columns, ['action']));
 

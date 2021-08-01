@@ -32,9 +32,9 @@ class MarketDataTable extends DataTable
     public function dataTable($query)
     {
         if (auth()->user()->hasRole('client'))
-        $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
-        $query = $query->where('country_id', get_role_country_id('branch'));
+            $query = $query->where('user_id', auth()->id());
+        if (auth()->user()->hasRole('branch'))
+            $query = $query->where('country_id', get_role_country_id('branch'));
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
@@ -73,9 +73,15 @@ class MarketDataTable extends DataTable
      */
     public function query(Market $model)
     {
-        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager') ) {
+        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') ) {
             return $model->newQuery()->with('country')->select('markets.*');
-        }else if(auth()->user()->hasRole('driver')){
+        } else if (auth()->user()->hasRole('manager')){
+            return $model->newQuery()->with('country')
+                ->join("user_markets", "market_id", "=", "markets.id")
+                ->where('user_markets.user_id', auth()->id())
+                ->groupBy("markets.id")
+                ->select("markets.*");
+        } else if(auth()->user()->hasRole('driver')){
             return $model->newQuery()->with('country')
                 ->join("driver_markets", "market_id", "=", "markets.id")
                 ->where('driver_markets.user_id', auth()->id())

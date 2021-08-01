@@ -33,7 +33,7 @@ class PaymentDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
         $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        if (auth()->user()->hasRole('branch'))
         $query = $query->whereHas('user.country', function($q){
             return $q->where('countries.id',get_role_country_id('branch'));
         });
@@ -64,9 +64,19 @@ class PaymentDataTable extends DataTable
     public function query(Payment $model)
     {
 
-        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager')) {
+        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch')) {
             return $model->newQuery()->with(["user.country","order"])->select('payments.*')->orderBy('id', 'desc');
-        }  else if (auth()->user()->hasRole('client')) {
+        } else if(auth()->user()->hasRole('manager')){
+            return $model->newQuery()->with("user.country")
+                ->join("orders", "payments.id", "=", "orders.payment_id")
+                ->join("product_orders", "orders.id", "=", "product_orders.order_id")
+                ->join("products", "products.id", "=", "product_orders.product_id")
+                ->join("user_markets", "user_markets.market_id", "=", "products.market_id")
+                ->where('user_markets.user_id', auth()->id())
+                ->groupBy('payments.id')
+                ->orderBy('payments.id', 'desc')
+                ->select('payments.*');
+        } else if (auth()->user()->hasRole('client')) {
             return $model->newQuery()->select('payments.*')->with(["user.country","order"])
                 ->where('payments.user_id', auth()->id())
                 ->orderBy('id', 'desc');

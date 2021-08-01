@@ -101,8 +101,8 @@ return array(
     '4a1f389d6ce373bda9e57857d3b61c84' => $vendorDir . '/barryvdh/laravel-debugbar/src/helpers.php',
     'f960e77410032f236cef8c56617b313e' => $vendorDir . '/overtrue/laravel-lang/src/helpers.php',
     '9cf90fe04e875b390427268b191a95f0' => $vendorDir . '/pragmarx/countries/src/package/Support/helpers.php',
-    '377b22b161c09ed6e5152de788ca020a' => $vendorDir . '/spatie/laravel-permission/src/helpers.php',
     '6e160bf059fb4b8bc098a661ce025ab6' => $vendorDir . '/smartervision/laravel-generator/src/helpers.php',
     '5fed86d958f60fbaf53e3f4f2d8a41a2' => $vendorDir . '/smartervision/laravel-installer/src/Helpers/functions.php',
+    '377b22b161c09ed6e5152de788ca020a' => $vendorDir . '/spatie/laravel-permission/src/helpers.php',
     'd21d43db5f6e840ee7b10744ec7fdf66' => $baseDir . '/app/Helpers/helpers.php',
 );

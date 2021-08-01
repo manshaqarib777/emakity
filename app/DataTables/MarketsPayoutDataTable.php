@@ -26,7 +26,7 @@ class MarketsPayoutDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
         $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        if (auth()->user()->hasRole('branch'))
         $query = $query->whereHas('market.country', function($q){
             return $q->where('countries.id',get_role_country_id('branch'));
         });
@@ -154,7 +154,7 @@ class MarketsPayoutDataTable extends DataTable
      */
     public function query(MarketsPayout $model)
     {
-        if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager')){
+        if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch')){
             return $model->newQuery()->with("market.country")->select('markets_payouts.*');
         }elseif (auth()->user()->hasRole('manager')){
             return $model->newQuery()->with("market.country")->join('user_markets','user_markets.market_id','=','markets_payouts.market_id')

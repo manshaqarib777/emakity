@@ -50,7 +50,7 @@ class AreaDataTable extends DataTable
      */
     public function query(Area $model)
     {
-        if(!auth()->user()->hasRole('branch'))
+        if(auth()->user()->hasRole('admin'))
         {
             return $model->newQuery()->with('country')->with('state')->select('areas.*');        
         }

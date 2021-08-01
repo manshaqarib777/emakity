@@ -42,7 +42,7 @@ class OrderProductReviewsOfUserCriteria implements CriteriaInterface
      */
     public function apply($model, RepositoryInterface $repository)
     {
-        if (auth()->user()->hasRole('admin')) {
+        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch')) {
             return $model->select('product_reviews.*');
         } else if (auth()->user()->hasRole('manager')) {
             return $model->join("products", "products.id", "=", "product_reviews.product_id")

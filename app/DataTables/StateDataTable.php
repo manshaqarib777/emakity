@@ -47,7 +47,7 @@ class StateDataTable extends DataTable
      */
     public function query(State $model)
     {
-        if(auth()->user()->hasRole('admin'))
+        if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch'))
         {
             return $model->newQuery()->with('country')->select('states.*');
         }

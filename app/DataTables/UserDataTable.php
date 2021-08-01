@@ -25,7 +25,7 @@ class UserDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
             $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        if (auth()->user()->hasRole('branch'))
             $query = $query->where('country_id', get_role_country_id('branch'))->where('users.id','!=',auth()->id());
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');

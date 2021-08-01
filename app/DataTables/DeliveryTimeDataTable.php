@@ -23,9 +23,9 @@ class DeliveryTimeDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        if (auth()->user()->hasRole('client'))
+        if (auth()->user()->hasRole('client') || auth()->user()->hasRole('manager') )
             $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        if (auth()->user()->hasRole('branch'))
             $query = $query->where('country_id', get_role_country_id('branch'));
         
         $dataTable = new EloquentDataTable($query);

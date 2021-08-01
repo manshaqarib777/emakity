@@ -26,7 +26,7 @@ class EarningDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
             $query = $query->where('user_id', auth()->id());
-            if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+            if (auth()->user()->hasRole('branch'))
             $query = $query->whereHas('market.country', function($q){
                 return $q->where('countries.id',get_role_country_id('branch'));
             });
@@ -191,7 +191,13 @@ class EarningDataTable extends DataTable
      */
     public function query(Earning $model)
     {
-        return $model->newQuery()->with("market.country")->select('earnings.*');
+        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('branch')) {
+            return $model->newQuery()->with("market.country")->select('earnings.*');
+        }else if((auth()->user()->hasRole('manager'))){
+            return $model->newQuery()->with("market")
+                ->join("user_markets", "user_markets.market_id", "=", "earnings.market_id")
+                ->where('user_markets.user_id', auth()->id())->select('earnings.*');
+        }
         
     }
 

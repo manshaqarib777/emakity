@@ -75,6 +75,20 @@
                     </li>
                 @endcan
                 <li class="nav-item dropdown">
+                    <a class="nav-link" data-toggle="dropdown" href="#"> <i class="fa fas fa-angle-down"></i> {{ app()->getLocale() ? getAvailableLanguages()[app()->getLocale()] : 'Select Language' }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        {!! Form::open(['url' => ['settings/update'], 'method' => 'patch','id'=>'languages-form']) !!}
+                        {!!  Form::hidden('language',setting('language'),['id'=>'current-language'])!!}
+                        @foreach(getAvailableLanguages() as $key => $value)
+                            <a href="{{ url('locale/' . $key) }}" class="dropdown-item @if(app()->getLocale() == $key) active @endif" >
+                                <i class="fas fa-circle mr-2"></i> {!! __($value) !!}
+                            </a>
+                        @endforeach
+                        {!! Form::close() !!}
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <img src="{{auth()->user()->getFirstMediaUrl('avatar','icon')}}" class="brand-image mx-2 img-circle elevation-2" alt="User Image">
                         <i class="fa fa fa-angle-down"></i> {!! auth()->user()->name !!}
@@ -265,6 +279,13 @@
                     console.log(err);
                 }
             });
+        }
+    </script> --}}
+    {{-- <script type="text/javascript">
+        function changeLanguage(code) {
+            event.preventDefault();
+            document.getElementById('current-language').value = code;
+            document.getElementById('languages-form').submit();
         }
     </script> --}}
 </body>

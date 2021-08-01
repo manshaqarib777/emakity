@@ -46,7 +46,7 @@ class ProductReviewDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
         $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        if (auth()->user()->hasRole('branch'))
         $query = $query->whereHas('product.market.country', function($q){
             return $q->where('countries.id',get_role_country_id('branch'));
         });

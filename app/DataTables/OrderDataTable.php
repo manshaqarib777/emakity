@@ -33,7 +33,7 @@ class OrderDataTable extends DataTable
     {
         if (auth()->user()->hasRole('client'))
         $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        if (auth()->user()->hasRole('branch'))
         $query = $query->whereHas('user.country', function($q){
             return $q->where('countries.id',get_role_country_id('branch'));
         });
@@ -212,8 +212,16 @@ class OrderDataTable extends DataTable
      */
     public function query(Order $model)
     {
-        if (auth()->user()->hasRole('admin')) {
+        if (auth()->user()->hasRole('admin') ||  auth()->user()->hasRole('branch')) {
             return $model->newQuery()->with("user.country")->with("orderStatus")->with('payment')->select('orders.*');
+        }else if (auth()->user()->hasRole('manager')) {
+            return $model->newQuery()->with("user.country")->with("orderStatus")->with('payment')
+                ->join("product_orders", "orders.id", "=", "product_orders.order_id")
+                ->join("products", "products.id", "=", "product_orders.product_id")
+                ->join("user_markets", "user_markets.market_id", "=", "products.market_id")
+                ->where('user_markets.user_id', auth()->id())
+                ->groupBy('orders.id')
+                ->select('orders.*');
         }  else if (auth()->user()->hasRole('client')) {
             return $model->newQuery()->with("user.country")->with("orderStatus")->with('payment')
                 ->where('orders.user_id', auth()->id())

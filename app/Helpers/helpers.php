@@ -13,6 +13,7 @@ use InfyOm\Generator\Utils\HTMLFieldGenerator;
 use Symfony\Component\Debug\Exception\FatalThrowableError;
 use App\Models\DeliveryAddress;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Str;
 /**
  * @param $bytes
  * @param int $precision

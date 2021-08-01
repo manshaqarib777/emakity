@@ -24,10 +24,10 @@ class CartDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        if (auth()->user()->hasRole('client'))
-            $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
-            $query = $query->where('user_id', auth()->id());
+        // if (auth()->user()->hasRole('client'))
+        //     $query = $query->where('user_id', auth()->id());
+        // if (auth()->user()->hasRole('branch'))
+        //     $query = $query->where('user_id', auth()->id());
 
 
         $dataTable = new EloquentDataTable($query);
