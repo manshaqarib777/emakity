@@ -123,6 +123,7 @@
             {!! Form::text('latitude', null,  ['class' => 'form-control','placeholder'=>  trans("lang.market_latitude_placeholder")]) !!}
             <div class="form-text text-muted">
                 {{ trans("lang.market_latitude_help") }}
+                <a href="https://www.gps-coordinates.net/my-location" target="_blank">Get Your Location</a>
             </div>
         </div>
     </div>

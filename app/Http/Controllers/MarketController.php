@@ -101,8 +101,16 @@ class MarketController extends Controller
     public function create()
     {
 
-        $user = $this->userRepository->getByCriteria(new ManagersCriteria())->pluck('name', 'id');
-        $drivers = $this->userRepository->getByCriteria(new DriversCriteria())->pluck('name', 'id');
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        {    
+            $user = $this->userRepository->getByCriteria(new ManagersCriteria())->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+            $drivers = $this->userRepository->getByCriteria(new DriversCriteria())->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+        }
+        else
+        {
+            $user = $this->userRepository->getByCriteria(new ManagersCriteria())->pluck('name', 'id');
+            $drivers = $this->userRepository->getByCriteria(new DriversCriteria())->pluck('name', 'id');
+        }
         $field = $this->fieldRepository->pluck('name', 'id');
         $usersSelected = [];
         $driversSelected = [];
@@ -192,13 +200,17 @@ class MarketController extends Controller
             Flash::error(__('lang.not_found', ['operator' => __('lang.market')]));
             return redirect(route('markets.index'));
         }
-        if($market['active'] == 0){
-            $user = $this->userRepository->getByCriteria(new ManagersClientsCriteria())->pluck('name', 'id');
-        } else {
-            $user = $this->userRepository->getByCriteria(new ManagersCriteria())->pluck('name', 'id');
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        {    
+            $user = $this->userRepository->getByCriteria(new ManagersCriteria())->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+            $drivers = $this->userRepository->getByCriteria(new DriversCriteria())->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
         }
-        //$user = $market->users();
-        $drivers = $this->userRepository->getByCriteria(new DriversCriteria())->pluck('name', 'id');
+        else
+        {
+            $user = $this->userRepository->getByCriteria(new ManagersCriteria())->pluck('name', 'id');
+            $drivers = $this->userRepository->getByCriteria(new DriversCriteria())->pluck('name', 'id');
+        }
+        
         $field = $this->fieldRepository->pluck('name', 'id');
 
 

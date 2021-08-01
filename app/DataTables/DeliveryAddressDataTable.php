@@ -23,9 +23,8 @@ class DeliveryAddressDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        if (auth()->user()->hasRole('client') || auth()->user()->hasRole('manager'))
-            $query = $query->where('user_id', auth()->id());
-        if (auth()->user()->hasRole('branch'))
+        
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
             $query = $query->whereHas('user.country', function($q){
                 return $q->where('countries.id',get_role_country_id('branch'));
             });

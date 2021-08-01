@@ -81,7 +81,11 @@ class OptionController extends Controller
     {
         $this->productRepository->pushCriteria(new ProductsOfUserCriteria(auth()->id()));
         $product = $this->productRepository->groupedByMarkets();
-        $optionGroup = $this->optionGroupRepository->pluck('name', 'id');
+        
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+            $optionGroup = $this->optionGroupRepository->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+        else
+            $optionGroup = $this->optionGroupRepository->pluck('name', 'id');
 
         $hasCustomField = in_array($this->optionRepository->model(), setting('custom_field_models', []));
         if ($hasCustomField) {
@@ -160,7 +164,11 @@ class OptionController extends Controller
         }
         $this->productRepository->pushCriteria(new ProductsOfUserCriteria(auth()->id()));
         $product = $this->productRepository->groupedByMarkets();
-        $optionGroup = $this->optionGroupRepository->pluck('name', 'id');
+        
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+            $optionGroup = $this->optionGroupRepository->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+        else
+            $optionGroup = $this->optionGroupRepository->pluck('name', 'id');
 
 
         $customFieldsValues = $option->customFieldsValues()->with('customField')->get();

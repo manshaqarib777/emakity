@@ -56,7 +56,11 @@ private $faqCategoryRepository;
      */
     public function create()
     {
-        $faqCategory = $this->faqCategoryRepository->pluck('name','id');
+
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+            $faqCategory = $this->faqCategoryRepository->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+        else
+            $faqCategory = $this->faqCategoryRepository->pluck('name', 'id');
         
         $hasCustomField = in_array($this->faqRepository->model(),setting('custom_field_models',[]));
             if($hasCustomField){
@@ -120,7 +124,11 @@ private $faqCategoryRepository;
     public function edit($id)
     {
         $faq = $this->faqRepository->findWithoutFail($id);
-        $faqCategory = $this->faqCategoryRepository->pluck('name','id');
+        
+        if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        $faqCategory = $this->faqCategoryRepository->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+        else
+            $faqCategory = $this->faqCategoryRepository->pluck('name', 'id');
         
 
         if (empty($faq)) {

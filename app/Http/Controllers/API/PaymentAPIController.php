@@ -77,7 +77,7 @@ class PaymentAPIController extends Controller
             {
                 $payments = $this->paymentRepository->whereHas('user.country', function($q){
                     return $q->where('countries.id',get_role_country_id('branch'));
-                })->orderBy("created_at",'asc')->all()->map(function ($row) {
+                })->where('status','Paid')->orderBy("created_at",'asc')->get()->map(function ($row) {
                     $row['month'] = $row['created_at']->format('M');
                     return $row;
                 })->groupBy('month')->map(function ($row) {
