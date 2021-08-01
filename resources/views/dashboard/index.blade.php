@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
 @php
-    if( isset($$country->currency->currency_right) && $$country->currency->currency_right->decimal_digits >=0)
+    if( isset($country->currency->currency_right) && $country->currency->currency_right->decimal_digits >=0)
     {
-        $digits=$$country->currency->currency_right->decimal_digits;
+        $digits=$country->currency->currency_right->decimal_digits;
     }
     else
     {
