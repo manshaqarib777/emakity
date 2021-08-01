@@ -1,14 +1,15 @@
 @extends('layouts.app')
 @section('content')
 @php
-    if( isset($country->currency->currency_right) && $country->currency->currency_right->decimal_digits >=0)
+    if( isset($country->currency_right) && $country->currency->decimal_digits >=0)
     {
-        $digits=$country->currency->currency_right->decimal_digits;
+        $digits=$country->currency->decimal_digits;
     }
     else
     {
         $digits=2;
     }
+    //dd($country->currency_right);
 @endphp
     <!-- Content Header (Page header) -->
     <section class="content-header content-header{{setting('fixed_header')}}">
@@ -61,7 +62,7 @@
                 <!-- small box -->
                 <div class="small-box bg-danger">
                     <div class="inner">
-                        @if($country->currency->currency_right != false)
+                        @if($country->currency_right != false)
                             <h3>{{ number_format((float)$earning, $digits, '.', '')}}{{$country->currency->symbol}}</h3>
                         @else
                             <h3>{{$country->currency->symbol}}{{number_format((float)$earning, $digits, '.', '')}}</h3>
@@ -124,7 +125,7 @@
                     <div class="card-body">
                         <div class="d-flex">
                             <p class="d-flex flex-column">
-                                @if($country->currency->currency_right != false)
+                                @if($country->currency_right != false)
                                     <span class="text-bold text-lg">{{number_format((float)$earning, $digits, '.', '')}}{{$country->currency->symbol}}</span>
                                 @else
                                     <span class="text-bold text-lg">{{$country->currency->symbol}}{{number_format((float)$earning, $digits, '.', '')}}</span>
@@ -246,7 +247,7 @@
 
                                 // Include a dollar sign in the ticks
                                 callback: function (value, index, values) {
-                                    @if($country->currency->currency_right == '0')
+                                    @if($country->currency_right == '0')
                                         return "{{$country->currency->symbol}} "+value;
                                     @else
                                         return value+" {{$country->currency->symbol}}";
