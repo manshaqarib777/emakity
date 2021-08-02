@@ -163,12 +163,22 @@ class OptionController extends Controller
             return redirect(route('options.index'));
         }
         $this->productRepository->pushCriteria(new ProductsOfUserCriteria(auth()->id()));
-        $product = $this->productRepository->groupedByMarkets();
         
         if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
+        {
             $optionGroup = $this->optionGroupRepository->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+            $product = $this->productRepository->with("market.country")->with("category")
+            ->join("user_markets", "user_markets.market_id", "=", "products.market_id")
+            ->where('user_markets.user_id', auth()->id())
+            ->groupBy('products.id')
+            ->select('products.*')->orderBy('products.updated_at', 'desc')->groupedByMarkets();
+        }
         else
+        {
             $optionGroup = $this->optionGroupRepository->pluck('name', 'id');
+            $product = $this->productRepository->groupedByMarkets();
+        
+        }
 
 
         $customFieldsValues = $option->customFieldsValues()->with('customField')->get();

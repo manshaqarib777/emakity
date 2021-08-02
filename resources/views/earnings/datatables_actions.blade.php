@@ -6,9 +6,15 @@
   @endcan
 
     @can('marketsPayouts.create')
-      <a data-toggle="tooltip" data-placement="bottom" title="{{trans('lang.markets_payout_create')}}" href="{{ route('marketsPayouts.create') }}" class='btn btn-link'>
+      @if(auth()->user()->hasRole('manager'))
+      <a data-toggle="tooltip" data-placement="bottom" title="{{trans('lang.markets_manager_create')}}" href="{{ route('marketsPayouts.create') }}" class='btn btn-link'>
         <i class="fa fa-money"></i>
       </a>
+      @else
+      <a data-toggle="tooltip" data-placement="bottom" title="{{trans('lang.markets_payout_create')}}" href="{{ route('marketsPayouts.create') }}" class='btn btn-link'>
+        <i class="fa fa-money"></i>
+      </a>      
+      @endif
     @endcan
 
   @can('earnings.edit')
