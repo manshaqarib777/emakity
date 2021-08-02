@@ -69,8 +69,8 @@ private $orderRepository;
     public function create()
     {
         $product = $this->productRepository->pluck('name','id');
-                $option = $this->optionRepository->pluck('name','id');
-                $order = $this->orderRepository->pluck('id','id');
+        $option = $this->optionRepository->pluck('name','id');
+        $order = $this->orderRepository->pluck('id','id');
         $optionsSelected = [];
         $hasCustomField = in_array($this->productOrderRepository->model(),setting('custom_field_models',[]));
             if($hasCustomField){
@@ -135,8 +135,8 @@ private $orderRepository;
     {
         $productOrder = $this->productOrderRepository->findWithoutFail($id);
         $product = $this->productRepository->pluck('name','id');
-                $option = $this->optionRepository->pluck('name','id');
-                $order = $this->orderRepository->pluck('id','id');
+        $option = $this->optionRepository->pluck('name','id');
+        $order = $this->orderRepository->pluck('id','id');
         $optionsSelected = $productOrder->options()->pluck('options.id')->toArray();
 
         if (empty($productOrder)) {

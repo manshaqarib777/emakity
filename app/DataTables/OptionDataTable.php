@@ -183,16 +183,16 @@ class OptionDataTable extends DataTable
      */
     public function query(Option $model)
     {
-            if (auth()->user()->hasRole('manager')) {
-                return $model->newQuery()->with("product")->with("optionGroup.country")->with('product.market')
-                    ->join("products", "options.product_id", "=", "products.id")
-                    ->join("user_markets", "products.market_id", "=", "user_markets.market_id")
-                    ->where('user_markets.user_id', auth()->id())
-                    ->groupBy("options.id")
-                    ->select('options.*');
-            } else {
+            // if (auth()->user()->hasRole('manager')) {
+            //     return $model->newQuery()->with("product")->with("optionGroup.country")->with('product.market')
+            //         ->join("products", "options.product_id", "=", "products.id")
+            //         ->join("user_markets", "products.market_id", "=", "user_markets.market_id")
+            //         ->where('user_markets.user_id', auth()->id())
+            //         ->groupBy("options.id")
+            //         ->select('options.*');
+            // } else {
                 return $model->newQuery()->with("product")->with("optionGroup.country")->with('product.market');
-            }
+            //}
     }
 
     /**
