@@ -78,6 +78,8 @@ class Order extends Model
         'order_status_id' => 'required|exists:order_statuses,id',
         'payment_id' => 'exists:payments,id',
         'driver_id' => 'nullable|exists:users,id',
+        'delivery_time_id' => 'required'
+
     ];
 
     /**
