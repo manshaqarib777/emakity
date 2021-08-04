@@ -70,7 +70,7 @@ private $productRepository;
     public function create()
     {
         $user = $this->userRepository->pluck('name','id');
-        $product = $this->productRepository->groupedByMarkets();
+        $product = $this->productRepository->where('quantity','>',0)->groupedByMarkets();
 
         $hasCustomField = in_array($this->productReviewRepository->model(),setting('custom_field_models',[]));
         if($hasCustomField){
@@ -143,7 +143,7 @@ private $productRepository;
             return redirect(route('productReviews.index'));
         }
         $user = $this->userRepository->pluck('name', 'id');
-        $product = $this->productRepository->groupedByMarkets();
+        $product = $this->productRepository->where('quantity','>',0)->groupedByMarkets();
 
 
         $customFieldsValues = $productReview->customFieldsValues()->with('customField')->get();

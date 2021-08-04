@@ -18,6 +18,7 @@ use App\DataTables\ProductOrderDataTable;
 use App\Events\OrderChangedEvent;
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Product;
 use App\Notifications\AssignedOrder;
 use App\Notifications\StatusChangedOrder;
 use App\Repositories\CustomFieldRepository;
@@ -138,10 +139,12 @@ class CheckoutController extends Controller
      */
     public function store(CreateOrderRequest $request)
     {
+        //dd('asas');
         $input = $request->all();
         updateDeliveryAddress($input['delivery_address_id'],$input);
         try {
             $payment = $request->only('payment');
+            //dd($request->all());
             if (isset($payment) && $payment) {
                 if ($payment == "Credit Card (Stripe Gateway)") {
                     return $this->stripPayment($request);
@@ -188,10 +191,15 @@ class CheckoutController extends Controller
                         $request->only('user_id', 'order_status_id', 'tax', 'delivery_address_id', 'delivery_fee', 'hint')
                     );
                 }
-                foreach ($input['products'] as $productOrder) {
+
+                $products=$this->cartRepository->with('product','options')->where('user_id',$input['user_id'])->get();
+                //dd($products);
+                foreach ($products as $productOrder) {
+                    $amount += getPriceValue($productOrder['product'],'discount_price') * $productOrder['quantity'];
                     $productOrder['order_id'] = $order->id;
-                    $amount += $productOrder['price'] * $productOrder['quantity'];
-                    $this->productOrderRepository->create($productOrder);
+                    $productOrder['price'] = getPriceValue($productOrder['product'],'discount_price') * $productOrder['quantity'];           
+                    //dd($productOrder);
+                    $this->productOrderRepository->create($productOrder->only('price','quantity','product_id','order_id'));
                 }
                 $amount += $order->delivery_fee;
                 $amountWithTax = $amount + ($amount * $order->tax / 100);
@@ -234,13 +242,16 @@ class CheckoutController extends Controller
             $order->save();
             //Log::info($input['products']);
             $products=$this->cartRepository->with('product','options')->where('user_id',$input['user_id'])->get();
-            //dd($products);
+           // dd($products);
             foreach ($products as $productOrder) {
                 $amount += getPriceValue($productOrder['product'],'discount_price') * $productOrder['quantity'];
                 $productOrder['order_id'] = $order->id;
                 $productOrder['price'] = getPriceValue($productOrder['product'],'discount_price') * $productOrder['quantity'];           
                 //dd($productOrder);
                 $this->productOrderRepository->create($productOrder->only('price','quantity','product_id','order_id'));
+                $update_product=Product::find($productOrder['product_id']);
+                $update_product->quantity=$update_product->quantity-$productOrder['quantity'];
+                $update_product->save();
             }
             $amount += $order->delivery_fee;
             $amountWithTax = $amount + ($amount * $order->tax / 100);

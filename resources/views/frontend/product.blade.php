@@ -111,8 +111,11 @@
 
                                     </div>
                                     <div class="product-var__item">
+                                        @if($product->quantity > 0)        
                                         <input type="submit" value="Add to cart"
                                             class="btn btn--long btn--radius-tiny btn--green btn--green-hover-black btn--uppercase btn--weight m-r-20" />
+                                        @endif
+
                                         <a href="wishlist.html"
                                             class="btn btn--round btn--round-size-small btn--green btn--green-hover-black"><i
                                                 class="fas fa-heart"></i></a>

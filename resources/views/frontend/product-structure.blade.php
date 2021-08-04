@@ -5,13 +5,17 @@
         <a href="{{ route('product', $product->id) }}" class="product__img--link">
             {!! getMediaurl_frontend($product, 'web_image', 'product__img img-fluid',asset('frontend/assets/img/product/size-normal/product-home-1-img-1.jpg'),480,268) !!}
         </a>
-        <span class="product__label product__label--sale-dis">{{getDiscountPercent($product)}}%</span>
-
+        <div class="product__label product__label--sale-dis">{{getDiscountPercent($product)}}%</div>
+        @if($product->quantity <= 0)        
+            <div class="product__label product__label--sale-dis" style="left: 150px !important">Out of Stock</div>
+        @endif
 
         <ul class="product__action--link pos-absolute">
+            @if($product->quantity > 0)
             <li><a href="#modalAddCart" data-quantity="1" data-user_id="{{ @\Auth::user()->id }}"
                     data-product_id="{{ $product->id }}" data-toggle="modal"><i class="icon-shopping-cart"></i></a>
             </li>
+            @endif
             <li><a href="#modalFavorite" data-user_id="{{ @\Auth::user()->id }}"
                 data-product_id="{{ $product->id }}" data-toggle="modal"><i class="icon-heart"></i></a></li>
             <li><a href="{{ route('product', $product->id) }}" data-id="{{ $product->id }}" data-toggle="modal"><i

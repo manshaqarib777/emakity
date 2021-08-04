@@ -61,7 +61,7 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-        return redirect('login'); 
+        //return redirect('login'); 
 
         $products=new Product();
         $markets=new Market();
@@ -186,8 +186,12 @@ class HomeController extends Controller
     public function cart_ajax_update(Request $request)
     {
         $cart = $this->cartRepository->find($request->input('cart_id'));
+        
         if ($cart) {
             if ($request->type == 'update_cart') {
+                if($cart->product->quantity < ($cart->quantity+1)){
+                    return $this->sendError('Maximum product quantity should be less then or Equal to '.$cart->product->quantity,500);
+                }
                 $cart->quantity = $cart->quantity + 1;
                 $cart->update();
             } else {
@@ -195,8 +199,9 @@ class HomeController extends Controller
                 $cart->update();
             }
         }
-
-        return $this->sendResponse($cart, __('lang.saved_successfully', ['operator' => __('lang.cart')]));
+        $products = $this->cartRepository->with('product', 'options')->where('user_id', auth()->id())->get();
+        $data = view('frontend.carts.all', ['products' => $products])->render();
+        return $this->sendResponse($data, __('lang.saved_successfully', ['operator' => __('lang.cart')]));
     }
 
     public function cart_ajax_delete(Request $request)

@@ -71,7 +71,7 @@ class CartController extends Controller
      */
     public function create()
     {
-        $product = $this->productRepository->pluck('name', 'id');
+        $product = $this->productRepository->where('quantity','>',0)->pluck('name', 'id');
         $user = $this->userRepository->pluck('name', 'id');
         $option = $this->optionRepository->pluck('name', 'id');
         $optionsSelected = [];
@@ -96,8 +96,12 @@ class CartController extends Controller
         $input = $request->all();
         //dd($input);
         $old_cart_product = Cart::with('product')->where('user_id',Auth::user()->id);
+        $product= $this->productRepository->findWithoutFail($input['product_id']);
+        if($product->quantity < $input['quantity']){
+            Flash::error('Maximum product quantity should be less then or Equal to '.$product->quantity);
+            return redirect()->back();                   
+        }   
         if (!empty($old_cart_product)) {
-            $product= $this->productRepository->findWithoutFail($input['product_id']);
             if($old_cart_product->first() && $product->market->id !== $old_cart_product->first()->product->market->id)
             {
                 if($request->ajax()){
@@ -168,7 +172,7 @@ class CartController extends Controller
     public function edit($id)
     {
         $cart = $this->cartRepository->findWithoutFail($id);
-        $product = $this->productRepository->pluck('name', 'id');
+        $product = $this->productRepository->where('quantity','>',0)->pluck('name', 'id');
         $user = $this->userRepository->pluck('name', 'id');
         $option = $this->optionRepository->pluck('name', 'id');
         $optionsSelected = $cart->options()->pluck('options.id')->toArray();

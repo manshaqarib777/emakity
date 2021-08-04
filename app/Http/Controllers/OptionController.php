@@ -79,8 +79,8 @@ class OptionController extends Controller
      */
     public function create()
     {
-        $this->productRepository->pushCriteria(new ProductsOfUserCriteria(auth()->id()));
-        $product = $this->productRepository->groupedByMarkets();
+        $this->productRepository->where('quantity','>',0)->pushCriteria(new ProductsOfUserCriteria(auth()->id()));
+        $product = $this->productRepository->where('quantity','>',0)->groupedByMarkets();
         $optionGroup = $this->optionGroupRepository->pluck('name', 'id');
 
         $hasCustomField = in_array($this->optionRepository->model(), setting('custom_field_models', []));
@@ -158,7 +158,7 @@ class OptionController extends Controller
             Flash::error(__('lang.not_found', ['operator' => __('lang.option')]));
             return redirect(route('options.index'));
         }
-        $this->productRepository->pushCriteria(new ProductsOfUserCriteria(auth()->id()));
+        $this->productRepository->where('quantity','>',0)->pushCriteria(new ProductsOfUserCriteria(auth()->id()));
         $optionGroup = $this->optionGroupRepository->pluck('name', 'id');
         
         if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
@@ -166,6 +166,7 @@ class OptionController extends Controller
             $product = $this->productRepository->with("market.country")->with("category")
             ->join("user_markets", "user_markets.market_id", "=", "products.market_id")
             ->where('user_markets.user_id', auth()->id())
+            ->where('products.quantity','>',0)
             ->groupBy('products.id')
             ->select('products.*')->orderBy('products.updated_at', 'desc')->groupedByMarkets();
         }

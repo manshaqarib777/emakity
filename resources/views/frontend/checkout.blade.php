@@ -28,6 +28,7 @@
                         {!! Form::hidden('tax', $product->product->market->default_tax) !!}
                         {!! Form::hidden('delivery_fee', $product->product->market->delivery_fee) !!}
                         {!! Form::hidden('delivery_address_id', $deliveryAddress->id) !!}
+                        {!! Form::hidden('delivery_time_id', 1) !!}
                         <!-- Description Field -->
                         <div class="form-group row mb-2">
                             {!! Form::label('name', trans('lang.user_name'), ['class' => 'col-3 control-label text-right']) !!}

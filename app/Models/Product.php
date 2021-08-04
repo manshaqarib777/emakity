@@ -54,7 +54,8 @@ class Product extends Model implements HasMedia
         'price' => 'required|numeric|min:0',
         'description' => 'required',
         'market_id' => 'required|exists:markets,id',
-        'category_id' => 'required|exists:categories,id'
+        'category_id' => 'required|exists:categories,id',
+        'quantity' => 'required',        
     ];
 
     public $table = 'products';
@@ -69,7 +70,9 @@ class Product extends Model implements HasMedia
         'featured',
         'deliverable',
         'market_id',
-        'category_id'
+        'category_id',
+        'quantity',        
+
     ];
     /**
      * The attributes that should be casted to native types.

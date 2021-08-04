@@ -176,6 +176,16 @@
 </div>
 <div style="flex: 50%;max-width: 50%;padding: 0 4px;" class="column">
 
+    <div class="form-group row ">
+        {!! Form::label('quantity', trans("lang.product_quantity"), ['class' => 'col-3 control-label text-right']) !!}
+        <div class="col-9">
+            {!! Form::number('quantity', null,  ['class' => 'form-control','placeholder'=>  trans("lang.product_quantity_placeholder"),'step'=>"any", 'min'=>"0"]) !!}
+            <div class="form-text text-muted">
+                {{ trans("lang.product_quantity_help") }}
+            </div>
+        </div>
+    </div>
+
     <!-- Capacity Field -->
     <div class="form-group row ">
         {!! Form::label('capacity', trans("lang.product_capacity"), ['class' => 'col-3 control-label text-right']) !!}

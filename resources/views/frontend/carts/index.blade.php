@@ -15,6 +15,7 @@
                     <div class="section-content">
                         <h5 class="section-content__title">Your cart items</h5>
                     </div>
+                    <div id="show_error_data"></div>
                     <div id="show_data"></div>
                     <div class="cart-table-button m-t-10">
                         <div class="cart-table-button--left">
@@ -55,6 +56,8 @@
                         {!! Form::hidden('tax', $product->product->market->default_tax) !!}
                         {!! Form::hidden('delivery_fee', $product->product->market->delivery_fee) !!}
                         {!! Form::hidden('delivery_address_id', $deliveryAddress->id) !!}
+                        {!! Form::hidden('delivery_time_id', 1) !!}
+
                         <!-- Description Field -->
                         <div class="form-group row mb-2">
                             {!! Form::label('name', trans('lang.user_name'), ['class' => 'col-3 control-label text-right']) !!}
@@ -344,14 +347,24 @@
                     type: type
                 },
                 success: function(response) {
-                    
+                  
+                    $('#show_error_data').html('');  
+                    if($('input[data-id="'+cart_id+'"]').val()>0 && type!='update_cart')
+                    $('input[data-id="'+cart_id+'"]').val($('input[data-id="'+cart_id+'"]').val()-1);
+
                 },
                 error: function(xhr) {
                     if (xhr.status == 500) {
-
-                        $('#show_data').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        if(type=='update_cart')
+                        {
+                            $('input[data-id="'+cart_id+'"]').val($('input[data-id="'+cart_id+'"]').val()-1);
+                            $('#show_error_data').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
                             ${xhr.responseJSON.message}
                         </div>`);
+                        }
+
+
+
                     }
                     if (xhr.status == 401) {
 
@@ -373,11 +386,12 @@
                 success: function(response) {
                     $('#show_data').html('');
                     $('#show_data').html(response.data);
+                    
                 },
                 error: function(xhr) {
                     if (xhr.status == 500) {
 
-                        $('#show_data').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        $('#show_error_data').html(`<div class="alert alert-danger alert-dismissible fade show" role="alert">
                             ${xhr.responseJSON.message}
                         </div>`);
                     }
