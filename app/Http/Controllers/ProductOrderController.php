@@ -68,7 +68,7 @@ private $orderRepository;
      */
     public function create()
     {
-        $product = $this->productRepository->where('quantity','>',0)->pluck('name','id');
+        $product = $this->productRepository->where('in_stock','>',0)->pluck('name','id');
         $option = $this->optionRepository->pluck('name','id');
         $order = $this->orderRepository->pluck('id','id');
         $optionsSelected = [];
@@ -134,7 +134,7 @@ private $orderRepository;
     public function edit($id)
     {
         $productOrder = $this->productOrderRepository->findWithoutFail($id);
-        $product = $this->productRepository->where('quantity','>',0)->pluck('name','id');
+        $product = $this->productRepository->where('in_stock','>',0)->pluck('name','id');
         $option = $this->optionRepository->pluck('name','id');
         $order = $this->orderRepository->pluck('id','id');
         $optionsSelected = $productOrder->options()->pluck('options.id')->toArray();

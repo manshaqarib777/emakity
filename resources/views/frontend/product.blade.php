@@ -111,7 +111,7 @@
 
                                     </div>
                                     <div class="product-var__item">
-                                        @if($product->quantity > 0)        
+                                        @if($product->in_stock > 0)        
                                         <input type="submit" value="Add to cart"
                                             class="btn btn--long btn--radius-tiny btn--green btn--green-hover-black btn--uppercase btn--weight m-r-20" />
                                         @endif

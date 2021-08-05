@@ -55,7 +55,7 @@ class Product extends Model implements HasMedia
         'description' => 'required',
         'market_id' => 'required|exists:markets,id',
         'category_id' => 'required|exists:categories,id',
-        'quantity' => 'required',        
+        'in_stock' => 'required',        
     ];
 
     public $table = 'products';
@@ -71,7 +71,7 @@ class Product extends Model implements HasMedia
         'deliverable',
         'market_id',
         'category_id',
-        'quantity',        
+        'in_stock',        
 
     ];
     /**

@@ -109,8 +109,8 @@ class CartAPIController extends Controller
     {
         $input = $request->all();
         $product= $this->productRepository->findWithoutFail($input['product_id']);
-        if($product->quantity < $input['quantity']){
-            Flash::error('Maximum product quantity should be less then or Equal to '.$product->quantity);
+        if($product->in_stock < $input['quantity']){
+            Flash::error('Maximum product quantity should be less then or Equal to '.$product->in_stock);
             return redirect()->back();                   
         }
         try {
@@ -138,8 +138,8 @@ class CartAPIController extends Controller
     {
         $cart = $this->cartRepository->findWithoutFail($id);
         $product= $this->productRepository->findWithoutFail($cart->product_id);
-        if($product->quantity < $request->input('quantity')){
-            Flash::error('Maximum product quantity should be less then or Equal to '.$product->quantity);
+        if($product->in_stock < $request->input('quantity')){
+            Flash::error('Maximum product quantity should be less then or Equal to '.$product->in_stock);
             return redirect()->back();                   
         }
         if (empty($cart)) {

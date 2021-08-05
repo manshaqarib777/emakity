@@ -189,8 +189,8 @@ class HomeController extends Controller
         
         if ($cart) {
             if ($request->type == 'update_cart') {
-                if($cart->product->quantity < ($cart->quantity+1)){
-                    return $this->sendError('Maximum product quantity should be less then or Equal to '.$cart->product->quantity,500);
+                if($cart->product->in_stock < ($cart->quantity+1)){
+                    return $this->sendError('Maximum product quantity should be less then or Equal to '.$cart->product->in_stock,500);
                 }
                 $cart->quantity = $cart->quantity + 1;
                 $cart->update();

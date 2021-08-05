@@ -197,7 +197,7 @@ class OrderController extends Controller
                     //dd($productOrder);
                     $this->productOrderRepository->create($productOrder->only('price','quantity','product_id','order_id'));
                     $update_product=Product::find($productOrder['product_id']);
-                    $update_product->quantity=$update_product->quantity-$productOrder['quantity'];
+                    $update_product->in_stock=$update_product->in_stock-$productOrder['quantity'];
                     $update_product->save();
                 }
                 $amount += $order->delivery_fee;
@@ -249,7 +249,7 @@ class OrderController extends Controller
                 //dd($productOrder);
                 $this->productOrderRepository->create($productOrder->only('price','quantity','product_id','order_id'));
                 $update_product=Product::find($productOrder['product_id']);
-                $update_product->quantity=$update_product->quantity-$productOrder['quantity'];
+                $update_product->in_stock=$update_product->in_stock-$productOrder['quantity'];
                 $update_product->save();
             }
             $amount += $order->delivery_fee;
