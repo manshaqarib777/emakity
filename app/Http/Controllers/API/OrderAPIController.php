@@ -15,6 +15,7 @@ use App\Criteria\Orders\OrdersOfUserCriteria;
 use App\Events\OrderChangedEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Product;
 use App\Notifications\AssignedOrder;
 use App\Notifications\NewOrder;
 use App\Notifications\StatusChangedOrder;
@@ -179,15 +180,19 @@ class OrderAPIController extends Controller
                         $request->only('user_id', 'order_status_id','delivery_time_id', 'tax', 'delivery_address_id', 'delivery_fee', 'hint')
                     );
                 }
-                //dd('asas');
-                foreach ($input['products'] as $productOrder) {
+                $products=$this->cartRepository->with('product','options')->where('user_id',$input['user_id'])->get();
+                // dd($products);
+                foreach ($products as $productOrder) {
+                    $amount += getPriceValue($productOrder['product'],'discount_price') * $productOrder['quantity'];
                     $productOrder['order_id'] = $order->id;
-                    $amount += $productOrder['price'] * $productOrder['quantity'];
-                    $this->productOrderRepository->create($productOrder);
+                    $productOrder['price'] = getPriceValue($productOrder['product'],'discount_price') * $productOrder['quantity'];           
+                    //dd($productOrder);
+                    $this->productOrderRepository->create($productOrder->only('price','quantity','product_id','order_id'));
+                    $update_product=Product::find($productOrder['product_id']);
+                    $update_product->quantity=$update_product->quantity-$productOrder['quantity'];
+                    $update_product->save();
                 }
-                //dd('asas');
                 
-                //dd($order->products[0]->market->country->currency->code);
 
                 $amount += $order->delivery_fee;
                 $amountWithTax = $amount + ($amount * $order->tax / 100);
@@ -226,11 +231,15 @@ class OrderAPIController extends Controller
                 $request->only('user_id', 'order_status_id','delivery_time_id', 'tax', 'delivery_address_id', 'delivery_fee', 'hint')
             );
             Log::info($input);
-            //dd($order);
-            foreach ($input['products'] as $productOrder) {
+            $products=$this->cartRepository->with('product','options')->where('user_id',$input['user_id'])->get();
+            foreach ($products as $productOrder) {
+                $amount += getPriceValue($productOrder['product'],'discount_price') * $productOrder['quantity'];
                 $productOrder['order_id'] = $order->id;
-                $amount += $productOrder['price'] * $productOrder['quantity'];
-                $this->productOrderRepository->create($productOrder);
+                $productOrder['price'] = getPriceValue($productOrder['product'],'discount_price') * $productOrder['quantity'];           
+                $this->productOrderRepository->create($productOrder->only('price','quantity','product_id','order_id'));
+                $update_product=Product::find($productOrder['product_id']);
+                $update_product->quantity=$update_product->quantity-$productOrder['quantity'];
+                $update_product->save();
             }
             $amount += $order->delivery_fee;
             $amountWithTax = $amount + ($amount * $order->tax / 100);

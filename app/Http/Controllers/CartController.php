@@ -208,6 +208,11 @@ class CartController extends Controller
             Flash::error('Cart not found');
             return redirect(route('carts.index'));
         }
+        $product= $this->productRepository->findWithoutFail($input['product_id']);
+        if($product->quantity < $input['quantity']){
+            Flash::error('Maximum product quantity should be less then or Equal to '.$product->quantity);
+            return redirect()->back();                   
+        }
         $input = $request->all();
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->cartRepository->model());
         try {

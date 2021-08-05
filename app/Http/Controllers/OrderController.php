@@ -36,6 +36,7 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Response;
 use Prettus\Validator\Exceptions\ValidatorException;
 use App\Notifications\NewOrder;
+use App\Models\Product;
 class OrderController extends Controller
 {
     /** @var  OrderRepository */
@@ -187,10 +188,17 @@ class OrderController extends Controller
                         $request->only('user_id', 'order_status_id', 'tax', 'delivery_address_id', 'delivery_fee', 'hint')
                     );
                 }
-                foreach ($input['products'] as $productOrder) {
+                $products=$this->cartRepository->with('product','options')->where('user_id',$input['user_id'])->get();
+                // dd($products);
+                foreach ($products as $productOrder) {
+                    $amount += getPriceValue($productOrder['product'],'discount_price') * $productOrder['quantity'];
                     $productOrder['order_id'] = $order->id;
-                    $amount += $productOrder['price'] * $productOrder['quantity'];
-                    $this->productOrderRepository->create($productOrder);
+                    $productOrder['price'] = getPriceValue($productOrder['product'],'discount_price') * $productOrder['quantity'];           
+                    //dd($productOrder);
+                    $this->productOrderRepository->create($productOrder->only('price','quantity','product_id','order_id'));
+                    $update_product=Product::find($productOrder['product_id']);
+                    $update_product->quantity=$update_product->quantity-$productOrder['quantity'];
+                    $update_product->save();
                 }
                 $amount += $order->delivery_fee;
                 $amountWithTax = $amount + ($amount * $order->tax / 100);
@@ -233,13 +241,16 @@ class OrderController extends Controller
             $order->save();
             //Log::info($input['products']);
             $products=$this->cartRepository->with('product','options')->where('user_id',$input['user_id'])->get();
-            //dd($products);
+                // dd($products);
             foreach ($products as $productOrder) {
                 $amount += getPriceValue($productOrder['product'],'discount_price') * $productOrder['quantity'];
                 $productOrder['order_id'] = $order->id;
                 $productOrder['price'] = getPriceValue($productOrder['product'],'discount_price') * $productOrder['quantity'];           
                 //dd($productOrder);
                 $this->productOrderRepository->create($productOrder->only('price','quantity','product_id','order_id'));
+                $update_product=Product::find($productOrder['product_id']);
+                $update_product->quantity=$update_product->quantity-$productOrder['quantity'];
+                $update_product->save();
             }
             $amount += $order->delivery_fee;
             $amountWithTax = $amount + ($amount * $order->tax / 100);
