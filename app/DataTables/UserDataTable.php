@@ -30,8 +30,8 @@ class UserDataTable extends DataTable
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         return $dataTable
-            ->editColumn('country.name', function ($product) {
-                return $product['country']['name'];
+            ->editColumn('country.name', function ($user) {
+                return @$user['country']['name'];
             })
             ->editColumn('updated_at', function ($user) {
                 return getDateColumn($user, 'updated_at');
