@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Response;
 use Prettus\Repository\Exceptions\RepositoryException;
 use Flash;
 use Prettus\Validator\Exceptions\ValidatorException;
+use App\Repositories\ProductRepository;
+
 
 /**
  * Class CartController
@@ -26,10 +28,13 @@ class CartAPIController extends Controller
 {
     /** @var  CartRepository */
     private $cartRepository;
+    private $productRepository;
 
-    public function __construct(CartRepository $cartRepo)
+    public function __construct(CartRepository $cartRepo,ProductRepository $productRepo)
     {
         $this->cartRepository = $cartRepo;
+        $this->productRepository = $productRepo;
+
     }
 
     /**
@@ -103,6 +108,11 @@ class CartAPIController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
+        $product= $this->productRepository->findWithoutFail($input['product_id']);
+        if($product->in_stock < $input['quantity']){
+            Flash::error('Maximum product quantity should be less then or Equal to '.$product->in_stock);
+            return redirect()->back();                   
+        }
         try {
             if(isset($input['reset']) && $input['reset'] == '1'){
                 // delete all items in the cart of current user
@@ -127,7 +137,11 @@ class CartAPIController extends Controller
     public function update($id, Request $request)
     {
         $cart = $this->cartRepository->findWithoutFail($id);
-
+        $product= $this->productRepository->findWithoutFail($cart->product_id);
+        if($product->in_stock < $request->input('quantity')){
+            Flash::error('Maximum product quantity should be less then or Equal to '.$product->in_stock);
+            return redirect()->back();                   
+        }
         if (empty($cart)) {
             return $this->sendError('Cart not found');
         }

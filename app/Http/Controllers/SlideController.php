@@ -79,7 +79,7 @@ class SlideController extends Controller
      */
     public function create()
     {
-        $product = $this->productRepository->where('quantity','>',0)->pluck('name', 'id');
+        $product = $this->productRepository->where('in_stock','>',0)->pluck('name', 'id');
         $market = $this->marketRepository->pluck('name', 'id');
 
         $hasCustomField = in_array($this->slideRepository->model(), setting('custom_field_models', []));
@@ -149,7 +149,7 @@ class SlideController extends Controller
     public function edit($id)
     {
         $slide = $this->slideRepository->findWithoutFail($id);
-        $product = $this->productRepository->where('quantity','>',0)->pluck('name', 'id')->toArray();
+        $product = $this->productRepository->where('in_stock','>',0)->pluck('name', 'id')->toArray();
         $market = $this->marketRepository->pluck('name', 'id')->toArray();
         $product = array('' => trans('lang.slide_product_id_placeholder')) + $product;
         $market = array('' => trans('lang.slide_market_id_placeholder')) + $market;

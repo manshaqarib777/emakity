@@ -71,7 +71,7 @@ class FavoriteController extends Controller
      */
     public function create()
     {
-        $product = $this->productRepository->where('quantity','>',0)->pluck('name', 'id');
+        $product = $this->productRepository->where('in_stock','>',0)->pluck('name', 'id');
         $option = $this->optionRepository->pluck('name', 'id');
         $user = $this->userRepository->pluck('name', 'id');
         $optionsSelected = [];
@@ -161,7 +161,7 @@ class FavoriteController extends Controller
     public function edit($id)
     {
         $favorite = $this->favoriteRepository->findWithoutFail($id);
-        $product = $this->productRepository->where('quantity','>',0)->pluck('name', 'id');
+        $product = $this->productRepository->where('in_stock','>',0)->pluck('name', 'id');
         $option = $this->optionRepository->pluck('name', 'id');
         $user = $this->userRepository->pluck('name', 'id');
         $optionsSelected = $favorite->options()->pluck('options.id')->toArray();

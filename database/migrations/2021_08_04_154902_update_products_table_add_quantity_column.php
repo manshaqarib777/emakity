@@ -15,7 +15,7 @@ class UpdateProductsTableAddQuantityColumn extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->integer('quantity')->unsigned()->nullable()->default(1);
+            $table->integer('in_stock')->unsigned()->nullable()->default(1);
         });
     }
 

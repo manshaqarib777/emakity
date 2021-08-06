@@ -97,8 +97,8 @@ class CartController extends Controller
         //dd($input);
         $old_cart_product = Cart::with('product')->where('user_id',Auth::user()->id);
         $product= $this->productRepository->findWithoutFail($input['product_id']);
-        if($product->quantity < $input['quantity']){
-            Flash::error('Maximum product quantity should be less then or Equal to '.$product->quantity);
+        if($product->in_stock < $input['quantity']){
+            Flash::error('Maximum product quantity should be less then or Equal to '.$product->in_stock);
             return redirect()->back();                   
         }   
         if (!empty($old_cart_product)) {
@@ -207,6 +207,11 @@ class CartController extends Controller
         if (empty($cart)) {
             Flash::error('Cart not found');
             return redirect(route('carts.index'));
+        }
+        $product= $this->productRepository->findWithoutFail($cart->product_id);
+        if($product->quantity < $request->input('quantity')){
+            Flash::error('Maximum product quantity should be less then or Equal to '.$product->quantity);
+            return redirect()->back();                   
         }
         $input = $request->all();
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->cartRepository->model());
