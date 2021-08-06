@@ -34,7 +34,7 @@ class DriverDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
             ->editColumn('user.country.name', function ($driver) {
-                return $driver['user']['country']['name'];
+                return @$driver['user']['country']['name'];
             })
             ->editColumn('user.name', function ($driver) {
                 return getLinksColumnByRouteName([@$driver->user], "users.edit", 'id', 'name');
