@@ -79,6 +79,8 @@ Route::middleware('auth:api')->group(function () {
             Route::resource('faq_categories', 'API\FaqCategoryAPIController');
             Route::resource('delivery_times', 'API\DeliveryTimeAPIController');
             Route::resource('faqs', 'API\FaqAPIController');
+            Route::post('status/{id}', 'API\UserAPIController@status');
+
         });
     });
     Route::group(['middleware' => ['role:manager']], function () {

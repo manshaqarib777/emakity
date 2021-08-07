@@ -21,25 +21,28 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Prettus\Validator\Exceptions\ValidatorException;
-
+use App\Repositories\DriverRepository;
 class UserAPIController extends Controller
 {
     private $userRepository;
     private $uploadRepository;
     private $roleRepository;
     private $customFieldRepository;
+    private $driverRepository;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(UserRepository $userRepository, UploadRepository $uploadRepository, RoleRepository $roleRepository, CustomFieldRepository $customFieldRepo)
+    public function __construct(DriverRepository $driverRepo,UserRepository $userRepository, UploadRepository $uploadRepository, RoleRepository $roleRepository, CustomFieldRepository $customFieldRepo)
     {
         $this->userRepository = $userRepository;
         $this->uploadRepository = $uploadRepository;
         $this->roleRepository = $roleRepository;
         $this->customFieldRepository = $customFieldRepo;
+        $this->driverRepository = $driverRepo;
+
     }
 
     function login(Request $request)
@@ -244,6 +247,26 @@ class UserAPIController extends Controller
         }
 
         return $this->sendResponse($user, __('lang.updated_successfully', ['operator' => __('lang.user')]));
+    }
+
+    public function status($id, Request $request)
+    {
+        $driver = $this->userRepository->findWithoutFail($id);
+
+        if (empty($driver->driver->id)) {
+            return $this->sendResponse([
+                'error' => true,
+                'code' => 404,
+            ], 'Driver not found');
+        }
+        $input = $request->except(['password', 'api_token']);
+        try {
+                $driver = $this->driverRepository->update($input, $driver->driver->id);
+        } catch (ValidatorException $e) {
+            return $this->sendError($e->getMessage(), 401);
+        }
+
+        return $this->sendResponse($driver, __('lang.updated_successfully', ['operator' => __('lang.driver')]));
     }
 
     function sendResetLinkEmail(Request $request)
