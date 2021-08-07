@@ -14,7 +14,7 @@ use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
-
+use App\Traits\HasTranslations;
 /**
  * Class Category
  * @package App\Models
@@ -30,6 +30,8 @@ class Category extends Model implements HasMedia
     use HasMediaTrait {
         getFirstMediaUrl as protected getFirstMediaUrlTrait;
     }
+    use HasTranslations;
+
 
     public $table = 'categories';
     
@@ -44,6 +46,9 @@ class Category extends Model implements HasMedia
         'name',
         'description',
         'country_id'
+    ];
+    public $translatable = [
+        'name',
     ];
 
     /**

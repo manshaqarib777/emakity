@@ -32,6 +32,7 @@
         "smartervision/laravel-installer": "dev-master",
         "spatie/laravel-medialibrary": "^7.0.0",
         "spatie/laravel-permission": "^2.12",
+        "spatie/laravel-translatable": "^4.0",
         "srmklive/paypal": "1.7.0",
         "symfony/translation-contracts": "^1.1.6",
         "themsaid/laravel-langman": "^1.3",

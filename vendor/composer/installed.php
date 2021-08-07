@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '4d2824a2afcb50169ac2058ed94975adf5b8b187',
+    'reference' => 'aa49ccc89ab76fd15c03a0cb71254c7d9f795f9b',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -541,7 +541,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '4d2824a2afcb50169ac2058ed94975adf5b8b187',
+      'reference' => 'aa49ccc89ab76fd15c03a0cb71254c7d9f795f9b',
     ),
     'laravel/socialite' => 
     array (
@@ -1307,6 +1307,15 @@
       array (
       ),
       'reference' => '674ad54a0ba95d8ad26990aa250b5c9d9b165e15',
+    ),
+    'spatie/laravel-translatable' => 
+    array (
+      'pretty_version' => '4.5.2',
+      'version' => '4.5.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '73e5c922a0004967e6be2bf73e36780af4090155',
     ),
     'spatie/pdf-to-image' => 
     array (

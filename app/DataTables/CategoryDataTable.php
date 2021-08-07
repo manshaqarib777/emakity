@@ -46,6 +46,9 @@ class CategoryDataTable extends DataTable
             ->editColumn('updated_at', function ($category) {
                 return getDateColumn($category, 'updated_at');
             })
+            ->editColumn('name', function ($faq_category) {
+                return $faq_category->name;
+            })
             ->addColumn('action', 'categories.datatables_actions')
             ->rawColumns(array_merge($columns, ['action']));
 

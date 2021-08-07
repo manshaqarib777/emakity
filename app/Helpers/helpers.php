@@ -749,3 +749,18 @@ function getNeededArray($delimiter = '|', $string = '', $input)
         return [$array[0] => getNeededArray($delimiter, $array[1], $input)];
     }
 }
+function isJson($string)
+{
+    json_decode($string);
+    return (json_last_error() == JSON_ERROR_NONE);
+}
+function getStripedHtmlColumn($column, $attributeName, $limit = 40)
+{
+    if (isset($column)) {
+        if ($limit == 0) {
+            return strip_tags($column[$attributeName]);
+        }
+        return Str::limit(strip_tags($column[$attributeName]), $limit);
+    }
+    return "";
+}
