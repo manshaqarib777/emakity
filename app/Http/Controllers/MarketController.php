@@ -133,6 +133,7 @@ class MarketController extends Controller
      */
     public function store(CreateMarketRequest $request)
     {
+        //dd($request->all());
         $input = $request->all();
         if (auth()->user()->hasRole(['manager','client'])) {
             $input['users'] = [auth()->id()];
@@ -140,6 +141,7 @@ class MarketController extends Controller
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->marketRepository->model());
         try {
             $market = $this->marketRepository->create($input);
+            //dd($market);
             $market->customFieldsValues()->createMany(getCustomFieldsValues($customFields, $request));
             if (isset($input['image']) && $input['image']) {
                 $cacheUpload = $this->uploadRepository->getByUuid($input['image']);

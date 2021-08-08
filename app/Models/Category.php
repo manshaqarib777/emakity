@@ -152,25 +152,13 @@ class Category extends Model implements HasMedia
         return $this->hasMany(\App\Models\Product::class, 'category_id');
     }
 
-//    /**
-//     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-//     **/
-//    public function restrictMarkets()
-//    {
-//
-//        return $this->belongsToMany(\App\Models\Market::class, 'products')->select(array('markets.id', 'markets.name'));
-//    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     **/
     public function markets()
     {
         return $this->belongsToMany(\App\Models\Market::class, 'products');
     }
-    public function country()
+    public function countries()
     {
-        return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
+        return $this->belongsToMany(\App\Models\Country::class, 'category_countries');
     }
 
     

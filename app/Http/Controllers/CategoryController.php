@@ -67,8 +67,8 @@ private $uploadRepository;
                 $html = generateCustomField($customFields);
             }
         $countries = $this->countryRepository->all()->pluck('name','id');
-        
-        return view('categories.create')->with("customFields", isset($html) ? $html : false)->with('countries',$countries);
+        $countriesSelected = [];
+        return view('categories.create')->with("customFields", isset($html) ? $html : false)->with('countries',$countries)->with('countriesSelected',$countriesSelected);
     }
 
     /**
@@ -81,15 +81,16 @@ private $uploadRepository;
     public function store(CreateCategoryRequest $request)
     {
         $input = $request->all();
+        //dd($input);
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->categoryRepository->model());
         try {
             $category = $this->categoryRepository->create($input);
             $category->customFieldsValues()->createMany(getCustomFieldsValues($customFields,$request));
             if(isset($input['image']) && $input['image']){
-    $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
-    $mediaItem = $cacheUpload->getMedia('image')->first();
-    $mediaItem->copy($category, 'image');
-}
+                $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
+                $mediaItem = $cacheUpload->getMedia('image')->first();
+                $mediaItem->copy($category, 'image');
+            }
         } catch (ValidatorException $e) {
             Flash::error($e->getMessage());
         }
@@ -144,8 +145,9 @@ private $uploadRepository;
             $html = generateCustomField($customFields, $customFieldsValues);
         }
         $countries = $this->countryRepository->all()->pluck('name','id');
+        $countriesSelected = $category->countries()->pluck('countries.id')->toArray();
 
-        return view('categories.edit')->with('category', $category)->with("customFields", isset($html) ? $html : false)->with('countries',$countries);
+        return view('categories.edit')->with('category', $category)->with("customFields", isset($html) ? $html : false)->with('countries',$countries)->with('countriesSelected',$countriesSelected);
     }
 
     /**

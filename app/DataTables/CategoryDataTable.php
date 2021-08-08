@@ -33,21 +33,20 @@ class CategoryDataTable extends DataTable
     {
 
         if (auth()->user()->hasRole('branch') || auth()->user()->hasRole('manager'))
-            $query = $query->where('country_id', get_role_country_id('branch'));
+            $query = $query->whereHas('countries', function ($query) {
+                $query->where('countries.id', get_role_country_id('branch'));
+            });
         $dataTable = new EloquentDataTable($query);
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
-            ->editColumn('country.name', function ($category) {
-                return $category['country']['name'];
-            })
             ->editColumn('image', function ($category) {
                 return getMediaColumn($category, 'image');
             })
             ->editColumn('updated_at', function ($category) {
                 return getDateColumn($category, 'updated_at');
             })
-            ->editColumn('name', function ($faq_category) {
-                return $faq_category->name;
+            ->editColumn('name', function ($category) {
+                return $category->name;
             })
             ->addColumn('action', 'categories.datatables_actions')
             ->rawColumns(array_merge($columns, ['action']));
@@ -69,10 +68,6 @@ class CategoryDataTable extends DataTable
                     'data' => 'name',
                     'title' => trans('lang.category_name'),
     
-                ],
-                [
-                    'data' => 'country.name',
-                    'title' => trans('lang.country'),
                 ],
                 [
                     'data' => 'image',
@@ -131,7 +126,7 @@ class CategoryDataTable extends DataTable
      */
     public function query(Category $model)
     {
-        return $model->newQuery()->with('country')->select('categories.*');
+        return $model->newQuery()->with('countries')->select('categories.*');
     }
 
     /**
