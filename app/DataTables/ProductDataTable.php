@@ -147,10 +147,6 @@ class ProductDataTable extends DataTable
     
                 ],
                 [
-                    'data' => 'market.country.name',
-                    'title' => trans('lang.country'),
-                ],
-                [
                     'data' => 'image',
                     'title' => trans('lang.product_image'),
                     'searchable' => false, 'orderable' => false, 'exportable' => false, 'printable' => false,
