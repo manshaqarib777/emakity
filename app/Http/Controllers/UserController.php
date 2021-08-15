@@ -82,6 +82,11 @@ class UserController extends Controller
         $hasCustomField = in_array($this->userRepository->model(), setting('custom_field_models', []));
         if ($hasCustomField) {
             $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->userRepository->model());
+            if(!auth()->user()->hasRole('admin'))
+            {
+                $customFields =$customFields->where('name','!=','verifiedPhone');
+            }
+            //dd($customFields);
             $customFields = generateCustomField($customFields, $customFieldsValues);
         }
         $countries = $this->countryRepository->all()->pluck('name','id');
@@ -227,6 +232,10 @@ class UserController extends Controller
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->userRepository->model());
         $hasCustomField = in_array($this->userRepository->model(), setting('custom_field_models', []));
         if ($hasCustomField) {
+            if(auth()->id()==$id)
+            {
+                $customFields =$customFields->where('name','!=','verifiedPhone');
+            }
             $html = generateCustomField($customFields, $customFieldsValues);
         }
 

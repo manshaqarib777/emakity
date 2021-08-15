@@ -54,7 +54,7 @@
                     </div>
                     <!-- /.card -->
 
-                    {{-- @if ($customFields)
+                    @if ($customFields)
                         <!-- About Me Box -->
                         <div class="card">
                             <div class="card-header">
@@ -64,23 +64,19 @@
                             <!-- /.card-header -->
                             <div class="card-body">
                                 @foreach ($customFieldsValues as $value)
-                                    @if($value->customField->name == 'verifiedPhone' && !auth()->user()->hasRole('admin'))
-
-                                    @else
-                                        <strong>{{ trans('lang.user_' . $value->customField->name) }}</strong>
-                                        <p class="text-muted">
-                                            {!! $value->view !!}
-                                        </p>
-                                        @if (!$loop->last)
-                                            <hr>
-                                        @endif
+                                    <strong>{{ trans('lang.user_' . $value->customField->name) }}</strong>
+                                    <p class="text-muted">
+                                        {!! $value->view !!}
+                                    </p>
+                                    @if (!$loop->last)
+                                        <hr>
                                     @endif
                                 @endforeach
                             </div>
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
-                    @endif --}}
+                    @endif
                 </div>
                 <!-- /.col -->
                 <div class="col-md-9">
