@@ -64,10 +64,24 @@
                             <!-- /.card-header -->
                             <div class="card-body">
                                 @foreach ($customFieldsValues as $value)
-                                    <strong>{{ trans('lang.user_' . $value->customField->name) }}</strong>
-                                    <p class="text-muted">
-                                        {!! $value->view !!}
-                                    </p>
+                                    @if($value->custom_field_id==7)
+                                    @if ($value->value==1)
+                                        <strong>{{ trans('lang.user_' . $value->customField->name) }}</strong>
+                                        <p class="text-muted">
+                                            Verified
+                                        </p>
+                                    @else
+                                        <strong>{{ trans('lang.user_' . $value->customField->name) }}</strong>
+                                        <p class="text-muted">
+                                            Inverified
+                                        </p>
+                                    @endif
+                                    @else
+                                        <strong>{{ trans('lang.user_' . $value->customField->name) }}</strong>
+                                        <p class="text-muted">
+                                            {!! $value->view !!}
+                                        </p>
+                                    @endif
                                     @if (!$loop->last)
                                         <hr>
                                     @endif
