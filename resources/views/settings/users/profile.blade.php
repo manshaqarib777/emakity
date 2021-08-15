@@ -54,7 +54,7 @@
                     </div>
                     <!-- /.card -->
 
-                    @if ($customFields)
+                    {{-- @if ($customFields)
                         <!-- About Me Box -->
                         <div class="card">
                             <div class="card-header">
@@ -80,7 +80,7 @@
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
-                    @endif
+                    @endif --}}
                 </div>
                 <!-- /.col -->
                 <div class="col-md-9">
