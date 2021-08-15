@@ -64,12 +64,16 @@
                             <!-- /.card-header -->
                             <div class="card-body">
                                 @foreach ($customFieldsValues as $value)
-                                    <strong>{{ trans('lang.user_' . $value->customField->name) }}</strong>
-                                    <p class="text-muted">
-                                        {!! $value->view !!}
-                                    </p>
-                                    @if (!$loop->last)
-                                        <hr>
+                                    @if($value->customField->name == 'verifiedPhone' && !auth()->user()->hasRole('admin'))
+
+                                    @else
+                                        <strong>{{ trans('lang.user_' . $value->customField->name) }}</strong>
+                                        <p class="text-muted">
+                                            {!! $value->view !!}
+                                        </p>
+                                        @if (!$loop->last)
+                                            <hr>
+                                        @endif
                                     @endif
                                 @endforeach
                             </div>
