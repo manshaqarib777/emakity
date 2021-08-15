@@ -101,6 +101,20 @@ class UserAPIController extends Controller
             $defaultRoles = $defaultRoles->pluck('name')->toArray();
             $user->assignRole($defaultRoles);
 
+            $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->userRepository->model());
+
+            foreach (getCustomFieldsValues($customFields, $request) as $value) {
+                $user->customFieldsValues()
+                    ->updateOrCreate(['custom_field_id' => $value['custom_field_id']], $value);
+            }
+
+
+            if (copy(public_path('images/avatar_default.png'), public_path('images/avatar_default_temp.png'))) {
+                $user->addMedia(public_path('images/avatar_default_temp.png'))
+                    ->withCustomProperties(['uuid' => bcrypt(str_random())])
+                    ->toMediaCollection('avatar');
+            }
+
             event(new UserRoleChangedEvent($user));
         } catch (\Exception $e) {
             return $this->sendError($e->getMessage(), 401);
