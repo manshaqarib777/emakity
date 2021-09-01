@@ -100,6 +100,69 @@
     @endprepend
 
 </div>
+
+<div style="flex: 50%;max-width: 50%;padding: 0 4px;" class="column">
+
+    <!-- Image Field -->
+    <div class="form-group row">
+        {!! Form::label('web_image', trans("lang.product_web_image"), ['class' => 'col-3 control-label text-right']) !!}
+        <div class="col-9">
+            <div style="width: 100%" class="dropzone web_image" id="web_image" data-field="web_image">
+                <input type="hidden" name="web_image">
+            </div>
+            <a href="#loadMediaModal" data-dropzone="web_image" data-toggle="modal" data-target="#mediaModal" class="btn btn-outline-{{setting('theme_color','primary')}} btn-sm float-right mt-1">{{ trans('lang.media_select')}}</a>
+            <div class="form-text text-muted w-50">
+                {{ trans("lang.product_web_image_help") }}
+            </div>
+        </div>
+    </div>
+    @prepend('scripts')
+        <script type="text/javascript">
+            var var1598988452806641953ble = '';
+            @if(isset($testimonial) && $testimonial->hasMedia('web_image'))
+                var1598988452806641953ble = {
+                name: "{!! $testimonial->getFirstMedia('web_image')->name !!}",
+                size: "{!! $testimonial->getFirstMedia('web_image')->size !!}",
+                type: "{!! $testimonial->getFirstMedia('web_image')->mime_type !!}",
+                collection_name: "{!! $testimonial->getFirstMedia('web_image')->collection_name !!}"
+            };
+                    @endif
+            var dz_var1598988452806641953ble = $(".dropzone.web_image").dropzone({
+                    url: "{!!url('uploads/store')!!}",
+                    addRemoveLinks: true,
+                    maxFiles: 1,
+                    init: function () {
+                        @if(isset($testimonial) && $testimonial->hasMedia('web_image'))
+                        dzInit(this, var1598988452806641953ble, '{!! url($testimonial->getFirstMediaUrl('web_image','thumb')) !!}')
+                        @endif
+                    },
+                    accept: function (file, done) {
+                        dzAccept(file, done, this.element, "{!!config('medialibrary.icons_folder')!!}");
+                    },
+                    sending: function (file, xhr, formData) {
+                        dzSending(this, file, formData, '{!! csrf_token() !!}');
+                    },
+                    maxfilesexceeded: function (file) {
+                        dz_var1598988452806641953ble[0].mockFile = '';
+                        dzMaxfile(this, file);
+                    },
+                    complete: function (file) {
+                        dzComplete(this, file, var1598988452806641953ble, dz_var1598988452806641953ble[0].mockFile);
+                        dz_var1598988452806641953ble[0].mockFile = file;
+                    },
+                    removedfile: function (file) {
+                        dzRemoveFile(
+                            file, var1598988452806641953ble, '{!! url("testimonials/remove-media") !!}',
+                            'web_image', '{!! isset($testimonial) ? $testimonial->id : 0 !!}', '{!! url("uplaods/clear") !!}', '{!! csrf_token() !!}'
+                        );
+                    }
+                });
+            dz_var1598988452806641953ble[0].mockFile = var1598988452806641953ble;
+            dropzoneFields['web_image'] = dz_var1598988452806641953ble;
+        </script>
+    @endprepend
+
+</div>
 @if ($customFields)
     <div class="clearfix"></div>
     <div class="col-12 custom-field-container">

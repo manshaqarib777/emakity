@@ -94,11 +94,17 @@ private $marketRepository;
             //dd($testimonial);
             $testimonial->customFieldsValues()->createMany(getCustomFieldsValues($customFields,$request));
             if(isset($input['image']) && $input['image']){
-    $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
-    //dd($cacheUpload->getMedia('image')->first());
-    $mediaItem = $cacheUpload->getMedia('image')->first();
-    $mediaItem->copy($testimonial, 'image');
-}
+                $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
+                //dd($cacheUpload->getMedia('image')->first());
+                $mediaItem = $cacheUpload->getMedia('image')->first();
+                $mediaItem->copy($testimonial, 'image');
+            }
+            if(isset($input['web_image']) && $input['web_image']){
+                $cacheUpload = $this->uploadRepository->getByUuid($input['web_image']);
+                //dd($cacheUpload->getMedia('web_image')->first());
+                $mediaItem = $cacheUpload->getMedia('web_image')->first();
+                $mediaItem->copy($testimonial, 'web_image');
+            }
         } catch (ValidatorException $e) {
             Flash::error($e->getMessage());
         }
@@ -176,10 +182,16 @@ private $marketRepository;
             $testimonial = $this->testimonialRepository->update($input, $id);
             $input['markets'] = isset($input['markets']) ? $input['markets'] : [];
             if(isset($input['image']) && $input['image']){
-    $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
-    $mediaItem = $cacheUpload->getMedia('image')->first();
-    $mediaItem->copy($testimonial, 'image');
-}
+                $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
+                $mediaItem = $cacheUpload->getMedia('image')->first();
+                $mediaItem->copy($testimonial, 'image');
+            }
+            if(isset($input['web_image']) && $input['web_image']){
+                $cacheUpload = $this->uploadRepository->getByUuid($input['web_image']);
+                //dd($cacheUpload->getMedia('web_image')->first());
+                $mediaItem = $cacheUpload->getMedia('web_image')->first();
+                $mediaItem->copy($testimonial, 'web_image');
+            }
             foreach (getCustomFieldsValues($customFields, $request) as $value){
                 $testimonial->customFieldsValues()
                     ->updateOrCreate(['custom_testimonial_id'=>$value['custom_testimonial_id']],$value);
