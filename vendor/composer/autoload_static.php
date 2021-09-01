@@ -174,6 +174,7 @@ class ComposerStaticInit6dc24fae20caa22311c7f26e01e00501
             'Svg\\' => 4,
             'Stripe\\' => 7,
             'Srmklive\\PayPal\\' => 16,
+            'Spatie\\Translatable\\' => 20,
             'Spatie\\TemporaryDirectory\\' => 26,
             'Spatie\\Permission\\' => 18,
             'Spatie\\PdfToImage\\' => 18,
@@ -467,6 +468,10 @@ class ComposerStaticInit6dc24fae20caa22311c7f26e01e00501
         'Srmklive\\PayPal\\' => 
         array (
             0 => __DIR__ . '/..' . '/srmklive/paypal/src',
+        ),
+        'Spatie\\Translatable\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/laravel-translatable/src',
         ),
         'Spatie\\TemporaryDirectory\\' => 
         array (
@@ -1199,6 +1204,7 @@ class ComposerStaticInit6dc24fae20caa22311c7f26e01e00501
         'App\\Repositories\\UploadRepository' => __DIR__ . '/../..' . '/app/Repositories/UploadRepository.php',
         'App\\Repositories\\UserRepository' => __DIR__ . '/../..' . '/app/Repositories/UserRepository.php',
         'App\\Rules\\EarningAmount' => __DIR__ . '/../..' . '/app/Rules/EarningAmount.php',
+        'App\\Traits\\HasTranslations' => __DIR__ . '/../..' . '/app/Traits/HasTranslations.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Barryvdh\\Debugbar\\Console\\ClearCommand' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/Console/ClearCommand.php',
         'Barryvdh\\Debugbar\\Controllers\\AssetController' => __DIR__ . '/..' . '/barryvdh/laravel-debugbar/src/Controllers/AssetController.php',
@@ -5430,6 +5436,7 @@ class ComposerStaticInit6dc24fae20caa22311c7f26e01e00501
         'PhpParser\\Lexer\\TokenEmulator\\MatchTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/MatchTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\NullsafeTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/NullsafeTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\NumericLiteralSeparatorEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/NumericLiteralSeparatorEmulator.php',
+        'PhpParser\\Lexer\\TokenEmulator\\ReadonlyTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/ReadonlyTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\ReverseEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/ReverseEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\TokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/TokenEmulator.php',
         'PhpParser\\NameContext' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/NameContext.php',
@@ -6404,6 +6411,10 @@ class ComposerStaticInit6dc24fae20caa22311c7f26e01e00501
         'Spatie\\Permission\\Traits\\HasRoles' => __DIR__ . '/..' . '/spatie/laravel-permission/src/Traits/HasRoles.php',
         'Spatie\\Permission\\Traits\\RefreshesPermissionCache' => __DIR__ . '/..' . '/spatie/laravel-permission/src/Traits/RefreshesPermissionCache.php',
         'Spatie\\TemporaryDirectory\\TemporaryDirectory' => __DIR__ . '/..' . '/spatie/temporary-directory/src/TemporaryDirectory.php',
+        'Spatie\\Translatable\\Events\\TranslationHasBeenSet' => __DIR__ . '/..' . '/spatie/laravel-translatable/src/Events/TranslationHasBeenSet.php',
+        'Spatie\\Translatable\\Exceptions\\AttributeIsNotTranslatable' => __DIR__ . '/..' . '/spatie/laravel-translatable/src/Exceptions/AttributeIsNotTranslatable.php',
+        'Spatie\\Translatable\\HasTranslations' => __DIR__ . '/..' . '/spatie/laravel-translatable/src/HasTranslations.php',
+        'Spatie\\Translatable\\TranslatableServiceProvider' => __DIR__ . '/..' . '/spatie/laravel-translatable/src/TranslatableServiceProvider.php',
         'Srmklive\\PayPal\\Facades\\PayPal' => __DIR__ . '/..' . '/srmklive/paypal/src/Facades/PayPal.php',
         'Srmklive\\PayPal\\PayPalFacadeAccessor' => __DIR__ . '/..' . '/srmklive/paypal/src/PayPalFacadeAccessor.php',
         'Srmklive\\PayPal\\Providers\\PayPalServiceProvider' => __DIR__ . '/..' . '/srmklive/paypal/src/Providers/PayPalServiceProvider.php',

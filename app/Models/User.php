@@ -174,6 +174,10 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->belongsToMany(\App\Models\Market::class, 'user_markets');
     }
+    public function driver()
+    {
+        return $this->hasOne(\App\Models\Driver::class,'user_id' , 'id');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

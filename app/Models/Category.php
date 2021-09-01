@@ -14,7 +14,7 @@ use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
-
+use App\Traits\HasTranslations;
 /**
  * Class Category
  * @package App\Models
@@ -30,6 +30,8 @@ class Category extends Model implements HasMedia
     use HasMediaTrait {
         getFirstMediaUrl as protected getFirstMediaUrlTrait;
     }
+    use HasTranslations;
+
 
     public $table = 'categories';
     
@@ -44,6 +46,9 @@ class Category extends Model implements HasMedia
         'name',
         'description',
         'country_id'
+    ];
+    public $translatable = [
+        'name',
     ];
 
     /**
@@ -147,26 +152,15 @@ class Category extends Model implements HasMedia
         return $this->hasMany(\App\Models\Product::class, 'category_id');
     }
 
-//    /**
-//     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-//     **/
-//    public function restrictMarkets()
-//    {
-//
-//        return $this->belongsToMany(\App\Models\Market::class, 'products')->select(array('markets.id', 'markets.name'));
-//    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     **/
     public function markets()
     {
         return $this->belongsToMany(\App\Models\Market::class, 'products');
     }
-    public function country()
+    public function countries()
     {
-        return $this->belongsTo(\App\Models\Country::class, 'country_id', 'id');
+        return $this->belongsToMany(\App\Models\Country::class, 'category_countries');
     }
 
+   
     
 }

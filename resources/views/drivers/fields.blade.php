@@ -17,7 +17,7 @@
 <div style="flex: 50%;max-width: 50%;padding: 0 4px;" class="column">
 
 <!-- 'Boolean Available Field' -->
-<div class="form-group row ">
+{{-- <div class="form-group row ">
   {!! Form::label('available', trans("lang.driver_available"),['class' => 'col-3 control-label text-right']) !!}
   <div class="checkbox icheck">
     <label class="col-9 ml-2 form-check-inline">
@@ -25,7 +25,7 @@
       {!! Form::checkbox('available', 1, null) !!}
     </label>
   </div>
-</div>
+</div> --}}
 
 </div>
 @if($customFields)

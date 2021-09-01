@@ -64,6 +64,9 @@ class ProductDataTable extends DataTable
             ->editColumn('featured', function ($product) {
                 return getBooleanColumn($product, 'featured');
             })
+            ->editColumn('category.name', function ($faq) {
+                return $faq['category']['name'];
+            })
             ->addColumn('action', 'products.datatables_actions')
             ->rawColumns(array_merge($columns, ['action']));
 
@@ -142,10 +145,6 @@ class ProductDataTable extends DataTable
                     'data' => 'market.country.name',
                     'title' => trans('lang.country'),
     
-                ],
-                [
-                    'data' => 'market.country.name',
-                    'title' => trans('lang.country'),
                 ],
                 [
                     'data' => 'image',

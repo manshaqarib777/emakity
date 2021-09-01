@@ -34,22 +34,22 @@ class DriverDataTable extends DataTable
         $columns = array_column($this->getColumns(), 'data');
         $dataTable = $dataTable
             ->editColumn('user.country.name', function ($driver) {
-                return $driver['user']['country']['name'];
+                return @$driver['user']['country']['name'];
             })
             ->editColumn('user.name', function ($driver) {
-                return getLinksColumnByRouteName([$driver->user], "users.edit", 'id', 'name');
+                return getLinksColumnByRouteName([@$driver->user], "users.edit", 'id', 'name');
             })
             ->editColumn('updated_at', function ($driver) {
-                return getDateColumn($driver, 'updated_at');
+                return getDateColumn(@$driver, 'updated_at');
             })
             ->editColumn('earning', function ($driver) {
                 return getPriceColumn($driver,@$driver['markets'][0] ,'earning');
             })
             ->editColumn('delivery_fee', function ($driver) {
-                return $driver->delivery_fee . "%";
+                return @$driver->delivery_fee . "%";
             })
             ->editColumn('available', function ($driver) {
-                return getBooleanColumn($driver, 'available');
+                return getBooleanColumn(@$driver, 'available');
             })
             ->addColumn('action', 'drivers.datatables_actions')
             ->rawColumns(array_merge($columns, ['action']));

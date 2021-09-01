@@ -59,16 +59,16 @@ class CategoryController extends Controller
      */
     public function create()
     {
-
-
-        $hasCustomField = in_array($this->categoryRepository->model(), setting('custom_field_models', []));
-        if ($hasCustomField) {
-            $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->categoryRepository->model());
-            $html = generateCustomField($customFields);
-        }
-        $countries = $this->countryRepository->all()->pluck('name', 'id');
-
-        return view('categories.create')->with("customFields", isset($html) ? $html : false)->with('countries', $countries);
+        
+        
+        $hasCustomField = in_array($this->categoryRepository->model(),setting('custom_field_models',[]));
+            if($hasCustomField){
+                $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->categoryRepository->model());
+                $html = generateCustomField($customFields);
+            }
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        $countriesSelected = [];
+        return view('categories.create')->with("customFields", isset($html) ? $html : false)->with('countries',$countries)->with('countriesSelected',$countriesSelected);
     }
 
     /**
@@ -81,16 +81,17 @@ class CategoryController extends Controller
     public function store(CreateCategoryRequest $request)
     {
         $input = $request->all();
+        //dd($input);
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->categoryRepository->model());
         try {
             $category = $this->categoryRepository->create($input);
-            $category->customFieldsValues()->createMany(getCustomFieldsValues($customFields, $request));
-            if (isset($input['image']) && $input['image']) {
+            $category->customFieldsValues()->createMany(getCustomFieldsValues($customFields,$request));
+            if(isset($input['image']) && $input['image']){
                 $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
                 $mediaItem = $cacheUpload->getMedia('image')->first();
                 $mediaItem->copy($category, 'image');
             }
-            if (isset($input['web_image']) && $input['web_image']) {
+            if(isset($input['web_image']) && $input['web_image']){
                 $cacheUpload = $this->uploadRepository->getByUuid($input['web_image']);
                 $mediaItem = $cacheUpload->getMedia('web_image')->first();
                 $mediaItem->copy($category, 'web_image');
@@ -148,9 +149,10 @@ class CategoryController extends Controller
         if ($hasCustomField) {
             $html = generateCustomField($customFields, $customFieldsValues);
         }
-        $countries = $this->countryRepository->all()->pluck('name', 'id');
+        $countries = $this->countryRepository->all()->pluck('name','id');
+        $countriesSelected = $category->countries()->pluck('countries.id')->toArray();
 
-        return view('categories.edit')->with('category', $category)->with("customFields", isset($html) ? $html : false)->with('countries', $countries);
+        return view('categories.edit')->with('category', $category)->with("customFields", isset($html) ? $html : false)->with('countries',$countries)->with('countriesSelected',$countriesSelected);
     }
 
     /**

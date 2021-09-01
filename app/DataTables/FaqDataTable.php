@@ -36,6 +36,12 @@ class FaqDataTable extends DataTable
         ->editColumn('faqCategory.country.name', function ($faq) {
             return $faq['faqCategory']['country']['name'];
         })
+        ->editColumn('question', function ($faq) {
+            return getStripedHtmlColumn($faq, 'question');
+        })
+        ->editColumn('answer', function ($faq) {
+            return getStripedHtmlColumn($faq, 'answer');
+        })
         ->editColumn('faqCategory.name', function ($faq) {
             return $faq['faqCategory']['name'];
         })    
@@ -101,7 +107,7 @@ class FaqDataTable extends DataTable
                 ],
                 [
                     'data' => 'faqCategory.name',
-                    'title' => trans('lang.faq_faq_category_id'),
+                    'title' => trans('lang.faq_category_id'),
     
                 ],
                 [
@@ -130,7 +136,7 @@ class FaqDataTable extends DataTable
                 ],
                 [
                     'data' => 'faqCategory.name',
-                    'title' => trans('lang.faq_faq_category_id'),
+                    'title' => trans('lang.faq_category_id'),
     
                 ],
                 [

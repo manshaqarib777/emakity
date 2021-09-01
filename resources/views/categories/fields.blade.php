@@ -12,26 +12,26 @@
             </div>
         </div>
     </div>
-    @if (!auth()->user()->hasRole('branch') &&
-    !auth()->user()->hasRole('manager'))
-        <div class="form-group row">
-            {!! Form::label('country_id', trans('lang.app_country'), ['class' => 'col-3 control-label text-right']) !!}
-            <div class="col-9">
-                {!! Form::select('country_id', $countries, null, ['class' => 'select2 form-control', 'id' => 'change-country']) !!}
-                <div class="form-text text-muted">{{ trans('lang.app_setting_default_country_help') }}</div>
-            </div>
-        </div>
-    @else
-        {!! Form::hidden('country_id', auth()->user()->country_id, ['class' => 'form-control', 'placeholder' => trans('lang.user_name_placeholder'), 'id' => 'change-country']) !!}
-    @endif
-    <!-- Description Field -->
-    <div class="form-group row ">
-        {!! Form::label('description', trans('lang.category_description'), ['class' => 'col-3 control-label text-right']) !!}
-        <div class="col-9">
-            {!! Form::textarea('description', null, ['class' => 'form-control', 'placeholder' => trans('lang.category_description_placeholder')]) !!}
-            <div class="form-text text-muted">{{ trans('lang.category_description_help') }}</div>
-        </div>
+  </div>
+</div>
+
+<div class="form-group row">
+    {!! Form::label('countries', trans('lang.app_country'), ['class' => 'col-3 control-label text-right']) !!}
+    <div class="col-9">
+      {!! Form::select('countries[]', $countries, $countriesSelected, ['class' => 'select2 form-control' , 'multiple'=>'multiple']) !!}
+        <div class="form-text text-muted">{{ trans("lang.app_setting_default_country_help") }}</div>
     </div>
+</div>
+
+<!-- Description Field -->
+<div class="form-group row ">
+  {!! Form::label('description', trans("lang.category_description"), ['class' => 'col-3 control-label text-right']) !!}
+  <div class="col-9">
+    {!! Form::textarea('description', null, ['class' => 'form-control','placeholder'=>
+     trans("lang.category_description_placeholder")  ]) !!}
+    <div class="form-text text-muted">{{ trans("lang.category_description_help") }}</div>
+  </div>
+</div>
 </div>
 <div style="flex: 50%;max-width: 50%;padding: 0 4px;" class="column">
 

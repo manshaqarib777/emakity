@@ -37,6 +37,7 @@ Route::prefix('manager')->group(function () {
 });
 
 Route::get('countries', 'API\UserAPIController@countries');
+Route::get('languages', 'API\UserAPIController@languages');
 Route::post('login', 'API\UserAPIController@login');
 Route::post('register', 'API\UserAPIController@register');
 Route::post('send_reset_link_email', 'API\UserAPIController@sendResetLinkEmail');
@@ -78,6 +79,8 @@ Route::middleware('auth:api')->group(function () {
             Route::resource('faq_categories', 'API\FaqCategoryAPIController');
             Route::resource('delivery_times', 'API\DeliveryTimeAPIController');
             Route::resource('faqs', 'API\FaqAPIController');
+            Route::post('status/{id}', 'API\UserAPIController@status');
+
         });
     });
     Route::group(['middleware' => ['role:manager']], function () {
