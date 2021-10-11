@@ -43,7 +43,7 @@ class DriverAPIController extends Controller
         } catch (RepositoryException $e) {
             return $this->sendError($e->getMessage());
         }
-        $drivers = $this->driverRepository->all();
+        $drivers = $this->driverRepository->where('available',1)->all();
 
         return $this->sendResponse($drivers->toArray(), 'Drivers retrieved successfully');
     }
