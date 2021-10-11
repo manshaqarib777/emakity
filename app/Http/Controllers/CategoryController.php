@@ -28,11 +28,11 @@ class CategoryController extends Controller
     private $countryRepository;
 
     /**
-  * @var UploadRepository
-  */
-private $uploadRepository;
+     * @var UploadRepository
+     */
+    private $uploadRepository;
 
-    public function __construct(CategoryRepository $categoryRepo, CustomFieldRepository $customFieldRepo , UploadRepository $uploadRepo,CountryRepository $countryRepository)
+    public function __construct(CategoryRepository $categoryRepo, CustomFieldRepository $customFieldRepo, UploadRepository $uploadRepo, CountryRepository $countryRepository)
     {
         parent::__construct();
         $this->categoryRepository = $categoryRepo;
@@ -59,16 +59,16 @@ private $uploadRepository;
      */
     public function create()
     {
-        
-        
-        $hasCustomField = in_array($this->categoryRepository->model(),setting('custom_field_models',[]));
-            if($hasCustomField){
-                $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->categoryRepository->model());
-                $html = generateCustomField($customFields);
-            }
-        $countries = $this->countryRepository->all()->pluck('name','id');
-        
-        return view('categories.create')->with("customFields", isset($html) ? $html : false)->with('countries',$countries);
+
+
+        $hasCustomField = in_array($this->categoryRepository->model(), setting('custom_field_models', []));
+        if ($hasCustomField) {
+            $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->categoryRepository->model());
+            $html = generateCustomField($customFields);
+        }
+        $countries = $this->countryRepository->all()->pluck('name', 'id');
+
+        return view('categories.create')->with("customFields", isset($html) ? $html : false)->with('countries', $countries);
     }
 
     /**
@@ -84,17 +84,22 @@ private $uploadRepository;
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->categoryRepository->model());
         try {
             $category = $this->categoryRepository->create($input);
-            $category->customFieldsValues()->createMany(getCustomFieldsValues($customFields,$request));
-            if(isset($input['image']) && $input['image']){
-    $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
-    $mediaItem = $cacheUpload->getMedia('image')->first();
-    $mediaItem->copy($category, 'image');
-}
+            $category->customFieldsValues()->createMany(getCustomFieldsValues($customFields, $request));
+            if (isset($input['image']) && $input['image']) {
+                $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
+                $mediaItem = $cacheUpload->getMedia('image')->first();
+                $mediaItem->copy($category, 'image');
+            }
+            if (isset($input['web_image']) && $input['web_image']) {
+                $cacheUpload = $this->uploadRepository->getByUuid($input['web_image']);
+                $mediaItem = $cacheUpload->getMedia('web_image')->first();
+                $mediaItem->copy($category, 'web_image');
+            }
         } catch (ValidatorException $e) {
             Flash::error($e->getMessage());
         }
 
-        Flash::success(__('lang.saved_successfully',['operator' => __('lang.category')]));
+        Flash::success(__('lang.saved_successfully', ['operator' => __('lang.category')]));
 
         return redirect(route('categories.index'));
     }
@@ -129,23 +134,23 @@ private $uploadRepository;
     public function edit($id)
     {
         $category = $this->categoryRepository->findWithoutFail($id);
-        
-        
+
+
 
         if (empty($category)) {
-            Flash::error(__('lang.not_found',['operator' => __('lang.category')]));
+            Flash::error(__('lang.not_found', ['operator' => __('lang.category')]));
 
             return redirect(route('categories.index'));
         }
         $customFieldsValues = $category->customFieldsValues()->with('customField')->get();
         $customFields =  $this->customFieldRepository->findByField('custom_field_model', $this->categoryRepository->model());
-        $hasCustomField = in_array($this->categoryRepository->model(),setting('custom_field_models',[]));
-        if($hasCustomField) {
+        $hasCustomField = in_array($this->categoryRepository->model(), setting('custom_field_models', []));
+        if ($hasCustomField) {
             $html = generateCustomField($customFields, $customFieldsValues);
         }
-        $countries = $this->countryRepository->all()->pluck('name','id');
+        $countries = $this->countryRepository->all()->pluck('name', 'id');
 
-        return view('categories.edit')->with('category', $category)->with("customFields", isset($html) ? $html : false)->with('countries',$countries);
+        return view('categories.edit')->with('category', $category)->with("customFields", isset($html) ? $html : false)->with('countries', $countries);
     }
 
     /**
@@ -168,21 +173,26 @@ private $uploadRepository;
         $customFields = $this->customFieldRepository->findByField('custom_field_model', $this->categoryRepository->model());
         try {
             $category = $this->categoryRepository->update($input, $id);
-            
-            if(isset($input['image']) && $input['image']){
-    $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
-    $mediaItem = $cacheUpload->getMedia('image')->first();
-    $mediaItem->copy($category, 'image');
-}
-            foreach (getCustomFieldsValues($customFields, $request) as $value){
+
+            if (isset($input['image']) && $input['image']) {
+                $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
+                $mediaItem = $cacheUpload->getMedia('image')->first();
+                $mediaItem->copy($category, 'image');
+            }
+            if (isset($input['web_image']) && $input['web_image']) {
+                $cacheUpload = $this->uploadRepository->getByUuid($input['web_image']);
+                $mediaItem = $cacheUpload->getMedia('web_image')->first();
+                $mediaItem->copy($category, 'web_image');
+            }
+            foreach (getCustomFieldsValues($customFields, $request) as $value) {
                 $category->customFieldsValues()
-                    ->updateOrCreate(['custom_field_id'=>$value['custom_field_id']],$value);
+                    ->updateOrCreate(['custom_field_id' => $value['custom_field_id']], $value);
             }
         } catch (ValidatorException $e) {
             Flash::error($e->getMessage());
         }
 
-        Flash::success(__('lang.updated_successfully',['operator' => __('lang.category')]));
+        Flash::success(__('lang.updated_successfully', ['operator' => __('lang.category')]));
 
         return redirect(route('categories.index'));
     }
@@ -206,12 +216,12 @@ private $uploadRepository;
 
         $this->categoryRepository->delete($id);
 
-        Flash::success(__('lang.deleted_successfully',['operator' => __('lang.category')]));
+        Flash::success(__('lang.deleted_successfully', ['operator' => __('lang.category')]));
 
         return redirect(route('categories.index'));
     }
 
-        /**
+    /**
      * Remove Media of Category
      * @param Request $request
      */
@@ -220,7 +230,7 @@ private $uploadRepository;
         $input = $request->all();
         $category = $this->categoryRepository->findWithoutFail($input['id']);
         try {
-            if($category->hasMedia($input['collection'])){
+            if ($category->hasMedia($input['collection'])) {
                 $category->getFirstMedia($input['collection'])->delete();
             }
         } catch (\Exception $e) {

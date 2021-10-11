@@ -110,6 +110,11 @@ class SlideController extends Controller
                 $mediaItem = $cacheUpload->getMedia('image')->first();
                 $mediaItem->copy($slide, 'image');
             }
+            if (isset($input['web_image']) && $input['web_image']) {
+                $cacheUpload = $this->uploadRepository->getByUuid($input['web_image']);
+                $mediaItem = $cacheUpload->getMedia('web_image')->first();
+                $mediaItem->copy($slide, 'web_image');
+            }
         } catch (ValidatorException $e) {
             Flash::error($e->getMessage());
         }
@@ -201,6 +206,11 @@ class SlideController extends Controller
                 $cacheUpload = $this->uploadRepository->getByUuid($input['image']);
                 $mediaItem = $cacheUpload->getMedia('image')->first();
                 $mediaItem->copy($slide, 'image');
+            }
+            if (isset($input['web_image']) && $input['web_image']) {
+                $cacheUpload = $this->uploadRepository->getByUuid($input['web_image']);
+                $mediaItem = $cacheUpload->getMedia('web_image')->first();
+                $mediaItem->copy($slide, 'web_image');
             }
             foreach (getCustomFieldsValues($customFields, $request) as $value) {
                 $slide->customFieldsValues()
