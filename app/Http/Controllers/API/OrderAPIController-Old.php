@@ -173,11 +173,11 @@ class OrderAPIController extends Controller
             if ($stripeToken->created > 0) {
                 if (empty($input['delivery_address_id'])) {
                     $order = $this->orderRepository->create(
-                        $request->only('user_id', 'order_status_id','delivery_time_id', 'tax', 'hint','created_at','updated_at')
+                        $request->only('user_id', 'order_status_id','delivery_time_id', 'tax', 'hint')
                     );
                 } else {
                     $order = $this->orderRepository->create(
-                        $request->only('user_id', 'order_status_id','delivery_time_id', 'tax', 'delivery_address_id', 'delivery_fee', 'hint','created_at','updated_at')
+                        $request->only('user_id', 'order_status_id','delivery_time_id', 'tax', 'delivery_address_id', 'delivery_fee', 'hint')
                     );
                 }
                 $products=$this->cartRepository->with('product','options')->where('user_id',$input['user_id'])->get();
@@ -228,7 +228,7 @@ class OrderAPIController extends Controller
         $amount = 0;
         try {
             $order = $this->orderRepository->create(
-                $request->only('user_id', 'order_status_id','delivery_time_id', 'tax', 'delivery_address_id', 'delivery_fee', 'hint','created_at','updated_at')
+                $request->only('user_id', 'order_status_id','delivery_time_id', 'tax', 'delivery_address_id', 'delivery_fee', 'hint')
             );
             Log::info($input);
             $products=$this->cartRepository->with('product','options')->where('user_id',$input['user_id'])->get();

@@ -34,7 +34,7 @@ class Order extends Model
 {
 
     public $table = 'orders';
-    
+
 
 
     public $fillable = [
@@ -68,6 +68,7 @@ class Order extends Model
         'delivery_fee'=>'double',
         'active'=>'boolean',
         'driver_id' => 'integer',
+
     ];
 
     /**
@@ -91,7 +92,7 @@ class Order extends Model
      */
     protected $appends = [
         'custom_fields',
-        
+
     ];
 
     public function customFieldsValues()
@@ -172,5 +173,5 @@ class Order extends Model
     {
         return $this->belongsTo(\App\Models\DeliveryAddress::class, 'delivery_address_id', 'id');
     }
-    
+
 }
