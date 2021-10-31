@@ -88,7 +88,12 @@ class ProductController extends Controller
         }
         if (auth()->user()->hasRole('admin')) {
             $market = $this->marketRepository->pluck('name', 'id');
-        } else {
+        }
+        elseif (auth()->user()->hasRole('branch'))
+        {
+            $market = $this->marketRepository->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+        }
+        else {
             $market = $this->marketRepository->myActiveMarkets()->pluck('name', 'id');
         }
         $hasCustomField = in_array($this->productRepository->model(), setting('custom_field_models', []));
@@ -184,7 +189,12 @@ class ProductController extends Controller
         }
         if (auth()->user()->hasRole('admin')) {
             $market = $this->marketRepository->pluck('name', 'id');
-        } else {
+        }
+        elseif (auth()->user()->hasRole('branch'))
+        {
+            $market = $this->marketRepository->where('country_id', get_role_country_id('branch'))->pluck('name', 'id');
+        } 
+        else {
             $market = $this->marketRepository->myMarkets()->pluck('name', 'id');
         }
         $customFieldsValues = $product->customFieldsValues()->with('customField')->get();
